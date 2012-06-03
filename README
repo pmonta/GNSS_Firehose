@@ -1,1 +1,1 @@
-Design files for a wideband GNSS front-end board.  Includes schematic, PCB layout, HDL, and software.  Open-source licensing.
+Design files for a wideband GNSS front-end board.  Digitizes three 50 MHz RF channels, emits 2-bit samples to gigabit Ethernet (~800 Mbit/s total payload).  Includes schematic, PCB layout, HDL, and software.  Open-source licensing.
