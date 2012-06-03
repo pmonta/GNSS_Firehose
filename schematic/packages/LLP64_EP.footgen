@@ -1,0 +1,21 @@
+elementdir = "/home/pmonta/gps-front-end/schematic/packages"
+
+silkwidth = 6mil
+silkstyle = "outside"
+silkoffset = 15mil
+maskclear = 5mil
+polyclear = 10mil
+refdesx = 0mm
+refdesy = 1mm
+
+type = "qfp"
+
+pins = 64
+width = 8.2mm
+height = 8.2mm
+padwidth = 0.6mm
+padheight = 0.25mm
+pitch = 0.50mm
+ep = 7.2mm
+
+part "LLP64_EP"

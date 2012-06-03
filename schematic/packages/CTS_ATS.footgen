@@ -1,0 +1,19 @@
+elementdir = "/home/pmonta/gps-front-end/schematic/packages"
+
+silkwidth = 6mil
+silkstyle = "outside"
+silkoffset = 15mil
+maskclear = 5mil
+polyclear = 10mil
+refdesx = 0mm
+refdesy = 1mm
+
+type = "twopad"
+
+width = 3.0mm
+padwidth = 5.5mm
+padheight = 1.5mm
+silkboxwidth = 16.0mm
+silkboxheight = 4.0mm
+
+part "CTS_ATS.fp"

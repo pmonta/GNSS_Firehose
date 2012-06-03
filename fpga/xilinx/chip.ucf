@@ -1,0 +1,107 @@
+# FPGA timing and pin-location constraints
+#
+# GNSS Firehose
+# Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
+
+net "clk64" tnm_net = "clkADC";
+timespec "ts_clkADC" = period "clkADC" 15.625ns;
+
+net "phy_rx_clk" tnm_net = "clkPHY";
+timespec "ts_clkPHY" = period "clkPHY" 8ns;
+
+net clk64_p loc=p51 | iostandard=lvds_33 | diff_term="true" ;
+net clk64_n loc=p50 | iostandard=lvds_33 | diff_term="true" ;
+
+net ch1_sda loc=p115  | iostandard=lvcmos33 | slew="slow" ;
+net ch1_scl loc=p114  | iostandard=lvcmos33 | slew="slow" ;
+net ch1_gc1 loc=p116  | iostandard=lvcmos33 | slew="slow" ;
+net ch1_cs loc=p117   | iostandard=lvcmos33 | slew="slow" ;
+net ch1_sclk loc=p118 | iostandard=lvcmos33 | slew="slow" ;
+net ch1_sdin loc=p119 | iostandard=lvcmos33 | slew="slow" ;
+net ch1_clk loc=p120  | iostandard=lvcmos33 ;
+net ch1_d<0> loc=p133 | iostandard=lvcmos33 ;
+net ch1_d<1> loc=p132 | iostandard=lvcmos33 ;
+net ch1_d<2> loc=p131 | iostandard=lvcmos33 ;
+net ch1_d<3> loc=p127 | iostandard=lvcmos33 ;
+net ch1_d<4> loc=p126 | iostandard=lvcmos33 ;
+net ch1_d<5> loc=p124 | iostandard=lvcmos33 ;
+net ch1_d<6> loc=p123 | iostandard=lvcmos33 ;
+net ch1_d<7> loc=p121 | iostandard=lvcmos33 ;
+
+net ch2_sda loc=p137  | iostandard=lvcmos33 | slew="slow" ;
+net ch2_scl loc=p134  | iostandard=lvcmos33 | slew="slow" ;
+net ch2_gc1 loc=p138  | iostandard=lvcmos33 | slew="slow" ;
+net ch2_cs loc=p139   | iostandard=lvcmos33 | slew="slow" ;
+net ch2_sclk loc=p140 | iostandard=lvcmos33 | slew="slow" ;
+net ch2_sdin loc=p141 | iostandard=lvcmos33 | slew="slow" ;
+net ch2_clk loc=p142  | iostandard=lvcmos33 ;
+net ch2_d<0> loc=p9   | iostandard=lvcmos33 ;
+net ch2_d<1> loc=p8   | iostandard=lvcmos33 ;
+net ch2_d<2> loc=p7   | iostandard=lvcmos33 ;
+net ch2_d<3> loc=p6   | iostandard=lvcmos33 ;
+net ch2_d<4> loc=p5   | iostandard=lvcmos33 ;
+net ch2_d<5> loc=p2   | iostandard=lvcmos33 ;
+net ch2_d<6> loc=p1   | iostandard=lvcmos33 ;
+net ch2_d<7> loc=p143 | iostandard=lvcmos33 ;
+
+net ch3_sda loc=p11   | iostandard=lvcmos33 | slew="slow" ;
+net ch3_scl loc=p10   | iostandard=lvcmos33 | slew="slow" ;
+net ch3_gc1 loc=p12   | iostandard=lvcmos33 | slew="slow" ;
+net ch3_cs loc=p14    | iostandard=lvcmos33 | slew="slow" ;
+net ch3_sclk loc=p15  | iostandard=lvcmos33 | slew="slow" ;
+net ch3_sdin loc=p16  | iostandard=lvcmos33 | slew="slow" ;
+net ch3_clk loc=p17   | iostandard=lvcmos33 ;
+net ch3_d<0> loc=p30  | iostandard=lvcmos33 ;
+net ch3_d<1> loc=p29  | iostandard=lvcmos33 ;
+net ch3_d<2> loc=p27  | iostandard=lvcmos33 ;
+net ch3_d<3> loc=p26  | iostandard=lvcmos33 ;
+net ch3_d<4> loc=p24  | iostandard=lvcmos33 ;
+net ch3_d<5> loc=p23  | iostandard=lvcmos33 ;
+net ch3_d<6> loc=p22  | iostandard=lvcmos33 ;
+net ch3_d<7> loc=p21  | iostandard=lvcmos33 ;
+
+net ch4_cs loc=p32    | iostandard=lvcmos33 | slew="slow" ;
+net ch4_sclk loc=p33  | iostandard=lvcmos33 | slew="slow" ;
+net ch4_sdin loc=p34  | iostandard=lvcmos33 | slew="slow" ;
+net ch4_clk loc=p35   | iostandard=lvcmos33 ;
+net ch4_d<0> loc=p48  | iostandard=lvcmos33 ;
+net ch4_d<1> loc=p47  | iostandard=lvcmos33 ;
+net ch4_d<2> loc=p46  | iostandard=lvcmos33 ;
+net ch4_d<3> loc=p45  | iostandard=lvcmos33 ;
+net ch4_d<4> loc=p44  | iostandard=lvcmos33 ;
+net ch4_d<5> loc=p43  | iostandard=lvcmos33 ;
+net ch4_d<6> loc=p41  | iostandard=lvcmos33 ;
+net ch4_d<7> loc=p40  | iostandard=lvcmos33 ;
+
+net phy_tx_clk loc=p78     | iostandard=lvcmos33 ;
+net phy_tx_data<0> loc=p57 | iostandard=lvcmos33 ;
+net phy_tx_data<1> loc=p58 | iostandard=lvcmos33 ;
+net phy_tx_data<2> loc=p59 | iostandard=lvcmos33 ;
+net phy_tx_data<3> loc=p62 | iostandard=lvcmos33 ;
+net phy_tx_ctl loc=p56     | iostandard=lvcmos33 ;
+
+net phy_rx_clk loc=p79     | iostandard=lvcmos33 ;
+net phy_rx_data<0> loc=p80 | iostandard=lvcmos33 ;
+net phy_rx_data<1> loc=p81 | iostandard=lvcmos33 ;
+net phy_rx_data<2> loc=p82 | iostandard=lvcmos33 ;
+net phy_rx_data<3> loc=p83 | iostandard=lvcmos33 ;
+net phy_rx_ctl loc=p84     | iostandard=lvcmos33 ;
+
+net phy_mdc loc=p87   | iostandard=lvcmos33 | slew="slow" ;
+net phy_mdio loc=p88  | iostandard=lvcmos33 | slew="slow" ;
+net phy_mdint loc=p92 | iostandard=lvcmos33 ;
+
+net phy_nsreset loc=p55 | iostandard=lvcmos33 | slew="slow" ;
+net phy_nreset loc=p85  | iostandard=lvcmos33 | slew="slow" ;
+
+net clock_clk loc=p93      | iostandard=lvcmos33 | slew="slow" ;
+net clock_data loc=p94     | iostandard=lvcmos33 | slew="slow" ;
+net clock_le loc=p95       | iostandard=lvcmos33 | slew="slow" ;
+net clock_readback loc=p97 | iostandard=lvcmos33 ;
+net clock_ftest_ld loc=p98 | iostandard=lvcmos33 ;
+
+net uart_rx loc=p101  | iostandard=lvcmos33 ;
+net uart_tx loc=p102  | iostandard=lvcmos33 | slew="slow" ;
+
+net led0 loc=p105 | iostandard=lvcmos33 | slew="slow" ;
+net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;

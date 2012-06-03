@@ -1,0 +1,124 @@
+# This is the template file for creating symbols with tragesym
+# every line starting with '#' is a comment line.
+
+[options]
+# wordswap swaps labels if the pin is on the right side an looks like this:
+#   "PB1 (CLK)". That's useful for micro controller port labels
+# rotate_labels rotates the pintext of top and bottom pins
+#   this is useful for large symbols like FPGAs with more than 100 pins
+# sort_labels will sort the pins by it's labels
+#   useful for address ports, busses, ...
+wordswap=yes
+rotate_labels=yes
+sort_labels=yes
+generate_pinseq=yes
+sym_width=4200
+pinwidthvertical=200
+pinwidthhorizontal=200
+
+[geda_attr]
+# name will be printed in the top of the symbol
+# name is only some graphical text, not an attribute
+# version specifies a gschem version.
+# if you have a device with slots, you'll have to use slot= and slotdef=
+# use comment= if there are special information you want to add
+version=20060113 1
+name=
+device=VSC8601
+refdes=U?
+footprint=LQFP64_EP
+description=Vitesse VSC8601 Gigabit Ethernet PHY
+documentation=
+author=
+dist-license=
+use-license=
+numslots=0
+#slot=1
+#slotdef=1:
+#slotdef=2:
+#slotdef=3:
+#slotdef=4:
+#comment=
+#comment=
+#comment=
+
+[pins]
+# tabseparated list of pin descriptions
+# ----------------------------------------
+# pinnr is the physical number of the pin
+# seq is the pinseq= attribute, leave it blank if it doesn't matter
+# type can be (in, out, io, oc, oe, pas, tp, tri, clk, pwr)
+# style can be (line,dot,clk,dotclk,spacer,none). none if only want to add a net
+# posit. can be (l,r,t,b) or empty for nets.
+# net specifies the name of the net. Vcc or GND for example.
+# label represents the pinlabel.
+#	negation lines can be added with "\_" example: \_enable\_ 
+#	if you want to write a "\" use "\\" as escape sequence
+#-----------------------------------------------------
+#pinnr	seq	type	style	posit.	net	label	
+#-----------------------------------------------------
+1		pas	line	t		VDD33
+2		pas	line	r		TDO
+3		pas	line	r		TDI
+4		pas	line	t		VDD12
+5		pas	line	r		TMS
+6		pas	line	r		TCK
+7		pas	line	r		NTRST
+8		pas	line	l		NRESET
+9		pas	line	l		EEDAT
+10		pas	line	l		EECLK
+11		pas	line	t		VDDIOMICRO
+12		pas	line	l		MDINT
+13		pas	line	l		MDC
+14		pas	line	l		MDIO
+15		pas	line	t		VDD12
+16		pas	line	t		VDDIOMAC
+17		pas	line	b		VSS
+18		pas	line	l		RX_CTL
+19		pas	line	t		VDDIOMAC
+20		pas	line	l		RXD3
+21		pas	line	l		RXD2
+22		pas	line	l		RXD1
+23		pas	line	l		RXD0
+24		pas	line	l		RX_CLK
+25		pas	line	t		VDDIOMAC
+26		pas	line	l		TX_CLK
+27		pas	line	l		TXD3
+28		pas	line	l		TXD2
+29		pas	line	l		TXD1
+30		pas	line	l		TXD0
+31		pas	line	l		TX_CTL
+32		pas	line	l		NSRESET
+33		pas	line	t		VDDIOMAC
+34		pas	line	t		VDD12
+35		pas	line	l		CMODE0
+36		pas	line	l		CMODE1
+37		pas	line	l		CMODE2
+38		pas	line	l		CMODE3
+39		pas	line	t		VDD33
+40		pas	line	r		LED2
+41		pas	line	r		LED1
+42		pas	line	r		LED0
+43		pas	line	r		OSCEN/CLKOUT
+44		pas	line	r		REG_EN
+45		pas	line	t		VDDREG
+46		pas	line	r		REG_OUT
+47		pas	line	l		PLLMODE
+#48		pas	line			NC
+49		pas	line	r		REF_FILT
+50		pas	line	r		REF_REXT
+51		pas	line	t		VDD33
+52		pas	line	t		VDD12A
+53		pas	line	r		TXVPA
+54		pas	line	r		TXVNA
+55		pas	line	r		TXVPB
+56		pas	line	r		TXVNB
+57		pas	line	t		VDD33
+58		pas	line	r		TXVPC
+59		pas	line	r		TXVNC
+60		pas	line	r		TXVPD
+61		pas	line	r		TXVND
+62		pas	line	t		VDD33
+63		pas	line	r		XTAL2
+64		pas	line	r		XTAL1/REFCLK
+65		pas	line	b		VSS

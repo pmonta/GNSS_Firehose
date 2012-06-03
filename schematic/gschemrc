@@ -1,0 +1,5 @@
+; use the light-background color scheme
+(load (build-path geda-rc-path "gschem-colormap-lightbg"))
+
+; don't show the log window on startup
+(log-window "later")

@@ -1,0 +1,6 @@
+run
+-ifn chip.v
+-ofn chip.ngc
+-ifmt Verilog
+-top chip
+-p xc6slx4-2tqg144

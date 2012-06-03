@@ -1,0 +1,28 @@
+License for hardware design files:
+  schematic/*
+  pcb/*
+
+TAPR Open Hardware License, version 1.0
+
+http://www.tapr.org/OHL
+
+----------------------
+
+License for HDL, firmware, software:
+  fpga/*
+  test/*
+
+GPL version 2
+
+http://www.gnu.org/licenses/gpl-2.0.html
+
+----------------------
+
+License for documentation:
+  doc/*
+
+Creative Commons BY-SA 3.0
+
+http://creativecommons.org/licenses/by-sa/3.0/
+
+----------------------
