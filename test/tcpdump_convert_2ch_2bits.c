@@ -56,6 +56,8 @@ int main()
       break; }
     while (delta>1024) {
       fwrite(z,1024,1,fp_a);
+      fwrite(z,1024,1,fp_a);
+      fwrite(z,1024,1,fp_b);
       fwrite(z,1024,1,fp_b);
       delta -= 1024; }
     convert(&buf[38],fp_a,fp_b);
