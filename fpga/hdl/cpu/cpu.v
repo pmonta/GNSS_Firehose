@@ -12,7 +12,7 @@ module cpu(
   input clk, reset,
   output uart_tx,
   input uart_rx,
-  output reg [7:0] out_port_0, out_port_1, out_port_2, out_port_3, out_port_4, out_port_6, out_port_7,
+  output reg [7:0] out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
   output reg [7:0] out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
   output reg [7:0] out_port_17, out_port_18, out_port_19,
   input [7:0] in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7,
@@ -57,7 +57,6 @@ module cpu(
       out_port_0 <= 0;
       out_port_1 <= 0;
       out_port_2 <= 0;
-      out_port_3 <= 8'h03;
       out_port_4 <= 0;
       out_port_6 <= 8'h40;
       out_port_7 <= 0;
@@ -78,7 +77,6 @@ module cpu(
           8'd0: out_port_0 <= out_port;
           8'd1: out_port_1 <= out_port;
           8'd2: out_port_2 <= out_port;
-          8'd3: out_port_3 <= out_port;
           8'd4: out_port_4 <= out_port;
           8'd6: out_port_6 <= out_port;
           8'd7: out_port_7 <= out_port;

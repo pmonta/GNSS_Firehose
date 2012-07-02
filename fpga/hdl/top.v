@@ -60,9 +60,6 @@ module top(
   output phy_mdio_o, phy_mdio_t,
   input phy_mdint,
 
-  output phy_nsreset,
-  output phy_nreset,
-
 // clock chip
 
   output clock_clk,
@@ -140,7 +137,6 @@ module top(
   wire [7:0] out_port_0;  // Clock chip serial link
   wire [7:0] out_port_1;  // loopback testing
   wire [7:0] out_port_2;  // LEDs
-  wire [7:0] out_port_3;  // Ethernet PHY reset
   wire [7:0] out_port_4;  // Ethernet PHY SMI bus
   wire [7:0] out_port_6;  // pwm, ch1
   wire [7:0] out_port_7;
@@ -158,7 +154,6 @@ module top(
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
   assign led1 = out_port_2[0];
-  assign {phy_nreset,phy_nsreset} = out_port_3[1:0];
   assign {phy_mdc,phy_mdio_o,phy_mdio_t} = out_port_4[2:0];
   assign pwm_ch1 = {out_port_7[1:0],out_port_6};
   assign pwm_ch2 = {out_port_9[1:0],out_port_8};
@@ -191,7 +186,7 @@ module top(
 
   cpu _cpu(clk, reset,
     uart_tx, uart_rx,
-    out_port_0, out_port_1, out_port_2, out_port_3, out_port_4, out_port_6, out_port_7,
+    out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8

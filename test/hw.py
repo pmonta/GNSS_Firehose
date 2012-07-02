@@ -1,10 +1,11 @@
-import serial
-
 # Interface a high-level hardware API to GPIO reads and writes over the UART.
 # Implements bus protocols and programming for clock chip, max2112, max19505, and Vitesse PHY.
 #
 # GNSS Firehose
 # Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
+
+import serial
+import time
 
 class hw:
   def __init__(self, port="/dev/ttyUSB0"):
@@ -105,8 +106,7 @@ class hw:
       (8, (0x01<<28) | (0x01<<24) | (0x01<<20) | (0x01<<16)),
       (9, 0x55555540),
       (10, (1<<28) | (1<<14)),
-      (11, 0x34000000 | (0x3f<<20)),
-      # (11, 0x34000000 | (0<<20)),
+      (11, 0x34000000 | (0<<20)),
       (12, 0x100c0060 | (3<<24) | (0<<23)),
       (13, 0x3b020660),
       (14, (2<<24)),
@@ -121,6 +121,10 @@ class hw:
     for (addr,val) in vals:
       # print 'writing 0x%08x to address %d' % (val,addr)
       self.clock_write(addr,val)
+    time.sleep(0.1)
+    self.clock_write(11,0x34010000 | (0<<20))  # generate a SYNC pulse
+    time.sleep(0.1)
+    self.clock_write(11,0x34000000 | (0<<20))
 
   def clock_locked(self):
     b = self.read(0)

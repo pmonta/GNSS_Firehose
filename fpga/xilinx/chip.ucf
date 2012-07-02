@@ -9,6 +9,9 @@ timespec "ts_clkADC" = period "clkADC" 15.625ns;
 net "phy_rx_clk" tnm_net = "clkPHY";
 timespec "ts_clkPHY" = period "clkPHY" 8ns;
 
+net "clk50" tnm_net = "clkInternal";
+timespec "ts_clkInternal" = period "clkInternal" 18ns;
+
 net clk64_p loc=p51 | iostandard=lvds_33 | diff_term="true" ;
 net clk64_n loc=p50 | iostandard=lvds_33 | diff_term="true" ;
 

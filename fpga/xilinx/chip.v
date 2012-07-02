@@ -183,6 +183,13 @@ module chip(
   wire clk = phy_rx_clk_dcm;
   reset_gen _reset_gen(clk, reset);
 
+// generate PHY reset signals
+
+  wire clk50, clk50_reset;
+  internal_clock_gen _internal_clock_gen(clk50);
+  reset_gen _reset_gen_clk50(clk50, clk50_reset);
+  phy_reset _phy_reset(clk50, clk50_reset, phy_nsreset, phy_nreset);
+
 // top-level module
 
   top _top(
@@ -219,8 +226,6 @@ module chip(
     phy_mdc,
     phy_mdio_i, phy_mdio_o, phy_mdio_t,
     phy_mdint,
-    phy_nsreset,
-    phy_nreset,
     clock_clk,
     clock_data,
     clock_le,
@@ -304,6 +309,48 @@ module mux_tx_clk(
 );
 
   ODDR2 #(.DDR_ALIGNMENT("C0"),.SRTYPE("ASYNC")) _oddr2_clk(.D0(1'b1), .D1(1'b0), .C0(clk), .C1(!clk), .CE(1'b1), .Q(clk_forward), .R(1'b0), .S(1'b0));
+
+endmodule
+
+module internal_clock_gen(
+  output clk50
+);
+
+  wire clk50_p;
+
+  STARTUP_SPARTAN6 _startup_spartan6(
+    .EOS(),
+    .CLK(1'b0),
+    .GSR(1'b0),
+    .KEYCLEARB(1'b0),
+    .GTS(1'b0),
+    .CFGMCLK(clk50_p),
+    .CFGCLK()
+  );
+
+  BUFG _bufg_clk50(.O(clk50), .I(clk50_p));
+
+endmodule
+
+module phy_reset(
+  input clk50,
+  input clk50_reset,
+  output reg phy_nsreset,
+  output reg phy_nreset
+);
+
+  reg [21:0] c;
+
+  always @(posedge clk50)
+    if (clk50_reset) begin
+      c <= 0;
+      phy_nsreset <= 0;
+      phy_nreset <= 0;
+    end else begin
+      c <= (c==22'd4194303) ? c : c+1;
+      phy_nsreset <= (c>22'd2000000);
+      phy_nreset <= (c>22'd1500000);
+    end
 
 endmodule
 

@@ -33,16 +33,17 @@ h.phy_smi_write_extended(28,0xf000)
 
 # tune the MAX2112 downconverters
 
-#h.max2112_init(channel=1, N=23) # for ATSC carrier at 686.31 MHz using random-wire antenna
-#h.max2112_init(channel=3, N=23) # for ATSC carrier at 686.31 MHz using random-wire antenna
-
 h.max2112_init(channel=1, N=65) # L1
-h.max2112_init(channel=3, N=65) # L1
-#h.max2112_init(channel=3, N=51) # L2
+#h.max2112_init(channel=1, N=51) # L2
+#h.max2112_init(channel=1, N=49) # L5
 
-#h.max2112_init(channel=1, N=) # L1
-#h.max2112_init(channel=2, N=) # L2
-#h.max2112_init(channel=3, N=) # L5
+#h.max2112_init(channel=2, N=65) # L1
+#h.max2112_init(channel=2, N=51) # L2
+#h.max2112_init(channel=2, N=49) # L5
+
+#h.max2112_init(channel=3, N=65) # L1
+h.max2112_init(channel=3, N=51) # L2
+#h.max2112_init(channel=3, N=49) # L5
 
 # set AGC
 
