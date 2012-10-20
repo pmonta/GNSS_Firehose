@@ -30,13 +30,8 @@
 	PacoBlaze Call/return stack; single-port RAM.
 */
 
-`ifndef PACOBLAZE_STACK_V_
-`define PACOBLAZE_STACK_V_
 
-`include "pacoblaze_inc.v"
-
-
-module `PACOBLAZE_STACK(
+module pacoblaze_stack(
 	write_enable, update_enable, push_pop, data_in, data_out,
 	reset, clk
 );
@@ -64,5 +59,3 @@ always @(posedge clk)
 	end
 
 endmodule
-
-`endif // PACOBLAZE_STACK_V_

@@ -30,12 +30,7 @@
 	PacoBlaze Register File; dual-port RAM.
 */
 
-`ifndef PACOBLAZE_REGISTER_V_
-`define PACOBLAZE_REGISTER_V_
-
-`include "pacoblaze_inc.v"
-
-module `PACOBLAZE_REGISTER(
+module pacoblaze_register(
 	x_address, x_write_enable, x_data_in, x_data_out,
 	y_address, y_data_out,
 	reset, clk
@@ -54,5 +49,3 @@ always @(posedge clk)
 	if (x_write_enable) dpr[x_address] <= x_data_in;
 
 endmodule
-
-`endif // PACOBLAZE_REGISTER_V_

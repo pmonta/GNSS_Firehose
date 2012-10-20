@@ -30,12 +30,7 @@
 	PacoBlaze Scratch-Pad RAM; single-port RAM.
 */
 
-`ifndef PACOBLAZE_SCRATCH_V_
-`define PACOBLAZE_SCRATCH_V_
-
-`include "pacoblaze_inc.v"
-
-module `PACOBLAZE_SCRATCH(
+module pacoblaze_scratch(
 	address, write_enable, data_in, data_out,
 	reset, clk
 );
@@ -50,5 +45,3 @@ assign data_out = spr[address];
 always @(posedge clk) if (write_enable) spr[address] <= data_in;
 
 endmodule
-
-`endif // PACOBLAZE_SCRATCH_V_

@@ -30,42 +30,26 @@
 	Behavioral KCPSMX implementation.
 */
 
-`ifndef PACOBLAZE_V_
-`define PACOBLAZE_V_
-
 `include "pacoblaze_inc.v"
 
 `include "pacoblaze_idu.v"
 `include "pacoblaze_alu.v"
 `include "pacoblaze_stack.v"
-`ifdef HAS_WIDE_ALU // HAS_MUL_OPERATION implied
-`include "pacoblaze_dregister.v"
-`else
 `include "pacoblaze_register.v"
-`endif
-`ifdef HAS_SCRATCH_MEMORY
 `include "pacoblaze_scratch.v"
-`endif
 
-`ifdef USE_ONEHOT_ENCODING
-`define operation(x) operation[(x)]
-`define operation_is(x) idu_operation[(x)]
-`else
 `define operation(x) (x)
 `define operation_is(x) (idu_operation == (x))
-`endif
 
 
 /** Top PacoBlaze module */
-module `PACOBLAZE(
+module pacoblaze(
 	address, instruction,
 	port_id,
 	write_strobe, out_port,
 	read_strobe, in_port,
 	interrupt,
-`ifdef HAS_INTERRUPT_ACK
 	interrupt_ack,
-`endif
 	reset, clk
 );
 output [`code_depth-1:0] address; ///< Address output
@@ -76,9 +60,7 @@ output [`port_width-1:0] out_port; ///< Port output
 output read_strobe; ///< Port input strobe
 input [`port_width-1:0] in_port; ///< Port input
 input interrupt; ///< Interrupt request
-`ifdef HAS_INTERRUPT_ACK
 output interrupt_ack; ///< Interrupt acknowledge (output)
-`endif
 input reset; ///< Reset input
 input clk; ///< Clock input
 
@@ -96,9 +78,7 @@ reg interrupt_latch; ///< Interrupt latch hold
 reg interrupt_ack; ///< Interrupt acknowledge
 reg zero_saved; ///< Interrupt-saved zero flag
 reg carry_saved; ///< Interrupt-saved carry flag
-`ifdef HAS_RESET_LATCH
 reg [1:0] reset_latch; ///< Reset latch
-`endif
 reg zero_carry_write_enable; ///< Zero/Carry update
 
 wire internal_reset; ///< Internal reset signal
@@ -115,56 +95,36 @@ wire idu_operand_selection;
 wire [`register_depth-1:0] idu_x_address, idu_y_address;
 wire [`operand_width-1:0] idu_implied_value;
 wire [`port_depth-1:0] idu_port_address;
-`ifdef HAS_SCRATCH_MEMORY
 wire [`scratch_depth-1:0] idu_scratch_address;
-`endif
 wire [`code_depth-1:0] idu_code_address;
 wire idu_conditional;
 wire [1:0] idu_condition_flags;
 wire idu_interrupt_enable;
-`ifdef HAS_DEBUG
-wire [8*`idu_debug_width:1] idu_debug;
-wire [8*`alu_debug_width:1] alu_debug;
-`endif
 
 
-`PACOBLAZE_IDU idu(
+pacoblaze_idu idu(
 	instruction,
 	idu_operation,
 	idu_shift_operation, idu_shift_direction, idu_shift_constant,
 	idu_operand_selection,
 	idu_x_address, idu_y_address,
 	idu_implied_value, idu_port_address,
-`ifdef HAS_SCRATCH_MEMORY
 	idu_scratch_address,
-`endif
 	idu_code_address,
 	idu_conditional, idu_condition_flags,
 	idu_interrupt_enable
-`ifdef HAS_DEBUG
-	, idu_debug
-`endif
 );
 
 
 /* ALU - Arithmetic-Logic Unit */
 wire [`operand_width-1:0] alu_result, alu_operand_a, alu_operand_b;
 wire alu_zero_out, alu_carry_out;
-`ifdef HAS_WIDE_ALU
-wire [`operand_width-1:0] alu_resultw, alu_operand_u, alu_operand_v;
-`endif
 
-`PACOBLAZE_ALU alu(
+pacoblaze_alu alu(
 	idu_operation,
 	idu_shift_operation, idu_shift_direction, idu_shift_constant,
 	alu_result, alu_operand_a, alu_operand_b,
-`ifdef HAS_WIDE_ALU
-	alu_resultw, alu_operand_u, alu_operand_v,
-`endif
 	carry, alu_zero_out, alu_carry_out
-`ifdef HAS_DEBUG
-	, alu_debug
-`endif
 );
 
 wire is_alu =
@@ -177,37 +137,17 @@ wire is_alu =
 	|| `operation_is(`op_sub)
 	|| `operation_is(`op_subcy)
 	|| `operation_is(`op_rs)
-`ifdef HAS_COMPARE_OPERATION
 	|| `operation_is(`op_compare)
-`endif
-`ifdef HAS_TEST_OPERATION
 	|| `operation_is(`op_test)
-`endif
-`ifdef HAS_MUL_OPERATION
-	|| `operation_is(`op_mul)
-`endif
-`ifdef HAS_WIDE_ALU
-	||`operation_is(`op_addw)
-	||`operation_is(`op_addwcy)
-	||`operation_is(`op_subw)
-	||`operation_is(`op_subwcy)
-`endif
 	;
 
 /* Register file */
 reg register_x_write_enable;
 wire [`register_width-1:0] register_x_data_in, register_x_data_out, register_y_data_out;
-`ifdef HAS_WIDE_ALU
-reg register_wx_write_enable;
-wire [`register_width-1:0] register_w_data_in, register_u_data_out, register_v_data_out;
-`endif
 
-`PACOBLAZE_REGISTER register(
+pacoblaze_register register(
 	idu_x_address, register_x_write_enable, register_x_data_in, register_x_data_out,
 	idu_y_address, register_y_data_out,
-`ifdef HAS_WIDE_ALU
-	register_wx_write_enable, register_w_data_in, register_u_data_out, register_v_data_out,
-`endif
 	reset, clk
 );
 
@@ -216,24 +156,22 @@ wire stack_write_enable, stack_update_enable, stack_push_pop;
 wire [`stack_width-1:0] stack_data_in = program_counter;
 wire [`stack_width-1:0] stack_data_out;
 
-`PACOBLAZE_STACK stack(
+pacoblaze_stack stack(
 	stack_write_enable, stack_update_enable, stack_push_pop, stack_data_in, stack_data_out,
 	reset, clk
 );
 
 /* Scratchpad RAM */
-`ifdef HAS_SCRATCH_MEMORY
 reg scratch_write_enable;
 wire [`scratch_depth-1:0] scratch_address =
 	(idu_operand_selection == 0) ? idu_scratch_address :
 	register_y_data_out[`scratch_depth-1:0];
 wire [`scratch_width-1:0] scratch_data_out;
 
-`PACOBLAZE_SCRATCH scratch(
+pacoblaze_scratch scratch(
 	scratch_address, scratch_write_enable, register_x_data_out, scratch_data_out,
 	reset, clk
 );
-`endif
 
 /* Miscellaneous */
 assign address = program_counter;
@@ -242,11 +180,7 @@ assign out_port = register_x_data_out;
 assign port_id =
 	(idu_operand_selection == 0) ? idu_port_address : register_y_data_out;
 
-`ifdef HAS_RESET_LATCH
 assign internal_reset = reset_latch[1];
-`else
-assign internal_reset = reset;
-`endif
 
 assign conditional_match =
 	(!idu_conditional
@@ -261,9 +195,7 @@ wire is_call = `operation_is(`op_call);
 wire is_return = `operation_is(`op_return);
 wire is_returni = `operation_is(`op_returni);
 wire is_input = `operation_is(`op_input);
-`ifdef HAS_SCRATCH_MEMORY
 wire is_fetch = `operation_is(`op_fetch);
-`endif
 
 assign program_counter_source =
 	(interrupt_latch) ? `interrupt_vector :
@@ -292,16 +224,8 @@ assign alu_operand_a = register_x_data_out;
 assign alu_operand_b =
 	(idu_operand_selection == 0) ? idu_implied_value : register_y_data_out;
 assign register_x_data_in =
-`ifdef HAS_SCRATCH_MEMORY
 	(is_fetch) ? scratch_data_out :
-`endif
 	(is_input) ? in_port : alu_result;
-
-`ifdef HAS_WIDE_ALU
-assign alu_operand_u = register_u_data_out;
-assign alu_operand_v = register_v_data_out;
-assign register_w_data_in = alu_resultw;
-`endif
 
 
 /*
@@ -316,11 +240,7 @@ task execute;
 input [`operation_width-1:0] operation;
 begin
 	// synthesis parallel_case full_case
-`ifdef USE_ONEHOT_ENCODING
-	case (1'b1)
-`else
 	case (operation)
-`endif
 		`operation(`op_load): register_x_write_enable <= 1; // load register with value
 
 		`operation(`op_and),
@@ -350,35 +270,12 @@ begin
 		`operation(`op_output): write_strobe <= 1; // flag write
 
 
-`ifdef HAS_COMPARE_OPERATION
 		`operation(`op_compare): zero_carry_write_enable <= 1; // writeback zero, carry
-`endif
 
-`ifdef HAS_TEST_OPERATION
 		`operation(`op_test): zero_carry_write_enable <= 1; // writeback zero, carry
-`endif
 
-`ifdef HAS_SCRATCH_MEMORY
 		`operation(`op_fetch): register_x_write_enable <= 1; // transfer scratchpad to register
 		`operation(`op_store): scratch_write_enable <= 1; // transfer register to scratchpad
-`endif
-
-`ifdef HAS_MUL_OPERATION
-		`operation(`op_mul): begin
-				register_wx_write_enable <= 1; // writeback wide register
-				zero_carry_write_enable <= 1;
-			end
-`endif
-
-`ifdef HAS_WIDE_ALU
-		`operation(`op_addw),
-		`operation(`op_addwcy),
-		`operation(`op_subw),
-		`operation(`op_subwcy): begin
-				register_wx_write_enable <= 1; // writeback wide register
-				zero_carry_write_enable <= 1; // writeback zero, carry
-			end
-`endif
 
 		default: ;
 	endcase
@@ -392,7 +289,6 @@ end
 */
 
 /* Sequential internal reset control */
-`ifdef HAS_RESET_LATCH
 always @(posedge clk) begin: on_reset
 	if (reset) reset_latch <= 'b11; // initialize latch
 	else begin
@@ -400,19 +296,13 @@ always @(posedge clk) begin: on_reset
 		reset_latch[0] <= 0;
 	end
 end
-`endif
 
 /* Sequential main block */
 always @(posedge clk) begin: seq
 	/* Idle values and default actions */
 	read_strobe <= 0; write_strobe <= 0;
 	register_x_write_enable <= 0;
-`ifdef HAS_WIDE_ALU
-	register_wx_write_enable <= 0;
-`endif
-`ifdef HAS_SCRATCH_MEMORY
 	scratch_write_enable <= 0;
-`endif
 	interrupt_ack <= 0;
 	zero_carry_write_enable <= 0;
 
@@ -451,5 +341,3 @@ always @(posedge clk) begin: seq
 
 end
 endmodule
-
-`endif // PACOBLAZE_V_
