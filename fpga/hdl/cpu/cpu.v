@@ -104,15 +104,6 @@ module cpu(
         endcase
     end
 
-//  uart_picobus_bridge _uart_picobus_bridge(
-//    clk, reset,
-//    uart_rx_data, uart_rx_ready, uart_rx_read,
-//    uart_tx_data, uart_tx_ready, uart_tx_write,
-//    port_id,
-//    out_port, write_strobe,
-//    in_port, read_strobe
-//  );
-
   wire [9:0] address;
   wire [17:0] instruction;
   wire interrupt = 0;
@@ -150,76 +141,3 @@ module uart_baud_clock_16x(
   assign baudclk16 = m;
 
 endmodule
-
-//
-// interpret UART commands
-//
-
-//module uart_picobus_bridge(
-//  input clk, reset,
-//
-//  input [7:0] uart_rx_data,
-//  input uart_rx_ready,
-//  output uart_rx_read,
-//  output reg [7:0] uart_tx_data,
-//  input uart_tx_ready,
-//  output reg uart_tx_write,
-//
-//  output reg [7:0] port_id,
-//  output reg [7:0] out_port,
-//  output reg write_strobe,
-//  input [7:0] in_port,
-//  output reg read_strobe
-//);
-//
-//  localparam
-//    WAIT = 1'd0,
-//    WRITE = 1'd1;
-//
-//  reg state;
-//  reg [7:0] x;
-//  reg [7:0] t;
-//
-//  assign uart_rx_read = uart_rx_ready;
-//
-//  always @(posedge clk)
-//    if (reset) begin
-//      uart_tx_write <= 0;
-//      port_id <= 0;
-//      out_port <= 0;
-//      write_strobe <= 0;
-//      read_strobe <= 0;
-//    end else begin
-//      uart_tx_write <= 0;
-//      write_strobe <= 0;
-//      read_strobe <= 0;
-//      case (state)
-//        WAIT:
-//          if (uart_rx_ready) begin
-//            if (uart_rx_data==8'h6d)                   // 'm'
-//              port_id <= x;
-//            else if (uart_rx_data==8'h77) begin        // 'w'
-//              out_port <= x;
-//              write_strobe <= 1;
-//            end else if (uart_rx_data==8'h72) begin    // 'r'
-//              t <= in_port;
-//              read_strobe <= 1;
-//              state <= WRITE;
-//            end else if (uart_rx_data==8'h78) begin    // 'x'
-//              t <= port_id;
-//              state <= WRITE;
-//            end else
-//              x <= {x[3:0],uart_rx_data[3:0]};
-//          end
-//        WRITE:
-//          begin
-//            uart_tx_data <= t;
-//            if (uart_tx_ready) begin
-//              uart_tx_write <= 1;
-//              state <= WAIT;
-//            end
-//          end
-//      endcase
-//    end
-//
-//endmodule

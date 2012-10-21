@@ -7,12 +7,43 @@
 	constant uart_tx_write, 22
 
 loop:	call getchar
-	call putchar
-	add s0, 01
-	call putchar
-	add s0, 01
-	call putchar
+	compare s0, 6d   ; 'm'
+	jump nz, skip1
+	call port_addr
 	jump loop
+skip1:  compare s0, 77   ; 'w'
+	jump nz, skip2
+	call port_write
+	jump loop
+skip2:  compare s0, 72   ; 'r'
+	jump nz, skip3
+	call port_read
+	jump loop
+skip3:	compare s0, 78   ; 'x'
+	jump nz, skip4
+	call port_echo
+	jump loop
+skip4:  and s0, 0f
+	sl0 s1
+	sl0 s1
+	sl0 s1
+	sl0 s1
+	or s1, s0
+	jump loop
+
+port_addr: load s2, s1
+	return
+
+port_write: output s1, (s2)
+	return
+
+port_read: input s0, (s2)
+	call putchar
+        return
+
+port_echo: load s0, s2
+	call putchar
+	return
 
 getchar: input sF, uart_rx_ready
 	compare sF, 00

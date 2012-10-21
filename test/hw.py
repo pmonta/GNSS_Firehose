@@ -9,7 +9,7 @@ import time
 
 class hw:
   def __init__(self, port="/dev/ttyUSB0"):
-    self.ser = serial.Serial('/dev/ttyUSB0', 460800, timeout=1)
+    self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     self.port = None
     self.sda = {}
     self.scl = {}
