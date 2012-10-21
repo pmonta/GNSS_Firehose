@@ -200,6 +200,8 @@ endmodule
 
 `include "cpu/cpu.v"
 `include "cpu/uart.v"
+`include "cpu/pacoblaze/pacoblaze.v"
+`include "cpu/cpu_rom.v"
 `include "ram.v"
 `include "pwm.v"
 `include "packet_streamer.v"

@@ -25,13 +25,13 @@ module cpu(
 
   wire [7:0] uart_rx_data;
   wire uart_rx_ready;
-  wire uart_rx_read;
+  reg uart_rx_read;
 
   uart_rx _uart_rx(clk, reset, baudclk16, uart_rx, uart_rx_data, uart_rx_ready, uart_rx_read);
 
-  wire [7:0] uart_tx_data;
+  reg [7:0] uart_tx_data;
   wire uart_tx_ready;
-  wire uart_tx_write;
+  reg uart_tx_write;
 
   uart_tx _uart_tx(clk, reset, baudclk16, uart_tx, uart_tx_data, uart_tx_ready, uart_tx_write);
 
@@ -46,9 +46,13 @@ module cpu(
                        (port_id==8'd6) ? in_port_6 :
                        (port_id==8'd7) ? in_port_7 :
                        (port_id==8'd8) ? in_port_8 :
+                       (port_id==8'd32) ? uart_rx_data :
+                       (port_id==8'd33) ? {7'd0,uart_rx_ready} :
+                       (port_id==8'd34) ? {7'd0,uart_tx_ready} :
                        8'hff;
 
   wire read_strobe;
+  wire write_strobe;
 
   wire [7:0] out_port;
 
@@ -71,6 +75,9 @@ module cpu(
       out_port_17 <= 8'h03;
       out_port_18 <= 8'h03;
       out_port_19 <= 8'h03;
+      uart_tx_data <= 0;
+      uart_rx_read <= 0;
+      uart_tx_write <= 0;
     end else begin
       if (write_strobe)
         case (port_id)
@@ -91,16 +98,36 @@ module cpu(
           8'd17: out_port_17 <= out_port;
           8'd18: out_port_18 <= out_port;
           8'd19: out_port_19 <= out_port;
+          8'd32: uart_tx_data <= out_port;
+          8'd33: uart_rx_read <= out_port[0];
+          8'd34: uart_tx_write <= out_port[0];
         endcase
     end
 
-  uart_picobus_bridge _uart_picobus_bridge(
-    clk, reset,
-    uart_rx_data, uart_rx_ready, uart_rx_read,
-    uart_tx_data, uart_tx_ready, uart_tx_write,
+//  uart_picobus_bridge _uart_picobus_bridge(
+//    clk, reset,
+//    uart_rx_data, uart_rx_ready, uart_rx_read,
+//    uart_tx_data, uart_tx_ready, uart_tx_write,
+//    port_id,
+//    out_port, write_strobe,
+//    in_port, read_strobe
+//  );
+
+  wire [9:0] address;
+  wire [17:0] instruction;
+  wire interrupt = 0;
+  wire interrupt_ack;
+
+  cpu_rom _cpu_rom(address, instruction, clk);
+
+  pacoblaze _pacoblaze(
+    address, instruction,
     port_id,
-    out_port, write_strobe,
-    in_port, read_strobe
+    write_strobe, out_port,
+    read_strobe, in_port,
+    interrupt,
+    interrupt_ack,
+    reset, clk
   );
 
 endmodule
@@ -114,8 +141,8 @@ module uart_baud_clock_16x(
   output baudclk16
 );
 
-  reg [4:0] c;
-  wire m = (c==5'd16);
+  reg [5:0] c;
+  wire m = (c==6'd33);
 
   always @(posedge clk)
     c <= m ? 0 : c+1;
@@ -128,71 +155,71 @@ endmodule
 // interpret UART commands
 //
 
-module uart_picobus_bridge(
-  input clk, reset,
-
-  input [7:0] uart_rx_data,
-  input uart_rx_ready,
-  output uart_rx_read,
-  output reg [7:0] uart_tx_data,
-  input uart_tx_ready,
-  output reg uart_tx_write,
-
-  output reg [7:0] port_id,
-  output reg [7:0] out_port,
-  output reg write_strobe,
-  input [7:0] in_port,
-  output reg read_strobe
-);
-
-  localparam
-    WAIT = 1'd0,
-    WRITE = 1'd1;
-
-  reg state;
-  reg [7:0] x;
-  reg [7:0] t;
-
-  assign uart_rx_read = uart_rx_ready;
-
-  always @(posedge clk)
-    if (reset) begin
-      uart_tx_write <= 0;
-      port_id <= 0;
-      out_port <= 0;
-      write_strobe <= 0;
-      read_strobe <= 0;
-    end else begin
-      uart_tx_write <= 0;
-      write_strobe <= 0;
-      read_strobe <= 0;
-      case (state)
-        WAIT:
-          if (uart_rx_ready) begin
-            if (uart_rx_data==8'h6d)                   // 'm'
-              port_id <= x;
-            else if (uart_rx_data==8'h77) begin        // 'w'
-              out_port <= x;
-              write_strobe <= 1;
-            end else if (uart_rx_data==8'h72) begin    // 'r'
-              t <= in_port;
-              read_strobe <= 1;
-              state <= WRITE;
-            end else if (uart_rx_data==8'h78) begin    // 'x'
-              t <= port_id;
-              state <= WRITE;
-            end else
-              x <= {x[3:0],uart_rx_data[3:0]};
-          end
-        WRITE:
-          begin
-            uart_tx_data <= t;
-            if (uart_tx_ready) begin
-              uart_tx_write <= 1;
-              state <= WAIT;
-            end
-          end
-      endcase
-    end
-
-endmodule
+//module uart_picobus_bridge(
+//  input clk, reset,
+//
+//  input [7:0] uart_rx_data,
+//  input uart_rx_ready,
+//  output uart_rx_read,
+//  output reg [7:0] uart_tx_data,
+//  input uart_tx_ready,
+//  output reg uart_tx_write,
+//
+//  output reg [7:0] port_id,
+//  output reg [7:0] out_port,
+//  output reg write_strobe,
+//  input [7:0] in_port,
+//  output reg read_strobe
+//);
+//
+//  localparam
+//    WAIT = 1'd0,
+//    WRITE = 1'd1;
+//
+//  reg state;
+//  reg [7:0] x;
+//  reg [7:0] t;
+//
+//  assign uart_rx_read = uart_rx_ready;
+//
+//  always @(posedge clk)
+//    if (reset) begin
+//      uart_tx_write <= 0;
+//      port_id <= 0;
+//      out_port <= 0;
+//      write_strobe <= 0;
+//      read_strobe <= 0;
+//    end else begin
+//      uart_tx_write <= 0;
+//      write_strobe <= 0;
+//      read_strobe <= 0;
+//      case (state)
+//        WAIT:
+//          if (uart_rx_ready) begin
+//            if (uart_rx_data==8'h6d)                   // 'm'
+//              port_id <= x;
+//            else if (uart_rx_data==8'h77) begin        // 'w'
+//              out_port <= x;
+//              write_strobe <= 1;
+//            end else if (uart_rx_data==8'h72) begin    // 'r'
+//              t <= in_port;
+//              read_strobe <= 1;
+//              state <= WRITE;
+//            end else if (uart_rx_data==8'h78) begin    // 'x'
+//              t <= port_id;
+//              state <= WRITE;
+//            end else
+//              x <= {x[3:0],uart_rx_data[3:0]};
+//          end
+//        WRITE:
+//          begin
+//            uart_tx_data <= t;
+//            if (uart_tx_ready) begin
+//              uart_tx_write <= 1;
+//              state <= WAIT;
+//            end
+//          end
+//      endcase
+//    end
+//
+//endmodule

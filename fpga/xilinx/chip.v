@@ -143,11 +143,14 @@ module chip(
 
   wire phy_rx_clk_dcm;
   wire phy_rx_clk_p;
+  wire phy_rx_clk_div2;
+  wire phy_rx_clk_div2_bufg;
 
-  DCM_SP _phy_rx_dcm(
+  DCM_SP #(.CLKDV_DIVIDE(2)) _phy_rx_dcm(
     .CLKIN(!phy_rx_clk),
     .CLK0(phy_rx_clk_p0),
     .CLKFB(phy_rx_clk_bufg0),
+    .CLKDV(phy_rx_clk_div2),
     .PSEN(1'b0),
     .RST(1'b0)
   );
@@ -155,6 +158,11 @@ module chip(
   BUFG _phy_rx_bufg0(
     .I(phy_rx_clk_p0),
     .O(phy_rx_clk_bufg0)
+  );
+
+  BUFG _phy_rx_div2_bufg(
+    .I(phy_rx_clk_div2),
+    .O(phy_rx_clk_div2_bufg)
   );
 
   assign phy_rx_clk_dcm = phy_rx_clk_bufg0;
@@ -180,7 +188,7 @@ module chip(
   demux_adc _demux_adc_ch3(clk64, ch3_d, ch3_data);
   demux_adc _demux_adc_ch4(clk64, ch4_d, ch4_data);
 
-  wire clk = phy_rx_clk_dcm;
+  wire clk = phy_rx_clk_div2_bufg;
   reset_gen _reset_gen(clk, reset);
 
 // generate PHY reset signals
