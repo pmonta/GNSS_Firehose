@@ -1,1 +1,35 @@
-main:	jump main
+	constant uart_rx_data, 20
+	constant uart_rx_ready, 21
+	constant uart_rx_read, 21
+
+	constant uart_tx_data, 20
+	constant uart_tx_ready, 22
+	constant uart_tx_write, 22
+
+loop:	call getchar
+	call putchar
+	add s0, 01
+	call putchar
+	add s0, 01
+	call putchar
+	jump loop
+
+getchar: input sF, uart_rx_ready
+	compare sF, 00
+	jump z, getchar
+	input s0, uart_rx_data
+	load sF, 01
+	output sF, uart_rx_read
+	load sF, 00
+	output sF, uart_rx_read
+	return
+
+putchar: input sF, uart_tx_ready
+	compare sF, 00
+	jump z, putchar
+	output s0, uart_tx_data
+	load sF, 01
+	output sF, uart_tx_write
+	load sF, 00
+	output sF, uart_tx_write
+	return
