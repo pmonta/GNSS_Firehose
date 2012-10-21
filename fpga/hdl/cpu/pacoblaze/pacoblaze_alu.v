@@ -31,7 +31,7 @@
 */
 
 `define operation(x) (x)
-`define operation_is(x) (operation == (x))
+`define operation_is_alu(x) (operation == (x))
 
 module pacoblaze_alu(
 	operation,
@@ -51,20 +51,20 @@ output reg carry_out; ///< Carry out
 
 /** Adder/substracter second operand. */
 wire [`operand_width-1:0] addsub_b =
-	(`operation_is(`op_sub)
-	|| `operation_is(`op_subcy)
-	|| `operation_is(`op_compare)
+	(`operation_is_alu(`op_sub)
+	|| `operation_is_alu(`op_subcy)
+	|| `operation_is_alu(`op_compare)
 	) ? ~operand_b :
 	operand_b;
 
 /** Adder/substracter carry. */
 wire addsub_carry =
-	(`operation_is(`op_addcy)
+	(`operation_is_alu(`op_addcy)
 	) ? carry_in :
-	(`operation_is(`op_sub)
-	|| `operation_is(`op_compare)
+	(`operation_is_alu(`op_sub)
+	|| `operation_is_alu(`op_compare)
 	) ? 1 : // ~b => b'
-	(`operation_is(`op_subcy)
+	(`operation_is_alu(`op_subcy)
 	) ? ~carry_in : // ~b - c => b' - c
 	0;
 
