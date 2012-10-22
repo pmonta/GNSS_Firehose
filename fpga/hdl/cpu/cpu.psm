@@ -6,46 +6,93 @@
 	constant uart_tx_ready, 22
 	constant uart_tx_write, 22
 
-loop:	call getchar
+	constant port_out_clock, 00
+
+main:   call hw_init
+loop:   call uart_service
+	call agc_service
+	jump loop
+
+hw_init:
+	call clock_init
+	load s0,1             ; ADC channel 1
+	call adc_init
+	load s0,2             ; ADC channel 2
+	call adc_init
+	load s0,3             ; ADC channel 3
+	call adc_init
+	load s0,4             ; ADC channel 4
+	call adc_init
+	call phy_setup
+	load s0, 1            ; RF channel 1
+	load s1, 41           ; N=65 (L1)
+	call max2112_init
+;	load s0, 2            ; RF channel 2
+;	load s1, 31           ; N=49 (L5)
+;	call max2112_init
+	load s0, 3            ; RF channel 3
+	load s1, 33           ; N=51 (L2)
+	call max2112_init
+	load s0, 1            ; RF channel 1
+	load s1, 78           ; gc=120
+	call set_agc
+;	load s0, 2            ; RF channel 2
+;	load s1, 78           ; gc=120
+;	call set_agc
+	load s0, 3            ; RF channel 3
+	load s1, 78           ; gc=120
+	call set_agc
+	return
+
+uart_service:
+	input s0, uart_rx_ready
+	compare s0, 00
+	return z
+	call getchar
 	compare s0, 6d   ; 'm'
 	jump nz, skip1
 	call port_addr
-	jump loop
+	return
 skip1:  compare s0, 77   ; 'w'
 	jump nz, skip2
 	call port_write
-	jump loop
+	return
 skip2:  compare s0, 72   ; 'r'
 	jump nz, skip3
 	call port_read
-	jump loop
+	return
 skip3:	compare s0, 78   ; 'x'
 	jump nz, skip4
 	call port_echo
-	jump loop
+	return
 skip4:  and s0, 0f
 	sl0 s1
 	sl0 s1
 	sl0 s1
 	sl0 s1
 	or s1, s0
-	jump loop
-
-port_addr: load s2, s1
 	return
 
-port_write: output s1, (s2)
+port_addr:
+	load s2, s1
 	return
 
-port_read: input s0, (s2)
+port_write:
+	output s1, (s2)
+	return
+
+port_read:
+	input s0, (s2)
 	call putchar
         return
 
-port_echo: load s0, s2
+port_echo:
+	load s0, s2
 	call putchar
 	return
 
-getchar: input sF, uart_rx_ready
+getchar:
+	input sF, uart_rx_ready
 	compare sF, 00
 	jump z, getchar
 	input s0, uart_rx_data
@@ -55,7 +102,8 @@ getchar: input sF, uart_rx_ready
 	output sF, uart_rx_read
 	return
 
-putchar: input sF, uart_tx_ready
+putchar:
+	input sF, uart_tx_ready
 	compare sF, 00
 	jump z, putchar
 	output s0, uart_tx_data
@@ -63,4 +111,237 @@ putchar: input sF, uart_tx_ready
 	output sF, uart_tx_write
 	load sF, 00
 	output sF, uart_tx_write
+	return
+
+agc_service:
+	return
+
+clock_init: 
+	load s0, 80
+	load s1, 02
+	load s2, 0d
+	load s3, 20
+	call clock_write		; 80020d20
+	load s0, 00
+	load s1, 00
+	call clock_write		; 00000d20
+	call clock_write		; 00000d20
+	load s3, 21
+	call clock_write		; 00000d21
+	call clock_write		; 00000d21
+	load s0, 80
+	load s3, 22
+	call clock_write		; 80000d22
+	call clock_write		; 80000d22
+	load s0, 00
+	load s1, 00
+	load s2, 05
+	load s3, 03
+	call clock_write		; 00000503
+	call clock_write		; 00000503
+	load s3, 04
+	call clock_write		; 00000504
+	call clock_write		; 00000504
+	load s3, 05
+	call clock_write		; 00000505
+	call clock_write		; 00000505
+	load s0, 06
+	load s1, 66
+	load s2, 00
+	load s3, 06
+	call clock_write		; 06660006
+	load s0, 01
+	load s1, 00
+	load s2, 00
+	load s3, 07
+	call clock_write		; 01000007
+	load s0, 11
+	load s1, 11
+	load s2, 00
+	load s3, 08
+	call clock_write		; 11110008
+	load s0, 55
+	load s1, 55
+	load s2, 55
+	load s3, 49
+	call clock_write		; 55555549
+	load s0, 10
+	load s1, 00
+	load s2, 40
+	load s3, 0a
+	call clock_write		; 1000400a
+	load s0, 34
+	load s1, 00
+	load s2, 00
+	load s3, 0b
+	call clock_write		; 3400000b
+	load s0, 13
+	load s1, 0c
+	load s2, 00
+	load s3, 6c
+	call clock_write		; 130c006c
+	load s0, 3b
+	load s1, 02
+	load s2, 06
+	load s3, 6d
+	call clock_write		; 3b02066d
+	load s0, 02
+	load s1, 00
+	load s2, 00
+	load s3, 0e
+	call clock_write		; 0200000e
+	load s0, c1
+	load s1, 55
+	load s2, 04
+	load s3, 10
+	call clock_write		; c1550410
+	load s0, 00
+	load s1, 00
+	load s2, 00
+	load s3, 18
+	call clock_write		; 00000018
+	load s0, 83
+	load s1, a8
+	load s2, 00
+	load s3, 1a
+	call clock_write		; 83a8001a
+	load s0, 00
+	load s1, 10
+	load s2, 00
+	load s3, 1c
+	call clock_write		; 0010001c
+	load s0, 00
+	load s1, 80
+	load s2, 04
+	load s3, 1d
+	call clock_write		; 0080041d
+	load s0, 02
+	load s1, 00
+	load s2, 04
+	load s3, 1e
+	call clock_write		; 0200041e
+	call delay_100ms
+	load s0, 34
+	load s1, 01
+	load s2, 00
+	load s3, 0b
+	call clock_write		; 3401000b
+	call delay_100ms
+	load s1, 00
+	call clock_write		; 3400000b
+	call delay_100ms
+	call print_clock_lock_status
+	return
+
+clock_write:
+	load s4, s0
+	load s5, 0
+cw0:	sla s4
+	call clock_write_bit
+	add s5, 1
+	compare s5, 8
+	jump nz, cw0
+	load s4, s1
+	load s5, 0
+cw1:	sla s4
+	call clock_write_bit
+	add s5, 1
+	compare s5, 8
+	jump nz, cw1
+	load s4, s2
+	load s5, 0
+cw2:	sla s4
+	call clock_write_bit
+	add s5, 1
+	compare s5, 8
+	jump nz, cw2
+	load s4, s3
+	load s5, 0
+cw3:	sla s4
+	call clock_write_bit
+	add s5, 1
+	compare s5, 8
+	jump nz, cw3
+	call clock_le
+	return
+
+clock_write_bit:
+	jump c, bit_h
+	load s8, 00
+	load s9, 04
+	jump bit_w
+bit_h:	load s8, 02
+	load s9, 06
+bit_w:	output s8, port_out_clock
+	call delay_5us
+	output s9, port_out_clock
+	call delay_5us
+	output s8, port_out_clock
+	call delay_5us
+	return
+
+clock_le:
+	load s8, 00
+	load s9, 01
+	output s8, port_out_clock
+	call delay_5us
+	output s9, port_out_clock
+	call delay_5us
+	output s8, port_out_clock
+	call delay_5us
+	return
+
+print_clock_lock_status:
+	load s0, 6c
+	call putchar
+	load s0, 3a
+	call putchar
+	input s0, 00
+	and s0, 01
+	add s0, 30
+	call putchar
+	load s0, 20
+	call putchar
+	return
+
+adc_init:
+	return
+
+phy_setup:
+	return
+
+max2112_init:
+	return
+
+set_agc:
+	return
+
+delay_5us:
+	load sF, 0
+dl0:	add sF, 01
+	compare sF, 1a   ; 26 iterations
+	jump nz, dl0
+	return
+
+delay_40us:
+	load sF, 0
+dl1:	add sF, 01
+	compare sF, d0   ; 208 iterations
+	jump nz, dl1
+	return
+
+delay_10ms:
+	load sE, 0
+dl2:	call delay_40us
+	add sE, 01
+	compare sE, fa   ; 250 iterations
+	jump nz, dl2
+	return
+
+delay_100ms:
+	load sD, 0
+dl3:	call delay_10ms
+	add sD, 01
+	compare sD, 0a   ; 10 iterations
+	jump nz, dl3
 	return
