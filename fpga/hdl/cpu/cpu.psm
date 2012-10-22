@@ -7,6 +7,7 @@
 	constant uart_tx_write, 22
 
 	constant port_out_clock, 00
+	constant port_out_phy_smi, 04
 
 main:   call hw_init
 loop:   call uart_service
@@ -17,8 +18,8 @@ hw_init:
 	call clock_init
 	load s0,1             ; ADC channel 1
 	call adc_init
-	load s0,2             ; ADC channel 2
-	call adc_init
+;	load s0,2             ; ADC channel 2
+;	call adc_init
 	load s0,3             ; ADC channel 3
 	call adc_init
 	load s0,4             ; ADC channel 4
@@ -230,7 +231,6 @@ clock_init:
 	load s1, 00
 	call clock_write		; 3400000b
 	call delay_100ms
-	call print_clock_lock_status
 	return
 
 clock_write:
@@ -291,23 +291,171 @@ clock_le:
 	call delay_5us
 	return
 
-print_clock_lock_status:
-	load s0, 6c
-	call putchar
-	load s0, 3a
-	call putchar
-	input s0, 00
-	and s0, 01
-	add s0, 30
-	call putchar
-	load s0, 20
-	call putchar
+adc_init:
+	load s1, 1
+	call adc_cs
+	load s2, 0
+	load s3, 03
+	call adc_write
+	load s2, 1
+	load s3, 02
+	call adc_write
+	load s2, 3
+	load s3, 06
+	call adc_write
+	load s2, 4
+	load s3, 00
+	call adc_write
+	load s2, 5
+	load s3, 00
+	call adc_write
+	load s2, 6
+	load s3, 08
+	call adc_write
+	load s2, 8
+	load s3, 88
+	call adc_write
 	return
 
-adc_init:
+adc_cs:
+	load s8, 0b
+	add s8, s0
+	compare s1, 00
+	jump nz, cs_hi
+	load s9, 01
+	jump cs_w
+cs_hi:	load s9, 09
+cs_w:	output s9, (s8)
+	call delay_5us
+	return
+
+adc_write:
+	load s1, 0
+	call adc_cs
+	load s1, 0
+	sla s1
+	call adc_write_bit
+	load sA, 0
+	load sB, s2
+	sla sB
+aw1:	sla sB
+	call adc_write_bit
+	add sA, 1
+	compare sA, 7
+	jump nz, aw1
+	load sA, 0
+	load sB, s3
+aw2:	sla sB
+	call adc_write_bit
+	add sA, 1
+	compare sA, 8
+	jump nz, aw2
+	load s1, 1
+	call adc_cs
+	return
+
+adc_write_bit:
+	jump c, abit_h
+	load s8, 01
+	load s9, 05
+	jump abit_w
+abit_h:	load s8, 03
+	load s9, 07
+abit_w:	load sC, 0b
+	add sC, s0
+	output s8, (sC)
+	call delay_5us
+	output s9, (sC)
+	call delay_5us
+	output s8, (sC)
+	call delay_5us
 	return
 
 phy_setup:
+	load s0, 1c		; address 28
+	load s1, f0		; value 0xf000
+	load s2, 00
+	call phy_smi_write_extended
+	return
+
+phy_smi_write_extended:
+	load s3, 1f
+	load s4, 00
+	load s5, 01
+	call phy_smi_write
+	load s3, s0
+	load s4, s1
+	load s5, s2
+	call phy_smi_write
+	load s3, 1f
+	load s4, 00
+	load s5, 00
+	call phy_smi_write
+	return
+
+phy_smi_write:
+	call phy_smi_write_0
+	call phy_smi_write_1
+	call phy_smi_write_0
+	call phy_smi_write_1
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	load s6, s3
+	sla s6
+	sla s6
+	sla s6
+	load s7, 0
+p1:	sla s6
+	call phy_smi_write_bit
+	add s7, 1
+	compare s7, 5
+	jump nz, p1
+	call phy_smi_write_1
+	call phy_smi_write_0
+	load s6, s4
+	load s7, 0
+p2:	sla s6
+	call phy_smi_write_bit
+	add s7, 1
+	compare s7, 8
+	jump nz, p2
+	load s6, s5
+	load s7, 0
+p3:	sla s6
+	call phy_smi_write_bit
+	add s7, 1
+	compare s7, 8
+	jump nz, p3
+	return
+
+phy_smi_write_0:
+	load s6, 0
+	sla s6
+	call phy_smi_write_bit
+	return
+
+phy_smi_write_1:
+	load s6, 80
+	sla s6
+	call phy_smi_write_bit
+	return
+
+phy_smi_write_bit:
+	jump c, pw_hi
+	load s8, 01
+	load s9, 05
+	jump pw_w
+pw_hi:	load s8, 03
+	load s9, 07
+pw_w:	output s8, port_out_phy_smi
+	call delay_5us
+	output s9, port_out_phy_smi
+	call delay_5us
+	output s8, port_out_phy_smi
+	call delay_5us
 	return
 
 max2112_init:
