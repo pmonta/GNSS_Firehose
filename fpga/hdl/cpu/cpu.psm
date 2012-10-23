@@ -554,7 +554,7 @@ i2c_set_sda:
 	and sE, fd
 	or sE, sD
 	output sE, (sF)
-	call delay_40us
+	call delay_5us
 	return
 
 i2c_set_scl:
@@ -565,7 +565,7 @@ i2c_set_scl:
 	and sE, fe
 	or sE, s4
 	output sE, (sF)
-	call delay_40us
+	call delay_5us
 	return
 
 ; write a bit to I2C
