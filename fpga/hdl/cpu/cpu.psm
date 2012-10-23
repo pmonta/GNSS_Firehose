@@ -8,6 +8,10 @@
 
 	constant port_out_clock, 00
 	constant port_out_phy_smi, 04
+	constant port_out_pwm, 06
+	constant port_i2c, 11
+
+	constant max2112_i2c_slave_addr, 60
 
 main:   call hw_init
 loop:   call uart_service
@@ -35,13 +39,16 @@ hw_init:
 	load s1, 33           ; N=51 (L2)
 	call max2112_init
 	load s0, 1            ; RF channel 1
-	load s1, 78           ; gc=120
+	load s1, 00           ; gc=120 (0x0078)
+	load s2, 78
 	call set_agc
 ;	load s0, 2            ; RF channel 2
-;	load s1, 78           ; gc=120
+;	load s1, 00           ; gc=120 (0x0078)
+;	load s2, 78
 ;	call set_agc
 	load s0, 3            ; RF channel 3
-	load s1, 78           ; gc=120
+	load s1, 00           ; gc=120 (0x0078)
+	load s2, 78
 	call set_agc
 	return
 
@@ -114,6 +121,7 @@ putchar:
 	output sF, uart_tx_write
 	return
 
+;fixme
 agc_service:
 	return
 
@@ -459,9 +467,176 @@ pw_w:	output s8, port_out_phy_smi
 	return
 
 max2112_init:
+	call i2c_init
+	load s2, 05
+	load s3, 01
+	call i2c_write
+	load s2, 06
+	load s3, 40
+	call i2c_write
+	load s2, 07
+	load s3, cc
+	call i2c_write
+	load s2, 08
+	load s3, 55
+	call i2c_write
+	load s2, 09
+	load s3, 06
+	call i2c_write
+	load s2, 0a
+	load s3, 00
+	call i2c_write
+	load s2, 0b
+	load s3, 08
+	call i2c_write
+	load s2, 01
+	load s3, s1
+	call i2c_write
+	load s2, 02
+	load s3, 10
+	call i2c_write
+	load s2, 03
+	load s3, 00
+	call i2c_write
+	load s2, 04
+	load s3, 00
+	call i2c_write
+	load s2, 00
+	load s3, 00
+	call i2c_write
+	return
+
+i2c_init:
+	load s4, 1
+	call i2c_set_sda
+	load s4, 1
+	call i2c_set_scl
+	return
+
+; write a byte to a MAX2112 register
+;
+; s0: RF channel number
+; s2: MAX2112 register address
+; s3: data byte
+
+i2c_write:
+	call i2c_start
+	load s5, max2112_i2c_slave_addr
+	sl0 s5
+	load s6, 7
+	call i2c_bits
+	load s9, 0
+	call i2c_bit
+	call i2c_ack
+	load s5, s2
+	load s6, 8
+	call i2c_bits
+	call i2c_ack
+	load s5, s3
+	load s6, 8
+	call i2c_bits
+	call i2c_ack
+	call i2c_stop
+	return
+
+; Set the I2C signals
+;
+; s0: RF channel number
+; s4: bit value
+
+i2c_set_sda:
+	load sF, s0
+	sub sF, 1
+	add sF, port_i2c
+	input sE, (sF)
+	load sD, s4
+	sl0 sD
+	and sE, fd
+	or sE, sD
+	output sE, (sF)
+	call delay_40us
+	return
+
+i2c_set_scl:
+	load sF, s0
+	sub sF, 1
+	add sF, port_i2c
+	input sE, (sF)
+	and sE, fe
+	or sE, s4
+	output sE, (sF)
+	call delay_40us
+	return
+
+; write a bit to I2C
+;
+; s0: RF channel number
+; s9: bit value
+
+i2c_bit:
+	load s4, s9
+	call i2c_set_sda
+	load s4, 1
+	call i2c_set_scl
+	load s4, 0
+	call i2c_set_scl
+	return
+
+; write a sequence of bits to I2C
+;
+; s0: RF channel number
+; s5: data
+; s6: bit count
+
+i2c_bits:
+	load sA, 0
+ibloop:	sla s5
+	jump c, i_hi
+	load s9, 0
+	jump i_wb
+i_hi:	load s9, 1
+i_wb:	call i2c_bit
+	add sA, 1
+	compare sA, s6
+	jump nz, ibloop
+	return
+
+i2c_ack:
+	call i2c_get_bit
+	return
+
+i2c_start:
+	load s4, 0
+	call i2c_set_sda
+	load s4, 0
+	call i2c_set_scl
+	return
+
+i2c_stop:
+	load s4, 1
+	call i2c_set_scl
+	load s4, 1
+	call i2c_set_sda
+	return
+
+i2c_get_bit:
+	load s4, 1
+	call i2c_set_sda
+	load s4, 1
+	call i2c_set_scl
+;read bit from sda
+	load s4, 0
+	call i2c_set_scl
 	return
 
 set_agc:
+	load sF, s0
+	sub sF, 1
+	sl0 sF
+	add sF, port_out_pwm
+	output s2, (sF)		; LS byte
+	add sF, 1
+	output s1, (sF)		; MS byte
 	return
 
 delay_5us:

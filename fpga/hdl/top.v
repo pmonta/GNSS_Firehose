@@ -173,6 +173,9 @@ module top(
   wire [7:0] in_port_6;  // I2C and SPI, ch2
   wire [7:0] in_port_7;  // I2C and SPI, ch3
   wire [7:0] in_port_8;  // SPI, ch4
+  wire [7:0] in_port_17; // I2C readback
+  wire [7:0] in_port_18; // I2C readback
+  wire [7:0] in_port_19; // I2C readback
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -181,6 +184,9 @@ module top(
   assign in_port_6 = {ch2_sda_i,ch2_scl_i,ch2_sdin_i};
   assign in_port_7 = {ch3_sda_i,ch3_scl_i,ch3_sdin_i};
   assign in_port_8 = {ch4_sdin_i};
+  assign in_port_17 = {ch1_sda_t,ch1_scl_t};
+  assign in_port_18 = {ch2_sda_t,ch2_scl_t};
+  assign in_port_19 = {ch3_sda_t,ch3_scl_t};
 
 // housekeeping CPU
 
@@ -189,7 +195,8 @@ module top(
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,
-    in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8
+    in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
+    in_port_17, in_port_18, in_port_19
   );
 
 // monitor the lock-detect signal
