@@ -106,12 +106,23 @@ module top(
   assign {ch4_i, ch4_q} = {ch4_data[15:8], ch4_data[7:0]};
 
   wire [1:0] ch1_si, ch1_sq;
+  wire [1:0] ch2_si, ch2_sq;
   wire [1:0] ch3_si, ch3_sq;
 
   quantize _quantize_ch1_i(source_clk, ch1_i, ch1_si);
   quantize _quantize_ch1_q(source_clk, ch1_q, ch1_sq);
+  quantize _quantize_ch2_i(source_clk, ch2_i, ch2_si);
+  quantize _quantize_ch2_q(source_clk, ch2_q, ch2_sq);
   quantize _quantize_ch3_i(source_clk, ch3_i, ch3_si);
   quantize _quantize_ch3_q(source_clk, ch3_q, ch3_sq);
+
+  wire [7:0] ch1_hist_0, ch1_hist_1;
+  wire [7:0] ch2_hist_0, ch2_hist_1;
+  wire [7:0] ch3_hist_0, ch3_hist_1;
+
+  histogram _hist_ch1(source_clk, ch1_si, ch1_hist_0, ch1_hist_1);
+  histogram _hist_ch2(source_clk, ch2_si, ch2_hist_0, ch2_hist_1);
+  histogram _hist_ch3(source_clk, ch3_si, ch3_hist_0, ch3_hist_1);
 
   reg [15:0] s_bits;
   reg s_en;
@@ -176,6 +187,12 @@ module top(
   wire [7:0] in_port_17; // I2C readback
   wire [7:0] in_port_18; // I2C readback
   wire [7:0] in_port_19; // I2C readback
+  wire [7:0] in_port_20; // histogram readback, ch1
+  wire [7:0] in_port_21;
+  wire [7:0] in_port_22; // histogram readback, ch2
+  wire [7:0] in_port_23;
+  wire [7:0] in_port_24; // histogram readback, ch3
+  wire [7:0] in_port_25;
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -187,6 +204,12 @@ module top(
   assign in_port_17 = {ch1_sda_t,ch1_scl_t};
   assign in_port_18 = {ch2_sda_t,ch2_scl_t};
   assign in_port_19 = {ch3_sda_t,ch3_scl_t};
+  assign in_port_20 = ch1_hist_0;
+  assign in_port_21 = ch1_hist_1;
+  assign in_port_22 = ch2_hist_0;
+  assign in_port_23 = ch2_hist_1;
+  assign in_port_24 = ch3_hist_0;
+  assign in_port_25 = ch3_hist_1;
 
 // housekeeping CPU
 
@@ -196,7 +219,8 @@ module top(
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
-    in_port_17, in_port_18, in_port_19
+    in_port_17, in_port_18, in_port_19,
+    in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25
   );
 
 // monitor the lock-detect signal
@@ -215,3 +239,4 @@ endmodule
 `include "crc.v"
 `include "activity.v"
 `include "quantize.v"
+`include "histogram.v"

@@ -17,7 +17,8 @@ module cpu(
   output reg [7:0] out_port_17, out_port_18, out_port_19,
   input [7:0] in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7,
   input [7:0] in_port_8,
-  input [7:0] in_port_17, in_port_18, in_port_19
+  input [7:0] in_port_17, in_port_18, in_port_19,
+  input [7:0] in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25
 );
 
   wire baudclk16;
@@ -50,6 +51,12 @@ module cpu(
                        (port_id==8'd17) ? in_port_17 :
                        (port_id==8'd18) ? in_port_18 :
                        (port_id==8'd19) ? in_port_19 :
+                       (port_id==8'd20) ? in_port_20 :
+                       (port_id==8'd21) ? in_port_21 :
+                       (port_id==8'd22) ? in_port_22 :
+                       (port_id==8'd23) ? in_port_23 :
+                       (port_id==8'd24) ? in_port_24 :
+                       (port_id==8'd25) ? in_port_25 :
                        (port_id==8'd32) ? uart_rx_data :
                        (port_id==8'd33) ? {7'd0,uart_rx_ready} :
                        (port_id==8'd34) ? {7'd0,uart_tx_ready} :
