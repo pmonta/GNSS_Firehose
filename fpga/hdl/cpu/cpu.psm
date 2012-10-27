@@ -23,8 +23,8 @@ hw_init:
 	call clock_init
 	load s0,1             ; ADC channel 1
 	call adc_init
-;	load s0,2             ; ADC channel 2
-;	call adc_init
+	load s0,2             ; ADC channel 2
+	call adc_init
 	load s0,3             ; ADC channel 3
 	call adc_init
 	load s0,4             ; ADC channel 4
@@ -33,16 +33,16 @@ hw_init:
 	load s0, 1            ; RF channel 1
 	load s1, 41           ; N=65 (L1)
 	call max2112_init
-;	load s0, 2            ; RF channel 2
-;	load s1, 31           ; N=49 (L5)
-;	call max2112_init
+	load s0, 2            ; RF channel 2
+	load s1, 31           ; N=49 (L5)
+	call max2112_init
 	load s0, 3            ; RF channel 3
 	load s1, 33           ; N=51 (L2)
 	call max2112_init
 	load s0, 1            ; RF channel 1
 	call init_agc
-;	load s0, 2            ; RF channel 2
-;	call init_agc
+	load s0, 2            ; RF channel 2
+	call init_agc
 	load s0, 3            ; RF channel 3
 	call init_agc
 	return
@@ -125,7 +125,7 @@ putchar:
 	output sF, uart_tx_write
 	return
 
-;fixme
+;fixme: eventually trim the AGC settings as the board runs
 agc_service:
 	return
 
@@ -653,7 +653,7 @@ ia1:	call set_agc
 	jump nc, ia2
 ia3:	add s2, 4	
 	addcy s1, 0
-	compare s1, 2
+	compare s1, 4
 	jump nz, ia1
 ia2:	load s8, s0
 	sub s8, 1
