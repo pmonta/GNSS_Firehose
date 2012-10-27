@@ -10,6 +10,7 @@
 	constant port_out_phy_smi, 04
 	constant port_out_pwm, 06
 	constant port_i2c, 11
+	constant port_hist, 14
 
 	constant max2112_i2c_slave_addr, 60
 
@@ -39,17 +40,11 @@ hw_init:
 	load s1, 33           ; N=51 (L2)
 	call max2112_init
 	load s0, 1            ; RF channel 1
-	load s1, 00           ; gc=120 (0x0078)
-	load s2, 78
-	call set_agc
+	call init_agc
 ;	load s0, 2            ; RF channel 2
-;	load s1, 00           ; gc=120 (0x0078)
-;	load s2, 78
-;	call set_agc
+;	call init_agc
 	load s0, 3            ; RF channel 3
-	load s1, 00           ; gc=120 (0x0078)
-	load s2, 78
-	call set_agc
+	call init_agc
 	return
 
 uart_service:
@@ -73,7 +68,11 @@ skip3:	compare s0, 78   ; 'x'
 	jump nz, skip4
 	call port_echo
 	return
-skip4:  and s0, 0f
+skip4:	compare s0, 73   ; 's'
+	jump nz, skip5
+	call scratchpad_fetch
+	return
+skip5:  and s0, 0f
 	sl0 s1
 	sl0 s1
 	sl0 s1
@@ -96,6 +95,11 @@ port_read:
 
 port_echo:
 	load s0, s2
+	call putchar
+	return
+
+scratchpad_fetch:
+	fetch s0, (s2)
 	call putchar
 	return
 
@@ -627,6 +631,52 @@ i2c_get_bit:
 ;read bit from sda
 	load s4, 0
 	call i2c_set_scl
+	return
+
+; crude AGC initialization.  ramp gain-control voltage until histogram differs by more than a factor of two.
+
+init_agc:
+	load s1, 0
+	load s2, 0
+ia1:	call set_agc
+	call delay_10ms
+	call delay_10ms
+	call delay_10ms
+	call get_hist
+	sr0 s4
+	sr0 s4
+	sr0 s5
+	sr0 s5
+	sub s4, s5
+	jump c, ia3
+	sub s4, s5
+	jump nc, ia2
+ia3:	add s2, 4	
+	addcy s1, 0
+	compare s1, 2
+	jump nz, ia1
+ia2:	load s8, s0
+	sub s8, 1
+	sl0 s8
+	store s1, (s8)
+	add s8, 1
+	store s2, (s8)
+	return
+
+; get hardware-histogram values
+;   s0: RF channel number
+; return values:
+;   h0: s4
+;   h1: s5
+
+get_hist:
+	load s8, s0
+	sub s8, 1
+	sl0 s8
+	add s8, port_hist
+	input s4, (s8)
+	add s8, 1
+	input s5, (s8)
 	return
 
 set_agc:

@@ -37,6 +37,11 @@ class hw:
     self.swrite('r')
     x = self.sread()
     return ord(x)
+  def read_scratchpad(self, addr):
+    self.addr(addr)
+    self.swrite('s')
+    x = self.sread()
+    return ord(x)
 
   def test(self):
     print '0x%02x' % self.read(31)
