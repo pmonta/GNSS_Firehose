@@ -4,6 +4,7 @@
 // Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 unsigned char buf[1062];
 unsigned long long t0,timestamp,delta;
@@ -19,15 +20,23 @@ void convert(unsigned char x[], FILE* fp_a, FILE* fp_b)
     x_a_q = (x[i]>>4)&3;
     x_b_i = (x[i]>>2)&3;
     x_b_q = x[i]&3;
+    x_a_i = 2*x_a_i - 3;
+    x_a_q = 2*x_a_q - 3;
+    x_b_i = 2*x_b_i - 3;
+    x_b_q = 2*x_b_q - 3;
     fwrite(&x_a_i,1,1,fp_a);
     fwrite(&x_a_q,1,1,fp_a);
     fwrite(&x_b_i,1,1,fp_b);
     fwrite(&x_b_q,1,1,fp_b); } }
 
-int main()
+int main(int argc, char* argv[])
 { int i,n;
   FILE* fp_a;
   FILE* fp_b;
+  int skip;
+  skip = 100;
+  if (argc==2)
+    skip = atoi(argv[1]);
   for (i=0; i<1024; i++)
     z[i] = 0;
   fread(buf,4,1,stdin);
@@ -36,11 +45,11 @@ int main()
   fread(buf,4,1,stdin);
   fread(buf,4,1,stdin);
   fread(buf,4,1,stdin);
-  for (i=0; i<100; i++) {
+  for (i=0; i<skip; i++) {
     fread(buf,1062,1,stdin);
     timestamp = (((long long)buf[30])<<56) | (((long long)buf[31])<<48) | (((long long)buf[32])<<40) | (((long long)buf[33])<<32) | (((long long)buf[34])<<24) | (((long long)buf[35])<<16) | (((long long)buf[36])<<8) | (((long long)buf[37])<<0); }
   t0 = timestamp;
-  i = 100;
+  i = skip;
   fp_a = fopen("ch_a.s8","w");
   fp_b = fopen("ch_b.s8","w");
   for (;;) {
@@ -50,7 +59,7 @@ int main()
     timestamp = (((long long)buf[30])<<56) | (((long long)buf[31])<<48) | (((long long)buf[32])<<40) | (((long long)buf[33])<<32) | (((long long)buf[34])<<24) | (((long long)buf[35])<<16) | (((long long)buf[36])<<8) | (((long long)buf[37])<<0);
     delta = timestamp - t0;
     if (delta!=1024)
-      fprintf(stderr,"packet %d: timestamp delta %d (%d %d)\n",i,(int)delta,((int)delta)/512,((int)delta)%512);
+      fprintf(stderr,"packet %d: timestamp delta %d (pkt %d rem %d) (ts1 %08llx ts2 %08llx)\n",i,(int)delta,((int)delta)/512,((int)delta)%512,t0,timestamp);
     if (delta<0) {
       fprintf(stderr,"delta<0, bailing out");
       break; }
