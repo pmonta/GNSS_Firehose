@@ -10,11 +10,12 @@ refdesy = 1mm
 
 type = "qfp"
 
-pins = 144
-width = 19.65mm
-height = 19.65mm
-padwidth = 1.45mm
+pins = 48
+width = 6.00mm
+height = 6.00mm
+padwidth = 0.60mm
 padheight = 0.25mm
 pitch = 0.50mm
+ep = 5.00mm
 
-part "LQFP144"
+part "QFN48_EP_MICREL.fp"

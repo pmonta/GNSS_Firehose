@@ -8,13 +8,12 @@ polyclear = 10mil
 refdesx = 0mm
 refdesy = 1mm
 
-type = "qfp"
+type = "twopad"
 
-pins = 144
-width = 19.65mm
-height = 19.65mm
-padwidth = 1.45mm
-padheight = 0.25mm
-pitch = 0.50mm
+width = 2.3mm
+padwidth = 2.1mm
+padheight = 2.3mm
+silkboxwidth = 0.1mm
+silkboxheight = 0.1mm
 
-part "LQFP144"
+part "SMAJ.fp"

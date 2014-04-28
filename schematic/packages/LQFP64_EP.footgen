@@ -1,4 +1,4 @@
-elementdir = "/home/pmonta/gps-front-end/schematic/packages"
+elementdir = "."
 
 silkwidth = 6mil
 silkstyle = "outside"
