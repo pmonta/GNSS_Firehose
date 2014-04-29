@@ -436,7 +436,7 @@ device=RESISTOR
 T 46900 56700 5 10 0 0 0 0 1
 footprint=0402.fp
 T 46600 56900 5 10 1 1 90 0 1
-refdes=R?
+refdes=R129
 T 47200 56700 5 10 1 1 90 0 1
 value=NONE
 }
@@ -447,7 +447,7 @@ device=RESISTOR
 T 48400 56700 5 10 0 0 0 0 1
 footprint=0402.fp
 T 48100 56900 5 10 1 1 90 0 1
-refdes=R?
+refdes=R130
 T 48700 56700 5 10 1 1 90 0 1
 value=NONE
 }
@@ -457,8 +457,8 @@ T 47400 57900 5 10 0 0 0 0 1
 device=RESISTOR
 T 47100 57500 5 10 0 0 0 0 1
 footprint=0402.fp
-T 47300 57800 5 10 1 1 0 0 1
-refdes=R?
+T 47100 57800 5 10 1 1 0 0 1
+refdes=R131
 T 47800 57800 5 10 1 1 0 0 1
 value=0
 }

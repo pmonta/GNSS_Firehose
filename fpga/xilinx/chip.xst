@@ -3,4 +3,4 @@ run
 -ofn chip.ngc
 -ifmt Verilog
 -top chip
--p xc6slx4-2tqg144
+-p xc6slx9-2tqg144

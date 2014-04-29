@@ -1,4 +1,4 @@
-v 20110115 2
+v 20130925 2
 P 100 4900 400 4900 1 0 0
 {
 T 300 4950 5 8 1 1 0 6 1
@@ -381,6 +381,6 @@ device=SPARTAN6_IO
 T 2600 6300 5 10 0 0 0 0 1
 footprint=LQFP144
 T 2600 6500 5 10 0 0 0 0 1
-description=Xilinx XC6SLX4-2TQG144C Spartan-6 FPGA, power signals
+description=Xilinx XC6SLX9-2TQG144C Spartan-6 FPGA, power signals
 T 2600 6700 5 10 0 0 0 0 1
 numslots=0

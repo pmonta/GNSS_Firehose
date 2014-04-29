@@ -3,7 +3,7 @@
 # GNSS Firehose
 # Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
-DEVICE=xc6slx4-2tqg144
+DEVICE=xc6slx9-2tqg144
 
 all:
 	xst -ifn chip.xst

@@ -916,7 +916,7 @@ symversion=0.1
 T 44000 55900 5 10 0 1 0 0 1
 footprint=0603.fp
 T 43700 56100 5 10 1 1 90 0 1
-refdes=L?
+refdes=L13
 T 44000 56400 5 10 1 1 0 0 1
 value=NONE
 }
@@ -933,7 +933,7 @@ device=RESISTOR
 T 44000 56800 5 10 0 1 0 0 1
 footprint=0603.fp
 T 43700 57000 5 10 1 1 90 0 1
-refdes=R?
+refdes=R127
 T 44100 57200 5 10 1 1 0 0 1
 value=NONE
 }

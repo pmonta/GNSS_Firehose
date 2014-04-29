@@ -912,7 +912,7 @@ C 38900 55900 1 90 0 inductor-1.sym
 T 38400 56100 5 10 0 0 90 0 1
 device=INDUCTOR
 T 38600 56100 5 10 1 1 90 0 1
-refdes=L?
+refdes=L12
 T 38200 56100 5 10 0 0 90 0 1
 symversion=0.1
 T 38900 56400 5 10 1 1 0 0 1
@@ -932,7 +932,7 @@ C 38900 56800 1 90 0 resistor-1.sym
 T 38500 57100 5 10 0 0 90 0 1
 device=RESISTOR
 T 38600 57000 5 10 1 1 90 0 1
-refdes=R?
+refdes=R126
 T 38900 56800 5 10 0 1 0 0 1
 footprint=0603.fp
 T 39000 57200 5 10 1 1 0 0 1
