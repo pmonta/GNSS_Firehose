@@ -6,7 +6,8 @@ SCH=firehose_00_overview.sch \
     firehose_05_clock.sch \
     firehose_06_fpga.sch \
     firehose_07_ethernet.sch \
-    firehose_08_power.sch
+    firehose_08_power.sch \
+    firehose_09_mechanical.sch
 
 DEST=../pcb
 
