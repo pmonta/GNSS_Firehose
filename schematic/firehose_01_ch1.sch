@@ -938,3 +938,12 @@ footprint=0402.fp
 T 39000 57200 5 10 1 1 0 0 1
 value=NONE
 }
+C 52300 52900 1 270 0 testpt-1.sym
+{
+T 53100 52900 5 10 1 1 180 0 1
+refdes=TP?
+T 53200 52500 5 10 0 0 270 0 1
+device=TESTPOINT
+T 53000 52500 5 10 0 0 270 0 1
+footprint=TP_SMT.fp
+}
