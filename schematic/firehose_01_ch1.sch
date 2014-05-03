@@ -918,7 +918,7 @@ symversion=0.1
 T 38900 56400 5 10 1 1 0 0 1
 value=NONE
 T 38900 55900 5 10 0 1 0 0 1
-footprint=0603.fp
+footprint=0402.fp
 }
 N 38800 57700 38800 58100 4
 N 38800 58100 39800 58100 4
@@ -934,7 +934,7 @@ device=RESISTOR
 T 38600 57000 5 10 1 1 90 0 1
 refdes=R126
 T 38900 56800 5 10 0 1 0 0 1
-footprint=0603.fp
+footprint=0402.fp
 T 39000 57200 5 10 1 1 0 0 1
 value=NONE
 }

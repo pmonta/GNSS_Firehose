@@ -914,7 +914,7 @@ device=INDUCTOR
 T 43300 56100 5 10 0 0 90 0 1
 symversion=0.1
 T 44000 55900 5 10 0 1 0 0 1
-footprint=0603.fp
+footprint=0402.fp
 T 43700 56100 5 10 1 1 90 0 1
 refdes=L13
 T 44000 56400 5 10 1 1 0 0 1
@@ -931,7 +931,7 @@ C 44000 56800 1 90 0 resistor-1.sym
 T 43600 57100 5 10 0 0 90 0 1
 device=RESISTOR
 T 44000 56800 5 10 0 1 0 0 1
-footprint=0603.fp
+footprint=0402.fp
 T 43700 57000 5 10 1 1 90 0 1
 refdes=R127
 T 44100 57200 5 10 1 1 0 0 1
