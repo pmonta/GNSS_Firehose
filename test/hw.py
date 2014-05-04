@@ -1,15 +1,15 @@
 # Interface a high-level hardware API to GPIO reads and writes over the UART.
-# Implements bus protocols and programming for clock chip, max2112, max19505, and Vitesse PHY.
+# Implements bus protocols and programming for clock chip, max2112, max19505, and Micrel PHY.
 #
 # GNSS Firehose
-# Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
+# Copyright (c) 2012,2014 Peter Monta <pmonta@gmail.com>
 
 import serial
 import time
 
 class hw:
-  def __init__(self, port="/dev/ttyUSB0"):
-    self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+  def __init__(self, ttyport="/dev/ttyUSB0"):
+    self.ser = serial.Serial(ttyport, 115200, timeout=1)
     self.port = None
     self.sda = {}
     self.scl = {}

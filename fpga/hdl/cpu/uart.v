@@ -50,7 +50,7 @@ module uart_tx(
           end
       endcase
 
-  assign tx = !bits[0];
+  assign tx = bits[0];
 
 endmodule
 
@@ -83,7 +83,7 @@ module uart_rx(
         ready <= 0;
       case (state)
         IDLE:
-          if (rx) begin
+          if (!rx) begin
             sb <= 3'd0;
             state <= START;
           end
@@ -100,7 +100,7 @@ module uart_rx(
           if (baudclk16) begin
             sb <= sb + 1;
             if (sb==4'd15) begin
-              bits <= {~rx,bits[7:1]};
+              bits <= {rx,bits[7:1]};
               bit <= bit + 1;
               if (bit==4'd7)
                 state <= STOP;
