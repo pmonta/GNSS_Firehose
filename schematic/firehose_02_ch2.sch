@@ -872,7 +872,7 @@ device=RESISTOR
 T 56400 47400 5 10 1 1 0 0 1
 refdes=R81
 T 56800 47400 5 10 1 1 0 0 1
-value=1k
+value=10k
 T 56200 47100 5 10 0 1 0 0 1
 footprint=0402.fp
 }
@@ -893,7 +893,7 @@ device=RESISTOR
 T 56400 46800 5 10 1 1 0 0 1
 refdes=R82
 T 56800 46800 5 10 1 1 0 0 1
-value=1k
+value=10k
 T 56200 46500 5 10 0 1 0 0 1
 footprint=0402.fp
 }
@@ -941,7 +941,7 @@ N 43900 55900 43900 55600 4
 C 57400 52900 1 270 0 testpt-1.sym
 {
 T 58200 52900 5 10 1 1 180 0 1
-refdes=TP?
+refdes=TP14
 T 58300 52500 5 10 0 0 270 0 1
 device=TESTPOINT
 T 58100 52500 5 10 0 0 270 0 1
