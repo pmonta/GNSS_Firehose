@@ -18,6 +18,6 @@ print '('
 
 for j in xrange(0,7):
   for i in xrange(0,2):
-    pin(2*j, 2*(2-i), 0.9, "%d"%(2*j+i))
+    pin(2*j, 2*(2-i), 0.9, "%d"%(2*j+i+1))
 
 print ')'
