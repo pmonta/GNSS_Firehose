@@ -1,0 +1,5 @@
+(load "print-colormap-lightbg")
+(output-color "enabled")
+(gschem-use-rc-values)
+(gschem-print "dummyfilename")
+(gschem-exit)

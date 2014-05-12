@@ -14,3 +14,15 @@ DEST=../pcb
 all:
 	refdes_renum $(SCH)
 	gsch2pcb --skip-m4 -o $(DEST)/board $(SCH)
+
+pdf:
+	rm -f schematic.ps
+	for i in $(SCH); do \
+		echo gschem -o temp.ps -s print.scm $$i ; \
+		gschem -o temp.ps -s print.scm $$i ; \
+		cat temp.ps >>schematic.ps ; \
+	done
+	ps2pdf schematic.ps GNSS_Firehose_schematic.pdf
+	cp GNSS_Firehose_schematic.pdf ../doc
+	rm -f temp.ps
+	rm -f schematic.ps

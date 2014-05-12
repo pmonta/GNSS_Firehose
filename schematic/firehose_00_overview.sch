@@ -13,7 +13,7 @@ T 61300 36100 9 10 1 0 0 0 1
 T 47300 55700 9 28 1 0 0 0 1
 GNSS Firehose
 T 45000 54300 9 18 1 0 0 0 1
-Wideband front end for GPS, Glonass, Galileo, BeiDou
+Wideband front end for GPS, GLONASS, Galileo, BeiDou
 B 43000 39400 3700 1900 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
 B 48800 38800 2400 1500 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
 B 51100 42400 3300 8700 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
