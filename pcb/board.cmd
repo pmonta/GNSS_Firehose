@@ -1419,6 +1419,18 @@ ChangePinName(U10, 13, AVDD)
 ChangePinName(U10, 12, AVDD)
 ChangePinName(U10, 1, AVDD)
 
+# Start of element FB16
+ChangePinName(FB16, 1, 1)
+ChangePinName(FB16, 2, 2)
+
+# Start of element C247
+ChangePinName(C247, 2, 2)
+ChangePinName(C247, 1, 1)
+
+# Start of element C246
+ChangePinName(C246, 2, 2)
+ChangePinName(C246, 1, 1)
+
 # Start of element FB13
 ChangePinName(FB13, 1, 1)
 ChangePinName(FB13, 2, 2)
@@ -1706,6 +1718,18 @@ ChangePinName(U7, 20, IOUT-)
 ChangePinName(U7, 19, IOUT+)
 ChangePinName(U7, 4, RFIN)
 
+# Start of element FB15
+ChangePinName(FB15, 1, 1)
+ChangePinName(FB15, 2, 2)
+
+# Start of element C245
+ChangePinName(C245, 2, 2)
+ChangePinName(C245, 1, 1)
+
+# Start of element C244
+ChangePinName(C244, 2, 2)
+ChangePinName(C244, 1, 1)
+
 # Start of element FB12
 ChangePinName(FB12, 1, 1)
 ChangePinName(FB12, 2, 2)
@@ -1992,6 +2016,18 @@ ChangePinName(U4, 17, QOUT+)
 ChangePinName(U4, 20, IOUT-)
 ChangePinName(U4, 19, IOUT+)
 ChangePinName(U4, 4, RFIN)
+
+# Start of element FB14
+ChangePinName(FB14, 1, 1)
+ChangePinName(FB14, 2, 2)
+
+# Start of element C243
+ChangePinName(C243, 2, 2)
+ChangePinName(C243, 1, 1)
+
+# Start of element C242
+ChangePinName(C242, 2, 2)
+ChangePinName(C242, 1, 1)
 
 # Start of element FB11
 ChangePinName(FB11, 1, 1)
