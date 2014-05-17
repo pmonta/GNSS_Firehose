@@ -20,8 +20,7 @@ def pad2trace(x,y,dx,dy):
 def mil2mm(x):
   return (x/1000.0)*25.4
 
-def pad_mm(x,y,dx,dy,name):
+def pad_mm(x,y,dx,dy,name,clear=mil2mm(20),mask=mil2mm(10),flags="0x00000100"):
   x1,y1,x2,y2,thick = pad2trace(x,y,dx,dy)
-  clear = mil2mm(20)
-  mask = thick + mil2mm(10)
-  print '\tPad[%fmm %fmm %fmm %fmm %fmm %fmm %fmm \"%s\" \"%s\" 0x00000100]' % (x1,y1,x2,y2,thick,clear,mask,name,name)
+  mask = mask + thick
+  print '\tPad[%fmm %fmm %fmm %fmm %fmm %fmm %fmm \"%s\" \"%s\" \"%s\"]' % (x1,y1,x2,y2,thick,clear,mask,name,name,flags)

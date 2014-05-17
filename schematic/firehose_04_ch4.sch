@@ -558,25 +558,29 @@ T 50700 55800 9 10 1 0 0 0 1
 optional LPF
 T 50700 47600 9 10 1 0 0 0 1
 optional LPF
-C 50700 57500 1 0 0 resistor-1.sym
+C 50700 57500 1 0 0 inductor-1.sym
 {
-T 51000 57900 5 10 0 0 0 0 1
-device=RESISTOR
+T 50900 58000 5 10 0 0 0 0 1
+device=INDUCTOR
+T 50900 57800 5 10 1 1 0 0 1
+refdes=L20
+T 50900 58200 5 10 0 0 0 0 1
+symversion=0.1
 T 50700 57500 5 10 0 0 0 0 1
-footprint=0402.fp
-T 50700 57800 5 10 1 1 0 0 1
-refdes=R144
+footprint=0603.fp
 T 51400 57800 5 10 1 1 0 0 1
 value=0
 }
-C 50700 49300 1 0 0 resistor-1.sym
+C 50700 49300 1 0 0 inductor-1.sym
 {
-T 51000 49700 5 10 0 0 0 0 1
-device=RESISTOR
+T 50900 49800 5 10 0 0 0 0 1
+device=INDUCTOR
+T 50900 49600 5 10 1 1 0 0 1
+refdes=L21
+T 50900 50000 5 10 0 0 0 0 1
+symversion=0.1
 T 50700 49300 5 10 0 0 0 0 1
-footprint=0402.fp
-T 50700 49600 5 10 1 1 0 0 1
-refdes=R145
+footprint=0603.fp
 T 51400 49600 5 10 1 1 0 0 1
 value=0
 }

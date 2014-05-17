@@ -161,12 +161,12 @@ unnamed_net96	FB7-1 C64-2 U15-52
 unnamed_net95	FB6-1 C55-2 U15-47 
 unnamed_net94	FB5-1 C57-2 U15-18 
 unnamed_net93	FB4-1 C58-2 U15-17 
-unnamed_net92	R144-1 C238-2 R131-2 R130-2 
+unnamed_net92	L20-1 C238-2 R131-2 R130-2 
 unnamed_net91	R135-2 R131-1 R129-2 
-unnamed_net90	R145-1 C240-2 R36-2 R35-2 
+unnamed_net90	L21-1 C240-2 R36-2 R35-2 
 unnamed_net89	R136-2 R36-1 R34-2 
-unnamed_net88	R145-2 C241-2 R37-2 C139-1 
-unnamed_net87	R144-2 C239-2 R33-2 C137-1 
+unnamed_net88	L21-2 C241-2 R37-2 C139-1 
+unnamed_net87	L20-2 C239-2 R33-2 C137-1 
 unnamed_net86	R136-1 J5-1 
 unnamed_net85	R135-1 J4-1 
 CH4_SDIN	U12-34 U10-45 

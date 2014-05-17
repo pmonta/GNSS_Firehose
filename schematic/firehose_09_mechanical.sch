@@ -136,3 +136,32 @@ C 58400 53400 1 0 0 gnd-1.sym
 C 62400 53400 1 0 0 gnd-1.sym
 T 59200 51400 9 24 1 0 0 0 1
 Mounting holes
+C 43800 46500 1 0 0 fiducial.sym
+{
+T 45100 46000 5 10 0 0 0 0 1
+device=FIDUCIAL
+T 45100 45600 5 10 0 0 0 0 1
+footprint=FIDUCIAL.fp
+T 45400 46462 5 10 1 1 0 0 1
+refdes=FID1
+}
+C 46800 46500 1 0 0 fiducial.sym
+{
+T 48100 46000 5 10 0 0 0 0 1
+device=FIDUCIAL
+T 48100 45600 5 10 0 0 0 0 1
+footprint=FIDUCIAL.fp
+T 48400 46462 5 10 1 1 0 0 1
+refdes=FID2
+}
+C 49800 46500 1 0 0 fiducial.sym
+{
+T 51100 46000 5 10 0 0 0 0 1
+device=FIDUCIAL
+T 51100 45600 5 10 0 0 0 0 1
+footprint=FIDUCIAL.fp
+T 51400 46462 5 10 1 1 0 0 1
+refdes=FID3
+}
+T 46700 45000 9 24 1 0 0 0 1
+Fiducials

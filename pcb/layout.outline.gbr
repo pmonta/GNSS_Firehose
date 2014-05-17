@@ -1,0 +1,17 @@
+G04 start of page 4 for group 2 idx 4 *
+G04 Title: (unknown), outline *
+G04 Creator: pcb 20140316 *
+G04 CreationDate: Sat 17 May 2014 08:59:42 AM GMT UTC *
+G04 For: pmonta *
+G04 Format: Gerber/RS-274X *
+G04 PCB-Dimensions (mil): 4200.00 3400.00 *
+G04 PCB-Coordinate-Origin: lower left *
+%MOIN*%
+%FSLAX25Y25*%
+%LNOUTLINE*%
+%ADD87R,0.0060X0.0060*%
+G54D87*X0Y340000D02*Y0D01*
+Y340000D02*X420000D01*
+X0Y0D02*X420000D01*
+Y340000D02*Y0D01*
+M02*
