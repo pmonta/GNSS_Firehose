@@ -1,5 +1,11 @@
 # Pin name action command file
 
+# Start of element SC10
+ChangePinName(SC10, 1, shield)
+
+# Start of element SC9
+ChangePinName(SC9, 1, shield)
+
 # Start of element FID3
 
 # Start of element FID2
@@ -487,6 +493,14 @@ ChangePinName(J7, 14, LED2-)
 ChangePinName(J7, 13, LED2+)
 ChangePinName(J7, 12, LED1-)
 ChangePinName(J7, 11, LED1+)
+
+# Start of element C249
+ChangePinName(C249, 2, 2)
+ChangePinName(C249, 1, 1)
+
+# Start of element C248
+ChangePinName(C248, 2, 2)
+ChangePinName(C248, 1, 1)
 
 # Start of element R142
 ChangePinName(R142, 1, 1)

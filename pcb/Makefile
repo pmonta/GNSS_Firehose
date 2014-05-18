@@ -8,8 +8,6 @@ cam:
 	<board-large.png pngtopnm | pamscale 0.5 | pnmtopng >board.png
 	rm -f board-large.png
 
-logo.pcb: logo.pdf
-	pstoedit -psarg "-r1000x1000" -f pcbfill -ssp logo.pdf logo.pcb 2>/dev/null
-
 clean:
-	rm -f *.gbr *.cnc *.png *.xy *.bom
+	rm -f *.gbr *.cnc *.png *.xy *.bom *~
+	rm -f board.pcb.bak* board.pcb-

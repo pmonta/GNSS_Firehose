@@ -92,8 +92,8 @@ C 44600 54800 1 0 0 gnd-1.sym
 C 49200 54800 1 0 0 gnd-1.sym
 C 44600 52800 1 0 0 gnd-1.sym
 C 49200 52800 1 0 0 gnd-1.sym
-T 46100 51300 9 24 1 0 0 0 1
-Shield clips
+T 44700 51300 9 24 1 0 0 0 1
+Shield clips (RF channels)
 C 57500 57200 1 0 0 mounting_hole_2_48.sym
 {
 T 58200 55995 5 10 0 0 0 0 1
@@ -165,3 +165,25 @@ refdes=FID3
 }
 T 46700 45000 9 24 1 0 0 0 1
 Fiducials
+C 57600 46700 1 0 0 s1721.sym
+{
+T 58500 48195 5 10 0 0 0 0 1
+device=S1721
+T 58500 48395 5 10 0 0 0 0 1
+footprint=S1721.fp
+T 58800 46795 5 10 1 1 0 0 1
+refdes=SC9
+}
+C 62200 46700 1 0 0 s1721.sym
+{
+T 63100 48195 5 10 0 0 0 0 1
+device=S1721
+T 63100 48395 5 10 0 0 0 0 1
+footprint=S1721.fp
+T 63400 46795 5 10 1 1 0 0 1
+refdes=SC10
+}
+C 58300 46400 1 0 0 gnd-1.sym
+C 62900 46400 1 0 0 gnd-1.sym
+T 58800 45000 9 24 1 0 0 0 1
+Shield clips (TCXO)
