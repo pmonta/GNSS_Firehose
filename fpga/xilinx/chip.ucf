@@ -76,26 +76,25 @@ net ch4_d<5> loc=p43  | iostandard=lvcmos33 ;
 net ch4_d<6> loc=p41  | iostandard=lvcmos33 ;
 net ch4_d<7> loc=p40  | iostandard=lvcmos33 ;
 
-net phy_tx_clk loc=p78     | iostandard=lvcmos33 ;
-net phy_tx_data<0> loc=p57 | iostandard=lvcmos33 ;
-net phy_tx_data<1> loc=p58 | iostandard=lvcmos33 ;
-net phy_tx_data<2> loc=p59 | iostandard=lvcmos33 ;
-net phy_tx_data<3> loc=p62 | iostandard=lvcmos33 ;
-net phy_tx_ctl loc=p56     | iostandard=lvcmos33 ;
+net phy_tx_clk loc=p84     | iostandard=lvcmos33 ;
+net phy_tx_data<0> loc=p92 | iostandard=lvcmos33 ;
+net phy_tx_data<1> loc=p88 | iostandard=lvcmos33 ;
+net phy_tx_data<2> loc=p87 | iostandard=lvcmos33 ;
+net phy_tx_data<3> loc=p85 | iostandard=lvcmos33 ;
+net phy_tx_ctl loc=p83     | iostandard=lvcmos33 ;
 
-net phy_rx_clk loc=p79     | iostandard=lvcmos33 ;
-net phy_rx_data<0> loc=p80 | iostandard=lvcmos33 ;
-net phy_rx_data<1> loc=p81 | iostandard=lvcmos33 ;
-net phy_rx_data<2> loc=p82 | iostandard=lvcmos33 ;
-net phy_rx_data<3> loc=p83 | iostandard=lvcmos33 ;
-net phy_rx_ctl loc=p84     | iostandard=lvcmos33 ;
+net phy_rx_clk loc=p62     | iostandard=lvcmos33 ;
+net phy_rx_data<0> loc=p79 | iostandard=lvcmos33 ;
+net phy_rx_data<1> loc=p80 | iostandard=lvcmos33 ;
+net phy_rx_data<2> loc=p81 | iostandard=lvcmos33 ;
+net phy_rx_data<3> loc=p82 | iostandard=lvcmos33 ;
+net phy_rx_ctl loc=p78     | iostandard=lvcmos33 ;
 
-net phy_mdc loc=p87   | iostandard=lvcmos33 | slew="slow" ;
-net phy_mdio loc=p88  | iostandard=lvcmos33 | slew="slow" ;
-net phy_mdint loc=p92 | iostandard=lvcmos33 ;
+net phy_mdc loc=p59   | iostandard=lvcmos33 | slew="slow" ;
+net phy_mdio loc=p58  | iostandard=lvcmos33 | slew="slow" ;
+net phy_mdint loc=p57 | iostandard=lvcmos33 ;
 
-net phy_nsreset loc=p55 | iostandard=lvcmos33 | slew="slow" ;
-net phy_nreset loc=p85  | iostandard=lvcmos33 | slew="slow" ;
+net phy_nreset loc=p56  | iostandard=lvcmos33 | slew="slow" ;
 
 net clock_clk loc=p93      | iostandard=lvcmos33 | slew="slow" ;
 net clock_data loc=p94     | iostandard=lvcmos33 | slew="slow" ;
@@ -108,3 +107,15 @@ net uart_tx loc=p102  | iostandard=lvcmos33 | slew="slow" ;
 
 net led0 loc=p105 | iostandard=lvcmos33 | slew="slow" ;
 net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
+
+# net spare1_p=p75 | iostandard=lvcmos33 ;
+# net spare1_n=p74 | iostandard=lvcmos33 ;
+# net spare2_p=p100 | iostandard=lvcmos33 ;
+# net spare2_n=p99 | iostandard=lvcmos33 ;
+# net spare3_p=p112 | iostandard=lvcmos33 ;
+# net spare3_n=p111 | iostandard=lvcmos33 ;
+
+# net tp18=p67 |  iostandard=lvcmos33 ;
+# net tp19=p66 |  iostandard=lvcmos33 ;
+# net tp20=p61 |  iostandard=lvcmos33 ;
+# net tp21=p55 |  iostandard=lvcmos33 ;

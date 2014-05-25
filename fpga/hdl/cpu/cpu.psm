@@ -29,7 +29,7 @@ hw_init:
 	call adc_init
 	load s0,4             ; ADC channel 4
 	call adc_init
-	call phy_setup
+;	call phy_setup	; VSC8601-specific setup
 	load s0, 1            ; RF channel 1
 	load s1, 41           ; N=65 (L1)
 	call max2112_init

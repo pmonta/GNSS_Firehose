@@ -54,7 +54,6 @@ module chip(
   inout phy_mdio,
   input phy_mdint,
 
-  output phy_nsreset,
   output phy_nreset,
 
 // clock chip control and status
@@ -196,7 +195,7 @@ module chip(
   wire clk50, clk50_reset;
   internal_clock_gen _internal_clock_gen(clk50);
   reset_gen _reset_gen_clk50(clk50, clk50_reset);
-  phy_reset _phy_reset(clk50, clk50_reset, phy_nsreset, phy_nreset);
+  phy_reset _phy_reset(clk50, clk50_reset, phy_nreset);
 
 // top-level module
 
@@ -343,7 +342,6 @@ endmodule
 module phy_reset(
   input clk50,
   input clk50_reset,
-  output reg phy_nsreset,
   output reg phy_nreset
 );
 
@@ -352,11 +350,9 @@ module phy_reset(
   always @(posedge clk50)
     if (clk50_reset) begin
       c <= 0;
-      phy_nsreset <= 0;
       phy_nreset <= 0;
     end else begin
       c <= (c==22'd4194303) ? c : c+1;
-      phy_nsreset <= (c>22'd2000000);
       phy_nreset <= (c>22'd1500000);
     end
 
