@@ -10,6 +10,9 @@ cam:
 	pcb -x png --outfile temp.png --dpi 1000 --photo-mode --photo-flip-x --photo-plating gold board.pcb
 	<temp.png pngtopnm | pamscale 0.5 | pnmtopng >board-reverse.png
 	rm -f temp.png
+	pcb -x ps --outfile board.ps board.pcb
+	ps2pdf board.ps board.pdf
+	rm -f board.ps
 
 clean:
 	rm -f *.gbr *.cnc *.png *.xy *.bom *~
