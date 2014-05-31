@@ -637,7 +637,7 @@ device=RESISTOR
 T 56900 51900 5 10 1 1 0 0 1
 refdes=R40
 T 57400 51900 5 10 1 1 0 0 1
-value=10k
+value=1k
 T 56700 52100 5 10 0 0 0 0 1
 footprint=0402.fp
 }
@@ -648,7 +648,7 @@ device=RESISTOR
 T 56900 52800 5 10 1 1 0 0 1
 refdes=R41
 T 57400 52800 5 10 1 1 0 0 1
-value=10k
+value=1k
 T 56700 52500 5 10 0 0 0 0 1
 footprint=0402.fp
 }
