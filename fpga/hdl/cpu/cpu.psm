@@ -132,32 +132,32 @@ agc_service:
 clock_init: 
 	load s0, 80
 	load s1, 02
-	load s2, 09
-	load s3, 80
-	call clock_write		; 80020980
+	load s2, 04
+	load s3, 60
+	call clock_write		; 80020460
 	load s0, 00
 	load s1, 00
-	call clock_write		; 00000980
-	call clock_write		; 00000980
-	load s3, 81
-	call clock_write		; 00000981
-	call clock_write		; 00000981
+	call clock_write		; 00000460
+	call clock_write		; 00000460
+	load s3, 61
+	call clock_write		; 00000461
+	call clock_write		; 00000461
 	load s0, 80
-	load s3, 82
-	call clock_write		; 80000982
-	call clock_write		; 80000982
+	load s3, 62
+	call clock_write		; 80000462
+	call clock_write		; 80000462
 	load s0, 00
 	load s1, 00
 	load s2, 04
-	load s3, c3
-	call clock_write		; 000004c3
-	call clock_write		; 000004c3
-	load s3, c4
-	call clock_write		; 000004c4
-	call clock_write		; 000004c4
-	load s3, c5
-	call clock_write		; 000004c5
-	call clock_write		; 000004c5
+	load s3, 63
+	call clock_write		; 00000463
+	call clock_write		; 00000463
+	load s3, 64
+	call clock_write		; 00000464
+	call clock_write		; 00000464
+	load s3, 65
+	call clock_write		; 00000465
+	call clock_write		; 00000465
 	load s0, 06
 	load s1, 66
 	load s2, 00
@@ -225,14 +225,14 @@ clock_init:
 	call clock_write		; 0010001c
 	load s0, 00
 	load s1, 80
-	load s2, 04
-	load s3, 1d
-	call clock_write		; 0080041d
+	load s2, 03
+	load s3, fd
+	call clock_write		; 008003fd  vco_div=62
 	load s0, 02
 	load s1, 00
-	load s2, 04
-	load s3, 1e
-	call clock_write		; 0200041e
+	load s2, 03
+	load s3, fe
+	call clock_write		; 020003fe  vco_div=62
 	call delay_100ms
 	load s0, 34
 	load s1, 01
@@ -473,7 +473,7 @@ pw_w:	output s8, port_out_phy_smi
 max2112_init:
 	call i2c_init
 	load s2, 05
-	load s3, 01
+	load s3, 02            ; XD=000 R=00010 (divide by 2)
 	call i2c_write
 	load s2, 06
 	load s3, 40
@@ -482,7 +482,7 @@ max2112_init:
 	load s3, cc
 	call i2c_write
 	load s2, 08
-	load s3, 55
+	load s3, 67            ; LPF=0x67 (3 dB point ~30 MHz)
 	call i2c_write
 	load s2, 09
 	load s3, 06

@@ -364,11 +364,11 @@ class hw:
     CPLIN = 1
     CPMP = 0
     F = 0
-    R = 1
+    R = 2
     XD = 0
     ICP = 0
     CPS = 1
-    freq = N*24380952   # assume 30 MHz reference frequency for divider selection
+    freq = N*34436571   # assume 30 MHz reference frequency for divider selection
     if freq<1125000000:
       D24 = 1
     else:
@@ -379,8 +379,12 @@ class hw:
     VCO = 25
     ## 32 MHz 3dB point: LPF=109
     #LPF = 109
+    # 30 MHz 3dB point: LPF=103 (0x67)
+    #LPF = 103
+    # 27 MHz 3dB point: LPF=97 (0x61)
+    LPF = 97
     # 25 MHz 3dB point: LPF=85
-    LPF = 85
+    #LPF = 85
     ## 20 MHz 3dB point: LPF=67
     #LPF = 67
     ## 5 MHz 3dB point: LPF=15
