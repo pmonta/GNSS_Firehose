@@ -102,10 +102,24 @@ module top(
   wire [7:0] ch3_i, ch3_q;
   wire [7:0] ch4_i, ch4_q;
 
-  assign {ch1_i, ch1_q} = {ch1_data[15:8], ch1_data[7:0]};
-  assign {ch2_i, ch2_q} = {ch2_data[15:8], ch2_data[7:0]};
-  assign {ch3_i, ch3_q} = {ch3_data[15:8], ch3_data[7:0]};
-  assign {ch4_i, ch4_q} = {ch4_data[15:8], ch4_data[7:0]};
+  wire [15:0] ch1_data_binary;
+  wire [15:0] ch2_data_binary;
+  wire [15:0] ch3_data_binary;
+  wire [15:0] ch4_data_binary;
+
+  gray_to_binary _gray0(clk64, ch1_data[15:8], ch1_data_binary[15:8]);
+  gray_to_binary _gray1(clk64, ch1_data[7:0], ch1_data_binary[7:0]);
+  gray_to_binary _gray2(clk64, ch2_data[15:8], ch2_data_binary[15:8]);
+  gray_to_binary _gray3(clk64, ch2_data[7:0], ch2_data_binary[7:0]);
+  gray_to_binary _gray4(clk64, ch3_data[15:8], ch3_data_binary[15:8]);
+  gray_to_binary _gray5(clk64, ch3_data[7:0], ch3_data_binary[7:0]);
+  gray_to_binary _gray6(clk64, ch4_data[15:8], ch4_data_binary[15:8]);
+  gray_to_binary _gray7(clk64, ch4_data[7:0], ch4_data_binary[7:0]);
+
+  assign {ch1_i, ch1_q} = {ch1_data_binary[15:8], ch1_data_binary[7:0]};
+  assign {ch2_i, ch2_q} = {ch2_data_binary[15:8], ch2_data_binary[7:0]};
+  assign {ch3_i, ch3_q} = {ch3_data_binary[15:8], ch3_data_binary[7:0]};
+  assign {ch4_i, ch4_q} = {ch4_data_binary[15:8], ch4_data_binary[7:0]};
 
   wire [1:0] ch1_si, ch1_sq;
   wire [1:0] ch2_si, ch2_sq;
@@ -278,6 +292,32 @@ module clock_counter(
     p <= p + 1;
 
   assign c = p[27:20];
+
+endmodule
+
+module gray_to_binary(
+  input clk,
+  input [7:0] x,
+  output reg [7:0] y
+);
+
+  reg [7:0] z;
+
+  wire [7:0] xr = {x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7]};
+
+  always @(x) begin
+    z[7] = xr[7];
+    z[6] = xr[6]^z[7];
+    z[5] = xr[5]^z[6];
+    z[4] = xr[4]^z[5];
+    z[3] = xr[3]^z[4];
+    z[2] = xr[2]^z[3];
+    z[1] = xr[1]^z[2];
+    z[0] = xr[0]^z[1];
+  end
+
+  always @(posedge clk)
+    y <= {~z[7],z[6:0]};
 
 endmodule
 

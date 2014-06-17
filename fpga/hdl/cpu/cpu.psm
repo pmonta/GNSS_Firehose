@@ -310,19 +310,19 @@ adc_init:
 	load s3, 03
 	call adc_write
 	load s2, 1
-	load s3, 02
+	load s3, 1a         ; 000 BIT_ORDER_B=1 BIT_ORDER_A=1 MUX_CH=0 MUX=1 0
 	call adc_write
 	load s2, 3
 	load s3, 06
 	call adc_write
 	load s2, 4
-	load s3, 00
+	load s3, 1b         ; 00 CT_DCLK_A=011 CT_DATA_A=011
 	call adc_write
 	load s2, 5
-	load s3, 00
+	load s3, 1b         ; 00 CT_DCLK_B=011 CT_DATA_B=011
 	call adc_write
 	load s2, 6
-	load s3, 08
+	load s3, 28         ; TEST_PATTERN=0 TEST_DATA=0 FORMAT=10(Gray) TERM_100=1 SYNC_MODE=0 DIV=00
 	call adc_write
 	load s2, 8
 	load s3, 88
