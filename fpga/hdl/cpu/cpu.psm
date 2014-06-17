@@ -132,32 +132,32 @@ agc_service:
 clock_init: 
 	load s0, 80
 	load s1, 02
-	load s2, 0d
-	load s3, 20
-	call clock_write		; 80020d20
+	load s2, 09
+	load s3, 80
+	call clock_write		; 80020980
 	load s0, 00
 	load s1, 00
-	call clock_write		; 00000d20
-	call clock_write		; 00000d20
-	load s3, 21
-	call clock_write		; 00000d21
-	call clock_write		; 00000d21
+	call clock_write		; 00000980
+	call clock_write		; 00000980
+	load s3, 81
+	call clock_write		; 00000981
+	call clock_write		; 00000981
 	load s0, 80
-	load s3, 22
-	call clock_write		; 80000d22
-	call clock_write		; 80000d22
+	load s3, 82
+	call clock_write		; 80000982
+	call clock_write		; 80000982
 	load s0, 00
 	load s1, 00
-	load s2, 05
-	load s3, 03
-	call clock_write		; 00000503
-	call clock_write		; 00000503
-	load s3, 04
-	call clock_write		; 00000504
-	call clock_write		; 00000504
-	load s3, 05
-	call clock_write		; 00000505
-	call clock_write		; 00000505
+	load s2, 04
+	load s3, c3
+	call clock_write		; 000004c3
+	call clock_write		; 000004c3
+	load s3, c4
+	call clock_write		; 000004c4
+	call clock_write		; 000004c4
+	load s3, c5
+	call clock_write		; 000004c5
+	call clock_write		; 000004c5
 	load s0, 06
 	load s1, 66
 	load s2, 00

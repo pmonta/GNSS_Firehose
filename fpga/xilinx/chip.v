@@ -53,8 +53,8 @@ module chip(
   output phy_mdc,
   inout phy_mdio,
   input phy_mdint,
-
   output phy_nreset,
+  input phy_clk125,
 
 // clock chip control and status
 
@@ -75,10 +75,25 @@ module chip(
   output led1
 );
   
+// clocks
+
   wire clk64;
   wire clk64_i;
   IBUFDS _ibuf_clk64(.I(clk64_p), .IB(clk64_n), .O(clk64_i));
   BUFG _bufg_clk64(.I(clk64_i), .O(clk64));
+
+  wire clk125;
+  wire clk125_dcm;
+
+  DCM_SP _phy_rx_dcm(
+    .CLKIN(phy_clk125),
+    .CLK0(clk125_dcm),
+    .CLKFB(clk125),
+    .PSEN(1'b0),
+    .RST(1'b0)
+  );
+
+  BUFG _bufg_clk125(.I(clk125_dcm), .O(clk125));
 
 // I2C pins (open-drain)
 
@@ -140,41 +155,24 @@ module chip(
   wire [7:0] phy_rx_demux_data;
   wire [1:0] phy_rx_demux_ctl;
 
-  wire phy_rx_clk_dcm;
-  wire phy_rx_clk_p;
-  wire phy_rx_clk_div2;
-  wire phy_rx_clk_div2_bufg;
+  wire phy_rx_clk_bufg;
 
-  DCM_SP #(.CLKDV_DIVIDE(2)) _phy_rx_dcm(
-    .CLKIN(!phy_rx_clk),
-    .CLK0(phy_rx_clk_p0),
-    .CLKFB(phy_rx_clk_bufg0),
-    .CLKDV(phy_rx_clk_div2),
-    .PSEN(1'b0),
-    .RST(1'b0)
+  BUFG _phy_rx_bufg(
+    .I(phy_rx_clk),
+    .O(phy_rx_clk_bufg)
   );
 
-  BUFG _phy_rx_bufg0(
-    .I(phy_rx_clk_p0),
-    .O(phy_rx_clk_bufg0)
-  );
-
-  BUFG _phy_rx_div2_bufg(
-    .I(phy_rx_clk_div2),
-    .O(phy_rx_clk_div2_bufg)
-  );
-
-  assign phy_rx_clk_dcm = phy_rx_clk_bufg0;
-
-  demux_rx _demux_rx(phy_rx_clk_dcm, phy_rx_data, phy_rx_demux_data, phy_rx_ctl, phy_rx_demux_ctl);
+  demux_rx _demux_rx(phy_rx_clk_bufg, phy_rx_data, phy_rx_demux_data, phy_rx_ctl, phy_rx_demux_ctl);
 
 // multiplex PHY TX signals
 
   wire [7:0] phy_tx_mux_data;
   wire [1:0] phy_tx_mux_ctl;
 
-  mux_tx _mux_tx(phy_rx_clk_dcm, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
-  mux_tx_clk _mux_tx_clk(phy_rx_clk_dcm, phy_tx_clk);
+//  mux_tx _mux_tx(phy_rx_clk_dcm, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
+//  mux_tx_clk _mux_tx_clk(phy_rx_clk_dcm, phy_tx_clk);
+  mux_tx _mux_tx(clk125, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
+  mux_tx_clk _mux_tx_clk(clk125, phy_tx_clk);
    
 //fixme: replace phy_rx_clk_dcm with the transmit clock derived from clk64
 
@@ -187,21 +185,25 @@ module chip(
   demux_adc _demux_adc_ch3(clk64, ch3_d, ch3_data);
   demux_adc _demux_adc_ch4(clk64, ch4_d, ch4_data);
 
-  wire clk = phy_rx_clk_div2_bufg;
-  reset_gen _reset_gen(clk, reset);
-
-// generate PHY reset signals
+// internal 50 MHz clock
 
   wire clk50, clk50_reset;
   internal_clock_gen _internal_clock_gen(clk50);
   reset_gen _reset_gen_clk50(clk50, clk50_reset);
-  phy_reset _phy_reset(clk50, clk50_reset, phy_nreset);
+
+// generate PHY reset signal
+
+  wire phy_reset;
+  wire phy_reset_auto;
+  phy_reset_auto _phy_reset_auto(clk50, clk50_reset, phy_reset_auto);
+  assign phy_nreset = (phy_reset|phy_reset_auto) ? 0 : 1'bz;
 
 // top-level module
 
   top _top(
-    clk, reset,
+    clk50, clk50_reset,
     clk64,
+    clk125,
     ch1_sda_t, ch1_scl_t, ch1_gc1,
     ch1_sda_i, ch1_scl_i,
     ch1_cs, ch1_sclk,
@@ -224,15 +226,17 @@ module chip(
     ch4_sdin_i, ch4_sdin_o, ch4_sdin_t, 
     ch4_clk,
     ch4_data,
-    phy_rx_clk_dcm,
+    clk125,
     phy_tx_mux_data,
     phy_tx_mux_ctl,
-    phy_rx_clk_dcm,
+//    phy_rx_clk_dcm,
+    phy_rx_clk_bufg,
     phy_rx_demux_data,
     phy_rx_demux_ctl,
     phy_mdc,
     phy_mdio_i, phy_mdio_o, phy_mdio_t,
     phy_mdint,
+    phy_reset,
     clock_clk,
     clock_data,
     clock_le,
@@ -339,21 +343,21 @@ module internal_clock_gen(
 
 endmodule
 
-module phy_reset(
+module phy_reset_auto(
   input clk50,
   input clk50_reset,
-  output reg phy_nreset
+  output reg phy_reset_auto
 );
 
-  reg [21:0] c;
+  reg [23:0] c;
 
   always @(posedge clk50)
     if (clk50_reset) begin
       c <= 0;
-      phy_nreset <= 0;
+      phy_reset_auto <= 1;
     end else begin
-      c <= (c==22'd4194303) ? c : c+1;
-      phy_nreset <= (c>22'd1500000);
+      c <= (c==24'd16777215) ? c : c+1;
+      phy_reset_auto <= (c<24'd16000000);
     end
 
 endmodule

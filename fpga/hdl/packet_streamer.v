@@ -9,7 +9,9 @@ module packet_streamer(
   input source_en,
   input tx_clk,
   output reg [7:0] tx_data,
-  output reg [1:0] tx_ctl
+  output reg [1:0] tx_ctl,
+  output reg [15:0] packet_count,
+  input streamer_enable
 );
 
   reg [9:0] waddr;
@@ -105,6 +107,7 @@ module packet_streamer(
   reg flag_1, flag_2;
   reg [23:0] t;
   reg [63:0] pticks;
+//  reg [15:0] d;
 
   always @(posedge tx_clk)
     if (reset) begin
@@ -114,15 +117,24 @@ module packet_streamer(
       crc_en <= 0;
       crc_reset <= 1;
       state <= IDLE;
+      packet_count <= 0;
+//      d <= 0;
     end else begin
       flag_1 <= flag;
       flag_2 <= flag_1;
       case (state)
         IDLE:
-          if (flag_1 ^ flag_2) begin
+//          if ((flag_1 ^ flag_2)  && (d==16'h0007) && streamer_enable) begin
+          if ((flag_1 ^ flag_2)  && streamer_enable) begin
             state <= PREAMBLE_0;
             crc_reset <= 1;
             pticks <= ticks;
+            packet_count <= packet_count + 1;
+//            d <= 0;
+            tx_ctl <= 2'b00;
+//          end else if (flag_1 ^ flag_2) begin
+//            d <= d + 1;
+//            tx_ctl <= 2'b00;
           end else
             tx_ctl <= 2'b00;
         PREAMBLE_0: begin tx_data <= 8'h55; tx_ctl <= 2'b11; state <= PREAMBLE_1; end

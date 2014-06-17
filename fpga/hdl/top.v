@@ -4,8 +4,9 @@
 // Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
 module top(
-  input clk, reset,
+  input clk50, clk50_reset,
   input clk64,
+  input clk125,
 
 // RF channel 1
 
@@ -59,6 +60,7 @@ module top(
   input phy_mdio_i,
   output phy_mdio_o, phy_mdio_t,
   input phy_mdint,
+  output phy_reset,
 
 // clock chip
 
@@ -83,9 +85,9 @@ module top(
 
   wire [9:0] pwm_ch1, pwm_ch2, pwm_ch3;
 
-  pwm _pwm_ch1(clk, pwm_ch1, ch1_gc1);
-  pwm _pwm_ch2(clk, pwm_ch2, ch2_gc1);
-  pwm _pwm_ch3(clk, pwm_ch3, ch3_gc1);
+  pwm _pwm_ch1(clk50, pwm_ch1, ch1_gc1);
+  pwm _pwm_ch2(clk50, pwm_ch2, ch2_gc1);
+  pwm _pwm_ch3(clk50, pwm_ch3, ch3_gc1);
 
 // quantizers
 
@@ -93,7 +95,7 @@ module top(
   wire source_en;
 
   assign source_clk = clk64;
-  assign source_reset = reset;
+  assign source_reset = clk50_reset;
 
   wire [7:0] ch1_i, ch1_q;
   wire [7:0] ch2_i, ch2_q;
@@ -135,13 +137,29 @@ module top(
   assign source_data = s_bits;
   assign source_en = s_en;
 
+  wire [15:0] packet_count;
+
 // Ethernet MAC
 
   packet_streamer _packet_streamer(
     source_clk, source_reset,
     source_data, source_en,
-    phy_tx_clk, phy_tx_mux_data, phy_tx_mux_ctl
+    phy_tx_clk, phy_tx_mux_data, phy_tx_mux_ctl,
+    packet_count,
+    streamer_enable
   );
+
+// clock activity counters
+
+  wire [7:0] activity_clk64;
+  wire [7:0] activity_clk125;
+  wire [7:0] activity_phy_tx_clk;
+  wire [7:0] activity_phy_rx_clk;
+
+  clock_counter _clk1(clk64, activity_clk64);
+  clock_counter _clk2(clk125, activity_clk125);
+  clock_counter _clk3(phy_tx_clk, activity_phy_tx_clk);
+  clock_counter _clk4(phy_rx_clk, activity_phy_rx_clk);
 
 // I/O ports for peripherals
 
@@ -162,6 +180,8 @@ module top(
   wire [7:0] out_port_17;  // I2C, ch1
   wire [7:0] out_port_18;  // I2C, ch2
   wire [7:0] out_port_19;  // I2C, ch3
+  wire [7:0] out_port_20;  // PHY reset
+  wire [7:0] out_port_21;  // packet streamer control
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
   assign led1 = out_port_2[0];
@@ -176,6 +196,8 @@ module top(
   assign {ch1_sda_t,ch1_scl_t} = out_port_17;
   assign {ch2_sda_t,ch2_scl_t} = out_port_18;
   assign {ch3_sda_t,ch3_scl_t} = out_port_19;
+  assign phy_reset = out_port_20[0];
+  assign streamer_enable = out_port_21[0];
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
   wire [7:0] in_port_1;  // loopback testing
@@ -193,6 +215,12 @@ module top(
   wire [7:0] in_port_23;
   wire [7:0] in_port_24; // histogram readback, ch3
   wire [7:0] in_port_25;
+  wire [7:0] in_port_26; // packet count
+  wire [7:0] in_port_27;
+  wire [7:0] in_port_28; // clock activity counter, clk64
+  wire [7:0] in_port_29; // clock activity counter, clk125
+  wire [7:0] in_port_30; // clock activity counter, phy_tx_clk
+  wire [7:0] in_port_31; // clock activity counter, phy_rx_clk
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -210,24 +238,49 @@ module top(
   assign in_port_23 = ch2_hist_1;
   assign in_port_24 = ch3_hist_0;
   assign in_port_25 = ch3_hist_1;
+  assign in_port_26 = packet_count[15:8];
+  assign in_port_27 = packet_count[7:0];
+  assign in_port_28 = activity_clk64;
+  assign in_port_29 = activity_clk125;
+  assign in_port_30 = activity_phy_tx_clk;
+  assign in_port_31 = activity_phy_rx_clk;
 
 // housekeeping CPU
 
-  cpu _cpu(clk, reset,
+  cpu _cpu(clk50, clk50_reset,
     uart_tx, uart_rx,
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,
+    out_port_20,
+    out_port_21,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,
-    in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25
+    in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
+    in_port_26, in_port_27,
+    in_port_28, in_port_29, in_port_30, in_port_31
   );
 
 // monitor the lock-detect signal
 
-  activity _activity(clk, clock_ftest_ld, led0);
+  activity _activity(clk50, clock_ftest_ld, led0);
 
 endmodule
+
+module clock_counter(
+  input clk,
+  output [7:0] c
+);
+  
+  reg [27:0] p;
+
+  always @(posedge clk)
+    p <= p + 1;
+
+  assign c = p[27:20];
+
+endmodule
+
 
 `include "cpu/cpu.v"
 `include "cpu/uart.v"

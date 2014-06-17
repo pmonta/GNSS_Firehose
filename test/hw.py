@@ -135,6 +135,10 @@ class hw:
     b = self.read(0)
     return b&1
 
+  def clock_dump_regs(self):
+    for addr in xrange(0,31):
+      print '%d:  0x%08x' % (addr,self.clock_read(addr))
+
   def adc_write_bit(self, channel, x):
     port = 12 + (channel-1)
     if x==0:
@@ -213,13 +217,13 @@ class hw:
     self.write(4,0x00)
     return (b>>1)&1
 
-  def phy_smi_read(self, addr):
+  def phy_smi_read(self, addr, phy_addr=0):
     self.phy_smi_write_bit(0)
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(0)
     for i in xrange(0,5):
-      self.phy_smi_write_bit(0)
+      self.phy_smi_write_bit((phy_addr>>(4-i))&1)
     for i in xrange(0,5):
       self.phy_smi_write_bit((addr>>(4-i))&1)
     self.phy_smi_read_bit()
@@ -229,13 +233,13 @@ class hw:
       x = (x<<1) | self.phy_smi_read_bit()
     return x
 
-  def phy_smi_write(self, addr, val):
+  def phy_smi_write(self, addr, val, phy_addr=0):
     self.phy_smi_write_bit(0)
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(0)
     self.phy_smi_write_bit(1)
     for i in xrange(0,5):
-      self.phy_smi_write_bit(0)
+      self.phy_smi_write_bit((phy_addr>>(4-i))&1)
     for i in xrange(0,5):
       self.phy_smi_write_bit((addr>>(4-i))&1)
     self.phy_smi_write_bit(1)
@@ -249,6 +253,12 @@ class hw:
     self.phy_smi_write(addr, val)
     # print '0x%04x' % self.phy_smi_read(addr)
     self.phy_smi_write(31, 0)
+
+  def phy_reset(self):
+    self.write(20, 1)
+    time.sleep(2)
+    self.write(20, 0)
+    time.sleep(2)
 
   def i2c_set(self, channel):
     port = 17 + (channel-1)
@@ -406,6 +416,14 @@ class hw:
     r13 = self.i2c_read(channel, 13)
     print 'channel %d:  0x%02x 0x%02x   locked:%d vco:%d' % (channel,r12,r13,(r12>>4)&1,r13>>3)
 
+  def max2112_dump(self, channel):
+    for addr in xrange(0,14):
+      print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
+
+  def histogram_dump(self):
+    print 'histograms: ',self.read(20), self.read(21), self.read(22), self.read(23), self.read(24), self.read(25)
+    print 'gc values: ',self.read_scratchpad(0), self.read_scratchpad(1), self.read_scratchpad(2), self.read_scratchpad(3), self.read_scratchpad(4), self.read_scratchpad(5)
+
   def set_agc(self, channel, val):
     msb = (val>>8)&3
     lsb = val&0xff
@@ -413,3 +431,8 @@ class hw:
     port_msb = port_lsb + 1
     self.write(port_msb, msb)
     self.write(port_lsb, lsb)
+
+  def packet_count(self):
+    msb = self.read(26)
+    lsb = self.read(27)
+    return 256*msb + lsb

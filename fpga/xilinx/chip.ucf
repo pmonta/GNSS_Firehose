@@ -93,8 +93,8 @@ net phy_rx_ctl loc=p78     | iostandard=lvcmos33 ;
 net phy_mdc loc=p59   | iostandard=lvcmos33 | slew="slow" ;
 net phy_mdio loc=p58  | iostandard=lvcmos33 | slew="slow" ;
 net phy_mdint loc=p57 | iostandard=lvcmos33 ;
-
 net phy_nreset loc=p56  | iostandard=lvcmos33 | slew="slow" ;
+net phy_clk125 loc=p55 | iostandard=lvcmos33 ;
 
 net clock_clk loc=p93      | iostandard=lvcmos33 | slew="slow" ;
 net clock_data loc=p94     | iostandard=lvcmos33 | slew="slow" ;
@@ -119,3 +119,5 @@ net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
 # net tp19=p66 |  iostandard=lvcmos33 ;
 # net tp20=p61 |  iostandard=lvcmos33 ;
 # net tp21=p55 |  iostandard=lvcmos33 ;
+
+NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;
