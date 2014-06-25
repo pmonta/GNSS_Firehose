@@ -22,3 +22,24 @@ module histogram(
     end
 
 endmodule
+
+module dc_sum(
+  input clk,
+  input [7:0] x,
+  output reg [7:0] dc
+);
+
+  reg [18:0] c;
+  reg [26:0] s;
+
+  always @(posedge clk)
+    if (c==19'd524287) begin
+      c <= 0;
+      s <= 0;
+      dc <= s[23:16];
+    end else begin
+      c <= c + 1;
+      s <= s + {{19{x[7]}},x};
+    end
+
+endmodule

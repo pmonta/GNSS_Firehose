@@ -191,11 +191,11 @@ class hw:
 #    for addr in xrange(0,9):
 #      print 'adc channel %d reg %d:  0x%02x' % (channel,addr,self.adc_read(channel,addr))
     self.adc_write(channel,0,0x03)
-    self.adc_write(channel,1,0x02)
-    self.adc_write(channel,3,0x06)
-    self.adc_write(channel,4,0x00)
-    self.adc_write(channel,5,0x00)
-    self.adc_write(channel,6,0x08)
+    self.adc_write(channel,1,0x1a)
+    self.adc_write(channel,3,0x07)  # clock/data delay
+    self.adc_write(channel,4,0x1b)  # drive strength A 150 ohms
+    self.adc_write(channel,5,0x1b)  # drive strength B 150 ohms
+    self.adc_write(channel,6,0x28)  # Gray code
     self.adc_write(channel,8,0x88)
 #    for addr in xrange(0,9):
 #      print 'adc channel %d reg %d:  0x%02x' % (channel,addr,self.adc_read(channel,addr))
@@ -377,21 +377,8 @@ class hw:
     ADL = 0
     VAS = 1
     VCO = 25
-    ## 32 MHz 3dB point: LPF=109
-    #LPF = 109
-    # 30 MHz 3dB point: LPF=103 (0x67)
-    #LPF = 103
-    # 27 MHz 3dB point: LPF=97 (0x61)
-    LPF = 97
-    # 25 MHz 3dB point: LPF=85
-    #LPF = 85
-    ## 20 MHz 3dB point: LPF=67
-    #LPF = 67
-    ## 5 MHz 3dB point: LPF=15
-    #LPF = 15
-    ## 12 MHz 3dB point: LPF=40
-    #LPF = 40
-    BBG = 6
+    LPF = 92   # 3dB point: 4 MHz + (LPF-12)*0.29MHz == 27.20 MHz
+    BBG = 7
     PWDN = 0
     STBY = 0
     LDMUX = 0

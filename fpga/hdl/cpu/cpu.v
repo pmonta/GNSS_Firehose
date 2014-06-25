@@ -17,12 +17,14 @@ module cpu(
   output reg [7:0] out_port_17, out_port_18, out_port_19,
   output reg [7:0] out_port_20,
   output reg [7:0] out_port_21,
+  output reg [7:0] out_port_22, out_port_23,
   input [7:0] in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7,
   input [7:0] in_port_8,
   input [7:0] in_port_17, in_port_18, in_port_19,
   input [7:0] in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
   input [7:0] in_port_26, in_port_27,
-  input [7:0] in_port_28, in_port_29, in_port_30, in_port_31
+  input [7:0] in_port_28, in_port_29, in_port_30, in_port_31,
+  input [7:0] in_port_35, in_port_36
 );
 
   wire baudclk16;
@@ -70,6 +72,8 @@ module cpu(
                        (port_id==8'd32) ? uart_rx_data :
                        (port_id==8'd33) ? {7'd0,uart_rx_ready} :
                        (port_id==8'd34) ? {7'd0,uart_tx_ready} :
+                       (port_id==8'd35) ? in_port_35 :
+                       (port_id==8'd36) ? in_port_36 :
                        8'hff;
 
   wire read_strobe;
@@ -98,6 +102,8 @@ module cpu(
       out_port_19 <= 8'h03;
       out_port_20 <= 0;
       out_port_21 <= 0;
+      out_port_22 <= 0;
+      out_port_23 <= 0;
       uart_tx_data <= 0;
       uart_rx_read <= 0;
       uart_tx_write <= 0;
@@ -123,6 +129,8 @@ module cpu(
           8'd19: out_port_19 <= out_port;
           8'd20: out_port_20 <= out_port;
           8'd21: out_port_21 <= out_port;
+          8'd22: out_port_22 <= out_port;
+          8'd23: out_port_23 <= out_port;
           8'd32: uart_tx_data <= out_port;
           8'd33: uart_rx_read <= out_port[0];
           8'd34: uart_tx_write <= out_port[0];

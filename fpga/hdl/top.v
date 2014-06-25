@@ -125,8 +125,10 @@ module top(
   wire [1:0] ch2_si, ch2_sq;
   wire [1:0] ch3_si, ch3_sq;
 
-  quantize _quantize_ch1_i(source_clk, ch1_i, ch1_si);
-  quantize _quantize_ch1_q(source_clk, ch1_q, ch1_sq);
+  wire [7:0] ch1_i_dc, ch1_q_dc;
+
+  quantize _quantize_ch1_i(source_clk, ch1_i+ch1_i_dc, ch1_si);
+  quantize _quantize_ch1_q(source_clk, ch1_q+ch1_q_dc, ch1_sq);
   quantize _quantize_ch2_i(source_clk, ch2_i, ch2_si);
   quantize _quantize_ch2_q(source_clk, ch2_q, ch2_sq);
   quantize _quantize_ch3_i(source_clk, ch3_i, ch3_si);
@@ -139,6 +141,11 @@ module top(
   histogram _hist_ch1(source_clk, ch1_si, ch1_hist_0, ch1_hist_1);
   histogram _hist_ch2(source_clk, ch2_si, ch2_hist_0, ch2_hist_1);
   histogram _hist_ch3(source_clk, ch3_si, ch3_hist_0, ch3_hist_1);
+
+  wire [7:0] ch1_i_sum, ch1_q_sum;
+
+  dc_sum _dc_sum1(source_clk, ch1_i, ch1_i_sum);
+  dc_sum _dc_sum2(source_clk, ch1_q, ch1_q_sum);
 
   reg [15:0] s_bits;
   reg s_en;
@@ -196,6 +203,8 @@ module top(
   wire [7:0] out_port_19;  // I2C, ch3
   wire [7:0] out_port_20;  // PHY reset
   wire [7:0] out_port_21;  // packet streamer control
+  wire [7:0] out_port_22;  // ch1_i DC correction
+  wire [7:0] out_port_23;  // ch1_q DC correction
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
   assign led1 = out_port_2[0];
@@ -212,6 +221,8 @@ module top(
   assign {ch3_sda_t,ch3_scl_t} = out_port_19;
   assign phy_reset = out_port_20[0];
   assign streamer_enable = out_port_21[0];
+  assign ch1_i_dc = out_port_22;
+  assign ch1_q_dc = out_port_23;
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
   wire [7:0] in_port_1;  // loopback testing
@@ -235,6 +246,8 @@ module top(
   wire [7:0] in_port_29; // clock activity counter, clk125
   wire [7:0] in_port_30; // clock activity counter, phy_tx_clk
   wire [7:0] in_port_31; // clock activity counter, phy_rx_clk
+  wire [7:0] in_port_35; // DC sum of ch1_i
+  wire [7:0] in_port_36; // DC sum of ch1_q
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -258,6 +271,8 @@ module top(
   assign in_port_29 = activity_clk125;
   assign in_port_30 = activity_phy_tx_clk;
   assign in_port_31 = activity_phy_rx_clk;
+  assign in_port_35 = ch1_i_sum;
+  assign in_port_36 = ch1_q_sum;
 
 // housekeeping CPU
 
@@ -268,11 +283,13 @@ module top(
     out_port_17, out_port_18, out_port_19,
     out_port_20,
     out_port_21,
+    out_port_22, out_port_23,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,
     in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
     in_port_26, in_port_27,
-    in_port_28, in_port_29, in_port_30, in_port_31
+    in_port_28, in_port_29, in_port_30, in_port_31,
+    in_port_35, in_port_36
   );
 
 // monitor the lock-detect signal
