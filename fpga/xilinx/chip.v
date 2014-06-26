@@ -54,7 +54,6 @@ module chip(
   inout phy_mdio,
   input phy_mdint,
   output phy_nreset,
-  input phy_clk125,
 
 // clock chip control and status
 
@@ -82,15 +81,17 @@ module chip(
   IBUFDS _ibuf_clk64(.I(clk64_p), .IB(clk64_n), .O(clk64_i));
   BUFG _bufg_clk64(.I(clk64_i), .O(clk64));
 
+// synthesize Ethernet PHY transmit clock (125 MHz) from clk64
+
   wire clk125;
   wire clk125_dcm;
+  wire dcm_rst, dcm_locked;
 
-  DCM_SP _phy_rx_dcm(
-    .CLKIN(phy_clk125),
-    .CLK0(clk125_dcm),
-    .CLKFB(clk125),
-    .PSEN(1'b0),
-    .RST(1'b0)
+  DCM_CLKGEN #(.CLKFX_MULTIPLY(49),.CLKFX_DIVIDE(27)) _dcm_clk125(
+    .CLKIN(clk64),
+    .CLKFX(clk125_dcm),
+    .RST(dcm_rst),
+    .LOCKED(dcm_locked)
   );
 
   BUFG _bufg_clk125(.I(clk125_dcm), .O(clk125));
@@ -152,30 +153,26 @@ module chip(
 
 // demultiplex PHY RX signals
 
+  wire phy_rx_demux_clk;
   wire [7:0] phy_rx_demux_data;
   wire [1:0] phy_rx_demux_ctl;
 
-  wire phy_rx_clk_bufg;
-
   BUFG _phy_rx_bufg(
     .I(phy_rx_clk),
-    .O(phy_rx_clk_bufg)
+    .O(phy_rx_demux_clk)
   );
 
-  demux_rx _demux_rx(phy_rx_clk_bufg, phy_rx_data, phy_rx_demux_data, phy_rx_ctl, phy_rx_demux_ctl);
+  demux_rx _demux_rx(phy_rx_demux_clk, phy_rx_data, phy_rx_demux_data, phy_rx_ctl, phy_rx_demux_ctl);
 
 // multiplex PHY TX signals
 
+  wire phy_tx_mux_clk = clk125;
   wire [7:0] phy_tx_mux_data;
   wire [1:0] phy_tx_mux_ctl;
 
-//  mux_tx _mux_tx(phy_rx_clk_dcm, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
-//  mux_tx_clk _mux_tx_clk(phy_rx_clk_dcm, phy_tx_clk);
-  mux_tx _mux_tx(clk125, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
-  mux_tx_clk _mux_tx_clk(clk125, phy_tx_clk);
+  mux_tx _mux_tx(phy_tx_mux_clk, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
+  mux_tx_clk _mux_tx_clk(phy_tx_mux_clk, phy_tx_clk);
    
-//fixme: replace phy_rx_clk_dcm with the transmit clock derived from clk64
-
 // DDR receivers for ADC data pins
 
   wire [15:0] ch1_data, ch2_data, ch3_data, ch4_data;
@@ -226,11 +223,10 @@ module chip(
     ch4_sdin_i, ch4_sdin_o, ch4_sdin_t, 
     ch4_clk,
     ch4_data,
-    clk125,
+    phy_tx_mux_clk,
     phy_tx_mux_data,
     phy_tx_mux_ctl,
-//    phy_rx_clk_dcm,
-    phy_rx_clk_bufg,
+    phy_rx_demux_clk,
     phy_rx_demux_data,
     phy_rx_demux_ctl,
     phy_mdc,
@@ -245,7 +241,9 @@ module chip(
     uart_rx,
     uart_tx,
     led0,
-    led1
+    led1,
+    dcm_rst,
+    dcm_locked
   );
 
 

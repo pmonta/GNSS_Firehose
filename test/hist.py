@@ -21,3 +21,5 @@ if ch1_sum_q>127:
   ch1_sum_q = ch1_sum_q - 256
 
 print 'dc values: ',ch1_sum_i,ch1_sum_q
+
+print 'DCM locked: ',h.read(43)

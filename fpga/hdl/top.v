@@ -78,7 +78,12 @@ module top(
 // LEDs
 
   output led0,
-  output led1
+  output led1,
+
+// DCM control and status
+
+  output dcm_rst,
+  input dcm_locked
 );
 
 // PWM for gain control pins
@@ -205,6 +210,7 @@ module top(
   wire [7:0] out_port_21;  // packet streamer control
   wire [7:0] out_port_22;  // ch1_i DC correction
   wire [7:0] out_port_23;  // ch1_q DC correction
+  wire [7:0] out_port_30;  // DCM reset
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
   assign led1 = out_port_2[0];
@@ -223,6 +229,7 @@ module top(
   assign streamer_enable = out_port_21[0];
   assign ch1_i_dc = out_port_22;
   assign ch1_q_dc = out_port_23;
+  assign dcm_rst = out_port_30[0];
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
   wire [7:0] in_port_1;  // loopback testing
@@ -248,6 +255,7 @@ module top(
   wire [7:0] in_port_31; // clock activity counter, phy_rx_clk
   wire [7:0] in_port_35; // DC sum of ch1_i
   wire [7:0] in_port_36; // DC sum of ch1_q
+  wire [7:0] in_port_43; // DCM locked
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -273,6 +281,7 @@ module top(
   assign in_port_31 = activity_phy_rx_clk;
   assign in_port_35 = ch1_i_sum;
   assign in_port_36 = ch1_q_sum;
+  assign in_port_43 = dcm_locked;
 
 // housekeeping CPU
 
@@ -284,12 +293,14 @@ module top(
     out_port_20,
     out_port_21,
     out_port_22, out_port_23,
+    out_port_30,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,
     in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
     in_port_26, in_port_27,
     in_port_28, in_port_29, in_port_30, in_port_31,
-    in_port_35, in_port_36
+    in_port_35, in_port_36,
+    in_port_43
   );
 
 // monitor the lock-detect signal
