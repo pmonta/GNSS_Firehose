@@ -4,7 +4,7 @@
 // Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
 module top(
-  input clk50, clk50_reset,
+  input clk_cpu, clk_cpu_reset,
   input clk64,
   input clk125,
 
@@ -90,9 +90,9 @@ module top(
 
   wire [9:0] pwm_ch1, pwm_ch2, pwm_ch3;
 
-  pwm _pwm_ch1(clk50, pwm_ch1, ch1_gc1);
-  pwm _pwm_ch2(clk50, pwm_ch2, ch2_gc1);
-  pwm _pwm_ch3(clk50, pwm_ch3, ch3_gc1);
+  pwm _pwm_ch1(clk_cpu, pwm_ch1, ch1_gc1);
+  pwm _pwm_ch2(clk_cpu, pwm_ch2, ch2_gc1);
+  pwm _pwm_ch3(clk_cpu, pwm_ch3, ch3_gc1);
 
 // quantizers
 
@@ -100,7 +100,7 @@ module top(
   wire source_en;
 
   assign source_clk = clk64;
-  assign source_reset = clk50_reset;
+  assign source_reset = clk_cpu_reset;
 
   wire [7:0] ch1_i, ch1_q;
   wire [7:0] ch2_i, ch2_q;
@@ -285,7 +285,7 @@ module top(
 
 // housekeeping CPU
 
-  cpu _cpu(clk50, clk50_reset,
+  cpu _cpu(clk_cpu, clk_cpu_reset,
     uart_tx, uart_rx,
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
@@ -305,7 +305,7 @@ module top(
 
 // monitor the lock-detect signal
 
-  activity _activity(clk50, clock_ftest_ld, led0);
+  activity _activity(clk_cpu, clock_ftest_ld, led0);
 
 endmodule
 

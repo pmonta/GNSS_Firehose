@@ -9,11 +9,12 @@ timespec "ts_clkADC" = period "clkADC" 15.625ns;
 net "phy_rx_clk" tnm_net = "clkPHY";
 timespec "ts_clkPHY" = period "clkPHY" 8ns;
 
-net "clk50" tnm_net = "clkInternal";
-timespec "ts_clkInternal" = period "clkInternal" 18ns;
+net "clk_3888" tnm_net = "clkTCXO";
+timespec "ts_clkTCXO" = period "clkTCXO" 25.72ns;
 
 net clk64_p loc=p51 | iostandard=lvds_33 | diff_term="true" ;
 net clk64_n loc=p50 | iostandard=lvds_33 | diff_term="true" ;
+net clk_3888 loc=p55 | iostandard=lvcmos33 ;
 
 net ch1_sda loc=p115  | iostandard=lvcmos33 | slew="slow" ;
 net ch1_scl loc=p114  | iostandard=lvcmos33 | slew="slow" ;
@@ -117,6 +118,5 @@ net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
 # net tp18=p67 |  iostandard=lvcmos33 ;
 # net tp19=p66 |  iostandard=lvcmos33 ;
 # net tp20=p61 |  iostandard=lvcmos33 ;
-# net tp21=p55 |  iostandard=lvcmos33 ;
 
-NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;  #fixme
+NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;  #fixme: put PHY_RX_CLK on a GCLK pin

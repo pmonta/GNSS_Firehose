@@ -171,8 +171,7 @@ module uart_baud_clock_16x(
 );
 
   reg [5:0] c;
-//  wire m = (c==6'd33);
-  wire m = (c==6'd26);
+  wire m = (c==6'd20);    // 38880000/(16*115200) ~= 21, so divide by 21
 
   always @(posedge clk)
     c <= m ? 0 : c+1;

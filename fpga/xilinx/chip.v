@@ -5,6 +5,7 @@
 
 module chip(
   input clk64_p, clk64_n,
+  input clk_3888,
 
 // RF channel 1
 
@@ -80,6 +81,11 @@ module chip(
   wire clk64_i;
   IBUFDS _ibuf_clk64(.I(clk64_p), .IB(clk64_n), .O(clk64_i));
   BUFG _bufg_clk64(.I(clk64_i), .O(clk64));
+
+  wire clk_tcxo;
+  wire clk_tcxo_i;
+  IBUFG _ibuf_clk_3888(.I(clk_3888), .O(clk_tcxo_i));
+  BUFG _bufg_clk_tcxo(.I(clk_tcxo_i), .O(clk_tcxo));
 
 // synthesize Ethernet PHY transmit clock (125 MHz) from clk64
 
@@ -157,7 +163,7 @@ module chip(
   wire [7:0] phy_rx_demux_data;
   wire [1:0] phy_rx_demux_ctl;
 
-  BUFG _phy_rx_bufg(
+  BUFG _phy_rx_bufg(      // fixme: should be using local clock resources
     .I(phy_rx_clk),
     .O(phy_rx_demux_clk)
   );
@@ -182,23 +188,20 @@ module chip(
   demux_adc _demux_adc_ch3(clk64, ch3_d, ch3_data);
   demux_adc _demux_adc_ch4(clk64, ch4_d, ch4_data);
 
-// internal 50 MHz clock
+// generate reset signals
 
-  wire clk50, clk50_reset;
-  internal_clock_gen _internal_clock_gen(clk50);
-  reset_gen _reset_gen_clk50(clk50, clk50_reset);
-
-// generate PHY reset signal
+  wire clk_tcxo_reset;
+  reset_gen _reset_gen_clk_tcxo(clk_tcxo, clk_tcxo_reset);
 
   wire phy_reset;
   wire phy_reset_auto;
-  phy_reset_auto _phy_reset_auto(clk50, clk50_reset, phy_reset_auto);
+  phy_reset_auto _phy_reset_auto(clk_tcxo, clk_tcxo_reset, phy_reset_auto);
   assign phy_nreset = (phy_reset|phy_reset_auto) ? 0 : 1'bz;
 
 // top-level module
 
   top _top(
-    clk50, clk50_reset,
+    clk_tcxo, clk_tcxo_reset,
     clk64,
     clk125,
     ch1_sda_t, ch1_scl_t, ch1_gc1,
@@ -321,36 +324,16 @@ module mux_tx_clk(
 
 endmodule
 
-module internal_clock_gen(
-  output clk50
-);
-
-  wire clk50_p;
-
-  STARTUP_SPARTAN6 _startup_spartan6(
-    .EOS(),
-    .CLK(1'b0),
-    .GSR(1'b0),
-    .KEYCLEARB(1'b0),
-    .GTS(1'b0),
-    .CFGMCLK(clk50_p),
-    .CFGCLK()
-  );
-
-  BUFG _bufg_clk50(.O(clk50), .I(clk50_p));
-
-endmodule
-
 module phy_reset_auto(
-  input clk50,
-  input clk50_reset,
+  input clk,
+  input reset,
   output reg phy_reset_auto
 );
 
   reg [23:0] c;
 
-  always @(posedge clk50)
-    if (clk50_reset) begin
+  always @(posedge clk)
+    if (reset) begin
       c <= 0;
       phy_reset_auto <= 1;
     end else begin
