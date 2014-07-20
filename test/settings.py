@@ -21,10 +21,11 @@ f_adc = f_vco/adc_div
 
 #h.clock_init(vco_div=vco_div, max2112_div=max2112_div, adc_div=adc_div)
 h.adc_init(channel=1)
-h.max2112_init(channel=1, N=36)
-#h.set_agc(channel=1, val=100)
-#h.set_agc(channel=1, val=270)
-h.set_agc(channel=1, val=310)
+h.max2112_init(channel=1, N=46)
+#h.max2112_init(channel=1, N=36)
+#h.set_agc(channel=1, val=110)
+h.set_agc(channel=1, val=270)
+#h.set_agc(channel=1, val=310)
 
 def mmd_read(h,dev,addr):
   h.phy_smi_write(0xd,dev)

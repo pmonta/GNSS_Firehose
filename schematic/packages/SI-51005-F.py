@@ -12,7 +12,7 @@ print 'Element[0x00000000 "" "" "" 0 0 0 0 0 100 0x00000000]'
 
 print '('
 
-for p in xrange(0,10):
+for p in range(10):
   x = 450 - 50*p
   if ((p%2)==0):
     y = 0

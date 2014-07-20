@@ -16,8 +16,8 @@ print 'Element[0x00000000 "" "" "" 0 0 0 0 0 100 0x00000000]'
 
 print '('
 
-for j in xrange(0,7):
-  for i in xrange(0,2):
+for j in range(7):
+  for i in range(2):
     pin(2*j, 2*(2-i), 0.9, "%d"%(2*j+i+1))
 
 print ')'

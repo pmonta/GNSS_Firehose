@@ -24,10 +24,10 @@ void convert(unsigned char x[], FILE* fp_a, FILE* fp_b)
     x_a_q = 2*x_a_q - 3;
     x_b_i = 2*x_b_i - 3;
     x_b_q = 2*x_b_q - 3;
-    fwrite(&x_a_i,1,1,fp_a);
     fwrite(&x_a_q,1,1,fp_a);
-    fwrite(&x_b_i,1,1,fp_b);
-    fwrite(&x_b_q,1,1,fp_b); } }
+    fwrite(&x_a_i,1,1,fp_a);
+    fwrite(&x_b_q,1,1,fp_b);
+    fwrite(&x_b_i,1,1,fp_b); } }
 
 int main(int argc, char* argv[])
 { int i,n;

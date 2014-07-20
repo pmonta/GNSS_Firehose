@@ -67,7 +67,7 @@ class hw:
 
   def clock_write(self, addr, val):
     val = (val&0xffffffe0) | (addr&0x0000001f)
-    for i in xrange(0,32):
+    for i in range(32):
       self.clock_write_bit((val>>(31-i))&1)
     self.clock_le()
 
@@ -81,7 +81,7 @@ class hw:
   def clock_read(self, addr):
     self.clock_write(31, addr<<16)
     x = 0
-    for i in xrange(0,32):
+    for i in range(32):
       x = (x<<1) | self.clock_read_bit()
     return x
 
@@ -136,7 +136,7 @@ class hw:
     return b&1
 
   def clock_dump_regs(self):
-    for addr in xrange(0,31):
+    for addr in range(0,32):
       print '%d:  0x%08x' % (addr,self.clock_read(addr))
 
   def adc_write_bit(self, channel, x):
@@ -169,10 +169,10 @@ class hw:
   def adc_read(self, channel, addr):
     self.adc_cs(channel,0)
     self.adc_write_bit(channel,1)
-    for i in xrange(0,7):
+    for i in range(7):
       self.adc_write_bit(channel,(addr>>(6-i))&1)
     x = 0
-    for i in xrange(0,8):
+    for i in range(8):
       x = (x<<1) | self.adc_read_bit(channel)
     self.adc_cs(channel,1)
     return x
@@ -180,15 +180,15 @@ class hw:
   def adc_write(self, channel, addr, val):
     self.adc_cs(channel,0)
     self.adc_write_bit(channel,0)
-    for i in xrange(0,7):
+    for i in range(7):
       self.adc_write_bit(channel,(addr>>(6-i))&1)
-    for i in xrange(0,8):
+    for i in range(8):
       self.adc_write_bit(channel,(val>>(7-i))&1)
     self.adc_cs(channel,1)
 
   def adc_init(self, channel):
     self.adc_cs(channel,1)
-#    for addr in xrange(0,9):
+#    for addr in range(9):
 #      print 'adc channel %d reg %d:  0x%02x' % (channel,addr,self.adc_read(channel,addr))
     self.adc_write(channel,0,0x03)
     self.adc_write(channel,1,0x1a)
@@ -197,7 +197,7 @@ class hw:
     self.adc_write(channel,5,0x1b)  # drive strength B 150 ohms
     self.adc_write(channel,6,0x28)  # Gray code
     self.adc_write(channel,8,0x88)
-#    for addr in xrange(0,9):
+#    for addr in range(9):
 #      print 'adc channel %d reg %d:  0x%02x' % (channel,addr,self.adc_read(channel,addr))
 
   def phy_smi_write_bit(self, x):
@@ -222,14 +222,14 @@ class hw:
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(0)
-    for i in xrange(0,5):
+    for i in range(5):
       self.phy_smi_write_bit((phy_addr>>(4-i))&1)
-    for i in xrange(0,5):
+    for i in range(5):
       self.phy_smi_write_bit((addr>>(4-i))&1)
     self.phy_smi_read_bit()
     self.phy_smi_read_bit()
     x = 0
-    for i in xrange(0,16):
+    for i in range(16):
       x = (x<<1) | self.phy_smi_read_bit()
     return x
 
@@ -238,13 +238,13 @@ class hw:
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(0)
     self.phy_smi_write_bit(1)
-    for i in xrange(0,5):
+    for i in range(5):
       self.phy_smi_write_bit((phy_addr>>(4-i))&1)
-    for i in xrange(0,5):
+    for i in range(5):
       self.phy_smi_write_bit((addr>>(4-i))&1)
     self.phy_smi_write_bit(1)
     self.phy_smi_write_bit(0)
-    for i in xrange(0,16):
+    for i in range(16):
       self.phy_smi_write_bit((val>>(15-i))&1)
 
   def phy_smi_write_extended(self, addr, val):
@@ -321,14 +321,14 @@ class hw:
   def i2c_write(self, channel, addr, val):
     self.i2c_start(channel)
     slave = 0x60
-    for i in xrange(0,7):
+    for i in range(7):
       self.i2c_bit(channel, (slave>>(6-i))&1)
     self.i2c_bit(channel, 0)
     self.ack(channel)
-    for i in xrange(0,8):
+    for i in range(8):
       self.i2c_bit(channel, (addr>>(7-i))&1)
     self.ack(channel)
-    for i in xrange(0,8):
+    for i in range(8):
       self.i2c_bit(channel, (val>>(7-i))&1)
     self.ack(channel)
     self.i2c_stop(channel)
@@ -336,23 +336,23 @@ class hw:
   def i2c_read(self, channel, addr):
     self.i2c_start(channel)
     slave = 0x60
-    for i in xrange(0,7):
+    for i in range(7):
       self.i2c_bit(channel, (slave>>(6-i))&1)
     self.i2c_bit(channel, 0)
     self.ack(channel)
-    for i in xrange(0,8):
+    for i in range(8):
       self.i2c_bit(channel, (addr>>(7-i))&1)
     self.ack(channel)
     self.i2c_set_sda(channel, 1)
     self.i2c_set_scl(channel, 1)
     self.i2c_start(channel)
     slave = 0x60
-    for i in xrange(0,7):
+    for i in range(7):
       self.i2c_bit(channel, (slave>>(6-i))&1)
     self.i2c_bit(channel, 1)
     self.ack(channel)
     x = 0
-    for i in xrange(0,8):
+    for i in range(8):
       x = (x<<1) | self.i2c_get_bit(channel)
     self.nack(channel)
     self.i2c_stop(channel)
@@ -401,14 +401,14 @@ class hw:
     for (addr,val) in regs:
       # print 'writing %d: 0x%02x' % (addr,val)
       self.i2c_write(channel, addr, val)
-    # for addr in xrange(0,14):
+    # for addr in range(14):
     #   print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
     r12 = self.i2c_read(channel, 12)
     r13 = self.i2c_read(channel, 13)
     print 'channel %d:  0x%02x 0x%02x   locked:%d vco:%d' % (channel,r12,r13,(r12>>4)&1,r13>>3)
 
   def max2112_dump(self, channel):
-    for addr in xrange(0,14):
+    for addr in range(14):
       print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
 
   def histogram_dump(self):

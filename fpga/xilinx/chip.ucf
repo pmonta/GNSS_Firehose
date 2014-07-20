@@ -4,7 +4,7 @@
 # Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
 net "clk64" tnm_net = "clkADC";
-timespec "ts_clkADC" = period "clkADC" 15.625ns;
+timespec "ts_clkADC" = period "clkADC" 14.5ns;
 
 net "phy_rx_clk" tnm_net = "clkPHY";
 timespec "ts_clkPHY" = period "clkPHY" 8ns;
