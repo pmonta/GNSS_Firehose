@@ -11,6 +11,7 @@
 	constant port_out_pwm, 06
 	constant port_i2c, 11
 	constant port_hist, 14
+	constant port_dcm_rst, 1e
 
 	constant max2112_i2c_slave_addr, 60
 
@@ -20,7 +21,13 @@ loop:   call uart_service
 	jump loop
 
 hw_init:
-	call clock_init
+	call clock_init       ; initialize clock synthesizer chip
+	load s0,01            ; reset DCM now that source clock is stable
+	output s0,port_dcm_rst
+	call delay_10ms
+	load s0,00
+	output s0,port_dcm_rst
+	call delay_10ms
 	load s0,1             ; ADC channel 1
 	call adc_init
 	load s0,2             ; ADC channel 2
