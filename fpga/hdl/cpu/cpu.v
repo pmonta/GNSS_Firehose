@@ -45,6 +45,11 @@ module cpu(
 
   uart_tx _uart_tx(clk, reset, baudclk16, uart_tx, uart_tx_data, uart_tx_ready, uart_tx_write);
 
+  reg [27:0] j;
+  always @(posedge clk)
+    j <= j + 1;
+  wire [7:0] jiffies = j[27:20];
+
 // implement input and output ports
 
   wire [7:0] port_id;
@@ -77,6 +82,7 @@ module cpu(
                        (port_id==8'd35) ? in_port_35 :
                        (port_id==8'd36) ? in_port_36 :
                        (port_id==8'd43) ? in_port_43 :
+                       (port_id==8'd44) ? jiffies :
                        8'hff;
 
   wire read_strobe;

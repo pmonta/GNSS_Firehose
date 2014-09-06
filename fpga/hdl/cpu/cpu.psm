@@ -7,18 +7,34 @@
 	constant uart_tx_write, 22
 
 	constant port_out_clock, 00
+	constant port_in_phy_smi, 02
 	constant port_out_phy_smi, 04
 	constant port_out_pwm, 06
 	constant port_i2c, 11
 	constant port_hist, 14
+	constant port_streamer_enable, 15
 	constant port_dcm_rst, 1e
+	constant port_jiffies, 2c
 
 	constant max2112_i2c_slave_addr, 60
 
+	constant scratch_jiffies, 08
+	constant scratch_uart_phy, 09
+	constant scratch_link_up, 0a
+
 main:   call hw_init
-loop:   call uart_service
-	call agc_service
+loop:   call uart_service     ; service any UART commands
+	call poll             ; low-rate polling of various background services
 	jump loop
+
+poll:	input s3, port_jiffies  ; has jiffies counter changed?
+	fetch s4, scratch_jiffies
+	compare s3, s4
+	jump z, p_ret
+	store s3, scratch_jiffies
+	call agc_service      ; service the AGC loops
+	call phy_service      ; poll Ethernet PHY for link status
+p_ret:	return
 
 hw_init:
 	call clock_init       ; initialize clock synthesizer chip
@@ -52,6 +68,8 @@ hw_init:
 	call init_agc
 	load s0, 3            ; RF channel 3
 	call init_agc
+	load s0, 00
+	store s0, scratch_uart_phy   ; control of PHY SMI bus is initially local
 	return
 
 uart_service:
@@ -79,7 +97,11 @@ skip4:	compare s0, 73   ; 's'
 	jump nz, skip5
 	call scratchpad_fetch
 	return
-skip5:  and s0, 0f
+skip5:	compare s0, 70   ; 'p'
+	jump nz, skip6
+	call phy_read
+	return
+skip6:  and s0, 0f
 	sl0 s1
 	sl0 s1
 	sl0 s1
@@ -134,6 +156,19 @@ putchar:
 
 ;fixme: eventually trim the AGC settings as the board runs
 agc_service:
+	return
+
+phy_service:
+	fetch s3, scratch_uart_phy      ; does UART own access to SMI bus?
+	compare s3, 00
+	return nz
+	load s3, 01                     ; SMI register 1 ('basic status')
+	call phy_smi_read
+	and s5, 04                      ; link status bit
+	sr0 s5
+	sr0 s5
+	store s5, scratch_link_up
+	output s5, port_streamer_enable
 	return
 
 clock_init: 
@@ -390,6 +425,50 @@ abit_w:	load sC, 0b
 	call delay_5us
 	return
 
+phy_read:
+	load s3, s2
+	call phy_smi_read
+	load s0, s4             ; MSB of result
+	call putchar
+	load s0, s5             ; LSB
+	call putchar
+	return
+
+phy_smi_read:
+	call phy_smi_write_0
+	call phy_smi_write_1
+	call phy_smi_write_1
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	call phy_smi_write_0
+	load s6, s3
+	sla s6
+	sla s6
+	sla s6
+	load s7, 0
+pr1:	sla s6
+	call phy_smi_write_bit
+	add s7, 1
+	compare s7, 5
+	jump nz, pr1
+	call phy_smi_read_bit
+	call phy_smi_read_bit
+	load s7, 0
+pr2:	call phy_smi_read_bit
+	jump c, sh1
+	sl0 s5
+	sla s4
+	jump pi
+sh1:	sl1 s5
+	sla s4
+pi:	add s7, 1
+	compare s7, 10
+	jump nz, pr2
+	return
+
 phy_setup:
 	load s0, 1c		; address 28
 	load s1, f0		; value 0xf000
@@ -475,6 +554,25 @@ pw_w:	output s8, port_out_phy_smi
 	call delay_5us
 	output s8, port_out_phy_smi
 	call delay_5us
+	return
+
+phy_smi_read_bit:
+	input s6, port_in_phy_smi
+	load s8, 00
+	load s9, 04
+	output s8, port_out_phy_smi
+	call delay_5us
+	output s9, port_out_phy_smi
+	call delay_5us
+	output s8, port_out_phy_smi
+	call delay_5us
+	and s6, 02
+	jump z, prb0
+	load s6, 80
+	sla s6
+	return
+prb0:	load s6, 00
+	sla s6
 	return
 
 max2112_init:
