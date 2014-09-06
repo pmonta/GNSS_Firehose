@@ -18,9 +18,11 @@
 
 	constant max2112_i2c_slave_addr, 60
 
+	constant scratch_pwm, 00
 	constant scratch_jiffies, 08
 	constant scratch_uart_phy, 09
 	constant scratch_link_up, 0a
+	constant scratch_auto_agc, 0b
 
 main:   call hw_init
 loop:   call uart_service     ; service any UART commands
@@ -62,14 +64,18 @@ hw_init:
 	load s0, 3            ; RF channel 3
 	load s1, 33           ; N=51 (L2)
 	call max2112_init
-	load s0, 1            ; RF channel 1
-	call init_agc
-	load s0, 2            ; RF channel 2
-	call init_agc
-	load s0, 3            ; RF channel 3
-	call init_agc
+	load s7, f0           ; initial AGC value: 240
+	load s8, 00
+	load s3, 1
+	call set_agc
+	load s3, 2
+	call set_agc
+	load s3, 3
+	call set_agc
 	load s0, 00
 	store s0, scratch_uart_phy   ; control of PHY SMI bus is initially local
+	load s0, 01
+	store s0, scratch_auto_agc   ; enable automatic AGC by default
 	return
 
 uart_service:
@@ -154,8 +160,34 @@ putchar:
 	output sF, uart_tx_write
 	return
 
-;fixme: eventually trim the AGC settings as the board runs
 agc_service:
+	fetch s3, scratch_auto_agc      ; auto AGC enabled?
+	compare s3, 00
+	return z
+	load s3, 1                      ; iterate over channels 1,2,3
+agc1:	call get_agc
+	call hist_measure
+	compare s6, 0
+	jump nz, agc2
+	compare s7, 00                  ; decrease PWM value by 1 if greater than zero
+	jump nz, agc4
+	compare s8, 00
+	jump nz, agc4
+	jump agc5
+agc4:	sub s7, 1
+	subcy s8, 0
+	jump agc3
+agc2:   compare s7, ff                  ; increase PWM value by 1 if less than 0x3ff
+	jump nz, agc6
+	compare s8, 03
+	jump nz, agc6
+	jump agc5
+agc6:	add s7, 1
+	addcy s8, 0
+agc3:	call set_agc
+agc5:	add s3, 1
+	compare s3, 4
+	jump nz, agc1
 	return
 
 phy_service:
@@ -738,60 +770,48 @@ i2c_get_bit:
 	call i2c_set_scl
 	return
 
-; crude AGC initialization.  ramp gain-control voltage until histogram differs by more than a factor of two.
-
-init_agc:
-	load s1, 0
-	load s2, 0
-ia1:	call set_agc
-	call delay_10ms
-	call delay_10ms
-	call delay_10ms
-	call get_hist
-	sr0 s4
-	sr0 s4
-	sr0 s5
-	sr0 s5
+hist_measure:
+	load sF, s3
+	sub sF, 1
+	sl0 sF
+	add sF, port_hist
+	input s4, (sF)
+	add sF, 1
+	input s5, (sF)
 	sub s4, s5
-	jump c, ia3
+	jump c, h1
 	sub s4, s5
-	jump nc, ia2
-ia3:	add s2, 4	
-	addcy s1, 0
-	compare s1, 4
-	jump nz, ia1
-ia2:	load s8, s0
-	sub s8, 1
-	sl0 s8
-	store s1, (s8)
-	add s8, 1
-	store s2, (s8)
+	jump c, h1
+	load s6, 0               ; signal too weak
+	return
+h1:	load s6, 1               ; signal too strong
 	return
 
-; get hardware-histogram values
-;   s0: RF channel number
-; return values:
-;   h0: s4
-;   h1: s5
-
-get_hist:
-	load s8, s0
-	sub s8, 1
-	sl0 s8
-	add s8, port_hist
-	input s4, (s8)
-	add s8, 1
-	input s5, (s8)
+get_agc:
+	load sF, s3
+	sub sF, 1
+	sl0 sF
+	add sF, scratch_pwm
+	fetch s7, (sF)
+	add sF, 1
+	fetch s8, (sF)
 	return
 
 set_agc:
-	load sF, s0
+	load sF, s3
 	sub sF, 1
 	sl0 sF
 	add sF, port_out_pwm
-	output s2, (sF)		; LS byte
+	output s7, (sF)		; LS byte
 	add sF, 1
-	output s1, (sF)		; MS byte
+	output s8, (sF)		; MS byte
+	load sF, s3
+	sub sF, 1
+	sl0 sF
+	add sF, scratch_pwm
+	store s7, (sF)
+	add sF, 1
+	store s8, (sF)
 	return
 
 delay_5us:
