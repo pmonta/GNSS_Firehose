@@ -56,13 +56,13 @@ hw_init:
 	call adc_init
 ;	call phy_setup	; VSC8601-specific setup
 	load s0, 1            ; RF channel 1
-	load s1, 41           ; N=65 (L1)
+	load s1, 2e           ; N=46 (L1)
 	call max2112_init
 	load s0, 2            ; RF channel 2
-	load s1, 31           ; N=49 (L5)
+	load s1, 24           ; N=36 (L2)
 	call max2112_init
 	load s0, 3            ; RF channel 3
-	load s1, 33           ; N=51 (L2)
+	load s1, 22           ; N=34 (L5)
 	call max2112_init
 	load s7, f0           ; initial AGC value: 240
 	load s8, 00
@@ -387,7 +387,7 @@ adc_init:
 	load s3, 1a         ; 000 BIT_ORDER_B=1 BIT_ORDER_A=1 MUX_CH=0 MUX=1 0
 	call adc_write
 	load s2, 3
-	load s3, 06
+	load s3, 07
 	call adc_write
 	load s2, 4
 	load s3, 1b         ; 00 CT_DCLK_A=011 CT_DATA_A=011
@@ -619,10 +619,10 @@ max2112_init:
 	load s3, cc
 	call i2c_write
 	load s2, 08
-	load s3, 67            ; LPF=0x67 (3 dB point ~30 MHz)
+	load s3, 5c            ; LPF=0x5c (3 dB point ~27 MHz)
 	call i2c_write
 	load s2, 09
-	load s3, 06
+	load s3, 07
 	call i2c_write
 	load s2, 0a
 	load s3, 00
