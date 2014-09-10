@@ -87,14 +87,14 @@ module chip(
   IBUFG _ibuf_clk_3888(.I(clk_3888), .O(clk_tcxo_i));
   BUFG _bufg_clk_tcxo(.I(clk_tcxo_i), .O(clk_tcxo));
 
-// synthesize Ethernet PHY transmit clock (125 MHz) from clk64
+// synthesize Ethernet PHY transmit clock (125 MHz) from clk_tcxo
 
   wire clk125;
   wire clk125_dcm;
   wire dcm_rst, dcm_locked;
 
-  DCM_CLKGEN #(.CLKFX_MULTIPLY(49),.CLKFX_DIVIDE(27)) _dcm_clk125(
-    .CLKIN(clk64),
+  DCM_CLKGEN #(.CLKFX_MULTIPLY(254),.CLKFX_DIVIDE(79)) _dcm_clk125(
+    .CLKIN(clk_tcxo),
     .CLKFX(clk125_dcm),
     .RST(dcm_rst),
     .LOCKED(dcm_locked)

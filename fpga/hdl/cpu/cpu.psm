@@ -23,6 +23,7 @@
 	constant scratch_uart_phy, 09
 	constant scratch_link_up, 0a
 	constant scratch_auto_agc, 0b
+	constant scratch_frac, 0c
 
 main:   call hw_init
 loop:   call uart_service     ; service any UART commands
@@ -54,14 +55,19 @@ hw_init:
 	call adc_init
 	load s0,4             ; ADC channel 4
 	call adc_init
-;	call phy_setup	; VSC8601-specific setup
 	load s0, 1            ; RF channel 1
-	load s1, 2e           ; N=46 (L1)
+	load s1, 4a           ; F=0x4a000
+	store s1, scratch_frac
+	load s1, 2d           ; N=45 (L1)
 	call max2112_init
 	load s0, 2            ; RF channel 2
-	load s1, 24           ; N=36 (L2)
+	load s1, 16           ; F=0x16000
+	store s1, scratch_frac
+	load s1, 23           ; N=35 (L2)
 	call max2112_init
 	load s0, 3            ; RF channel 3
+	load s1, 0e           ; F=0x0e000
+	store s1, scratch_frac
 	load s1, 22           ; N=34 (L5)
 	call max2112_init
 	load s7, f0           ; initial AGC value: 240
@@ -299,14 +305,14 @@ clock_init:
 	call clock_write		; 0010001c
 	load s0, 00
 	load s1, 80
-	load s2, 03
-	load s3, fd
-	call clock_write		; 008003fd  vco_div=62
-	load s0, 02
+	load s2, 02
+	load s3, bd
+	call clock_write		; 008002bd  vco_div=3*21
+	load s0, 03
 	load s1, 00
-	load s2, 03
-	load s3, fe
-	call clock_write		; 020003fe  vco_div=62
+	load s2, 02
+	load s3, be
+	call clock_write		; 030002be  vco_div=3*21
 	call delay_100ms
 	load s0, 34
 	load s1, 01
@@ -634,16 +640,25 @@ max2112_init:
 	load s3, s1
 	call i2c_write
 	load s2, 02
-	load s3, 10
+	fetch s3, scratch_frac
+	sr0 s3
+	sr0 s3
+	sr0 s3
+	sr0 s3
+	or s3, 10
 	call i2c_write
 	load s2, 03
-	load s3, 00
+	fetch s3, scratch_frac
+	sl0 s3
+	sl0 s3
+	sl0 s3
+	sl0 s3
 	call i2c_write
 	load s2, 04
 	load s3, 00
 	call i2c_write
 	load s2, 00
-	load s3, 00
+	load s3, 80
 	call i2c_write
 	return
 
