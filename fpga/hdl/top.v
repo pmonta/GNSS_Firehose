@@ -131,13 +131,15 @@ module top(
   wire [1:0] ch3_si, ch3_sq;
 
   wire [7:0] ch1_i_dc, ch1_q_dc;
+  wire [7:0] ch2_i_dc, ch2_q_dc;
+  wire [7:0] ch3_i_dc, ch3_q_dc;
 
   quantize _quantize_ch1_i(source_clk, ch1_i+ch1_i_dc, ch1_si);
   quantize _quantize_ch1_q(source_clk, ch1_q+ch1_q_dc, ch1_sq);
-  quantize _quantize_ch2_i(source_clk, ch2_i, ch2_si);
-  quantize _quantize_ch2_q(source_clk, ch2_q, ch2_sq);
-  quantize _quantize_ch3_i(source_clk, ch3_i, ch3_si);
-  quantize _quantize_ch3_q(source_clk, ch3_q, ch3_sq);
+  quantize _quantize_ch2_i(source_clk, ch2_i+ch2_i_dc, ch2_si);
+  quantize _quantize_ch2_q(source_clk, ch2_q+ch2_q_dc, ch2_sq);
+  quantize _quantize_ch3_i(source_clk, ch3_i+ch3_i_dc, ch3_si);
+  quantize _quantize_ch3_q(source_clk, ch3_q+ch3_q_dc, ch3_sq);
 
   wire [7:0] ch1_hist_0, ch1_hist_1;
   wire [7:0] ch2_hist_0, ch2_hist_1;
@@ -148,15 +150,21 @@ module top(
   histogram _hist_ch3(source_clk, ch3_si, ch3_hist_0, ch3_hist_1);
 
   wire [7:0] ch1_i_sum, ch1_q_sum;
+  wire [7:0] ch2_i_sum, ch2_q_sum;
+  wire [7:0] ch3_i_sum, ch3_q_sum;
 
   dc_sum _dc_sum1(source_clk, ch1_i, ch1_i_sum);
   dc_sum _dc_sum2(source_clk, ch1_q, ch1_q_sum);
+  dc_sum _dc_sum3(source_clk, ch2_i, ch2_i_sum);
+  dc_sum _dc_sum4(source_clk, ch2_q, ch2_q_sum);
+  dc_sum _dc_sum5(source_clk, ch3_i, ch3_i_sum);
+  dc_sum _dc_sum6(source_clk, ch3_q, ch3_q_sum);
 
   reg [15:0] s_bits;
   reg s_en;
 
   always @(posedge source_clk) begin
-    s_bits <= {s_bits[7:0],ch1_si,ch1_sq,ch3_si,ch3_sq};
+    s_bits <= {s_bits[7:0],ch1_si,ch1_sq,ch2_si,ch2_sq};
     s_en <= ~s_en;
   end
 
@@ -210,6 +218,10 @@ module top(
   wire [7:0] out_port_21;  // packet streamer control
   wire [7:0] out_port_22;  // ch1_i DC correction
   wire [7:0] out_port_23;  // ch1_q DC correction
+  wire [7:0] out_port_24;  // ch2_i DC correction
+  wire [7:0] out_port_25;  // ch2_q DC correction
+  wire [7:0] out_port_26;  // ch3_i DC correction
+  wire [7:0] out_port_27;  // ch3_q DC correction
   wire [7:0] out_port_30;  // DCM reset
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
@@ -229,6 +241,10 @@ module top(
   assign streamer_enable = out_port_21[0];
   assign ch1_i_dc = out_port_22;
   assign ch1_q_dc = out_port_23;
+  assign ch2_i_dc = out_port_24;
+  assign ch2_q_dc = out_port_25;
+  assign ch3_i_dc = out_port_26;
+  assign ch3_q_dc = out_port_27;
   assign dcm_rst = out_port_30[0];
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
@@ -255,6 +271,10 @@ module top(
   wire [7:0] in_port_31; // clock activity counter, phy_rx_clk
   wire [7:0] in_port_35; // DC sum of ch1_i
   wire [7:0] in_port_36; // DC sum of ch1_q
+  wire [7:0] in_port_37; // DC sum of ch2_i
+  wire [7:0] in_port_38; // DC sum of ch2_q
+  wire [7:0] in_port_39; // DC sum of ch3_i
+  wire [7:0] in_port_40; // DC sum of ch3_q
   wire [7:0] in_port_43; // DCM locked
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
@@ -281,6 +301,10 @@ module top(
   assign in_port_31 = activity_phy_rx_clk;
   assign in_port_35 = ch1_i_sum;
   assign in_port_36 = ch1_q_sum;
+  assign in_port_37 = ch2_i_sum;
+  assign in_port_38 = ch2_q_sum;
+  assign in_port_39 = ch3_i_sum;
+  assign in_port_40 = ch3_q_sum;
   assign in_port_43 = dcm_locked;
 
 // housekeeping CPU
@@ -292,14 +316,14 @@ module top(
     out_port_17, out_port_18, out_port_19,
     out_port_20,
     out_port_21,
-    out_port_22, out_port_23,
+    out_port_22, out_port_23, out_port_24, out_port_25, out_port_26, out_port_27,
     out_port_30,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,
     in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
     in_port_26, in_port_27,
     in_port_28, in_port_29, in_port_30, in_port_31,
-    in_port_35, in_port_36,
+    in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
     in_port_43
   );
 
