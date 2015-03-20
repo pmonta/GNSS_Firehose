@@ -3,7 +3,7 @@
 # To read pcb files, the pcb version (or the git source date) must be >= the file version
 FileVersion[20100606]
 
-PCB["" 4200.00mil 3400.00mil]
+PCB["" 4640.00mil 3900.00mil]
 
 Grid[100.000000 0.0000 0.0000 0]
 PolyArea[200000000.000000]
