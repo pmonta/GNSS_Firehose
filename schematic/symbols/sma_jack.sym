@@ -58,7 +58,7 @@ B 0 300 1900 2200 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
 T 100 0 9 10 1 0 0 0 1
 SMA jack, end launch
 T 2000 2862 8 10 0 0 0 0 1
-device=142-0701-801
+device=142-0701-871
 T 2000 3100 8 10 0 0 0 0 1
 description=SMA jack, end launch
 T 900 2600 8 10 1 1 0 0 1

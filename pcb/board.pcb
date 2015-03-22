@@ -2208,7 +2208,7 @@ Element["" "CTS_ATS.fp" "Y1" "25_MHz" 2903.00mil 3292.00mil 350.00mil -20.00mil 
 
 	)
 
-Element["" "FIDUCIAL.fp" "FID2" "unknown" 4100.00mil 3550.00mil -78.00mil 45.00mil 0 60 ""]
+Element["" "FIDUCIAL.fp" "FID2" "unknown" 4540.00mil 3550.00mil -78.00mil 45.00mil 0 60 ""]
 (
 	Pad[0.0000 0.0000 0.0000 0.0000 1.0000mm 1.5000mm 2.0000mm "1" "1" "nopaste"]
 	Pad[0.0000 0.0000 0.0000 0.0000 1.0000mm 1.5000mm 2.0000mm "2" "2" "onsolder,nopaste"]
@@ -2994,7 +2994,7 @@ Element["" "HOLE_2_48.fp" "MH3" "unknown" 325.00mil 3525.00mil 120.00mil 50.00mi
 
 	)
 
-Element["" "HOLE_2_48.fp" "MH4" "unknown" 3875.00mil 3525.00mil -150.00mil 55.00mil 0 60 ""]
+Element["" "HOLE_2_48.fp" "MH4" "unknown" 4315.00mil 3525.00mil -150.00mil 55.00mil 0 60 ""]
 (
 	Pin[0.0000 0.0000 180.00mil 20.00mil 190.00mil 96.00mil "gnd" "1" "thermal(1S)"]
 
@@ -5586,7 +5586,7 @@ Element["" "PJ-063BH" "J8" "unknown" 4200.00mil 850.00mil -106.22mil 270.00mil 0
 
 	)
 
-Element["" "HOLE_2_48.fp" "MH2" "unknown" 3875.00mil 375.00mil -185.00mil -59.00mil 0 60 ""]
+Element["" "HOLE_2_48.fp" "MH2" "unknown" 4315.00mil 375.00mil -185.00mil -59.00mil 0 60 ""]
 (
 	Pin[0.0000 0.0000 180.00mil 20.00mil 190.00mil 96.00mil "gnd" "1" "thermal(1S)"]
 
