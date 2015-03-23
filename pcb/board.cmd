@@ -182,6 +182,43 @@ ChangePinName(J8, 5, shield)
 ChangePinName(J8, 2, outer contact)
 ChangePinName(J8, 1, center pin)
 
+# Start of element C253
+ChangePinName(C253, 2, 2)
+ChangePinName(C253, 1, 1)
+
+# Start of element C252
+ChangePinName(C252, 2, 2)
+ChangePinName(C252, 1, 1)
+
+# Start of element C251
+ChangePinName(C251, 2, 2)
+ChangePinName(C251, 1, 1)
+
+# Start of element C250
+ChangePinName(C250, 2, 2)
+ChangePinName(C250, 1, 1)
+
+# Start of element J7
+ChangePinName(J7, 19, SHIELD2)
+ChangePinName(J7, 18, SHIELD1)
+ChangePinName(J7, 9, TRD4-)
+ChangePinName(J7, 8, TRD4+)
+ChangePinName(J7, 2, TRD3-)
+ChangePinName(J7, 3, TRD3+)
+ChangePinName(J7, 5, TRD2-)
+ChangePinName(J7, 4, TRD2+)
+ChangePinName(J7, 10, TRD1-)
+ChangePinName(J7, 11, TRD1+)
+ChangePinName(J7, 7, TRCT4)
+ChangePinName(J7, 1, TRCT3)
+ChangePinName(J7, 6, TRCT2)
+ChangePinName(J7, 12, TRCT1)
+ChangePinName(J7, 15, LED2_ORG)
+ChangePinName(J7, 17, LED2_GRN)
+ChangePinName(J7, 16, LED2+)
+ChangePinName(J7, 13, LED1_YEL)
+ChangePinName(J7, 14, LED1+)
+
 # Start of element TP22
 ChangePinName(TP22, 1, 1)
 
@@ -472,28 +509,6 @@ ChangePinName(R52, 2, 2)
 ChangePinName(R51, 1, 1)
 ChangePinName(R51, 2, 2)
 
-# Start of element C169
-ChangePinName(C169, 2, 2)
-ChangePinName(C169, 1, 1)
-
-# Start of element J7
-ChangePinName(J7, 16, SHIELD)
-ChangePinName(J7, 15, SHIELD)
-ChangePinName(J7, 1, GND)
-ChangePinName(J7, 6, COMMON)
-ChangePinName(J7, 10, TRD4-)
-ChangePinName(J7, 9, TRD4+)
-ChangePinName(J7, 8, TRD3-)
-ChangePinName(J7, 7, TRD3+)
-ChangePinName(J7, 5, TRD2-)
-ChangePinName(J7, 4, TRD2+)
-ChangePinName(J7, 3, TRD1-)
-ChangePinName(J7, 2, TRD1+)
-ChangePinName(J7, 14, LED2-)
-ChangePinName(J7, 13, LED2+)
-ChangePinName(J7, 12, LED1-)
-ChangePinName(J7, 11, LED1+)
-
 # Start of element C249
 ChangePinName(C249, 2, 2)
 ChangePinName(C249, 1, 1)
@@ -525,9 +540,6 @@ ChangePinName(R138, 2, 2)
 # Start of element R137
 ChangePinName(R137, 1, 1)
 ChangePinName(R137, 2, 2)
-
-# Start of element TP21
-ChangePinName(TP21, 1, 1)
 
 # Start of element TP20
 ChangePinName(TP20, 1, 1)
@@ -935,6 +947,10 @@ ChangePinName(J6, 4, 4)
 ChangePinName(J6, 3, 3)
 ChangePinName(J6, 2, 2)
 ChangePinName(J6, 1, 1)
+
+# Start of element R144
+ChangePinName(R144, 1, 1)
+ChangePinName(R144, 2, 2)
 
 # Start of element TP29
 ChangePinName(TP29, 1, 1)
