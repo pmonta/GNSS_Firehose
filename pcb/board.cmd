@@ -48,6 +48,19 @@ ChangePinName(SC2, 1, shield)
 # Start of element SC1
 ChangePinName(SC1, 1, shield)
 
+# Start of element R145
+ChangePinName(R145, 1, 1)
+ChangePinName(R145, 2, 2)
+
+# Start of element Q1
+ChangePinName(Q1, 2, S)
+ChangePinName(Q1, 3, D)
+ChangePinName(Q1, 1, G)
+
+# Start of element Z1
+ChangePinName(Z1, 1, 1)
+ChangePinName(Z1, 2, 2)
+
 # Start of element LED4
 ChangePinName(LED4, 1, K)
 ChangePinName(LED4, 2, A)
@@ -71,10 +84,6 @@ ChangePinName(TP24, 1, 1)
 
 # Start of element TP23
 ChangePinName(TP23, 1, 1)
-
-# Start of element Z1
-ChangePinName(Z1, 1, 1)
-ChangePinName(Z1, 2, 2)
 
 # Start of element R87
 ChangePinName(R87, 1, 1)
