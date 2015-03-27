@@ -94,39 +94,39 @@ C 44600 52800 1 0 0 gnd-1.sym
 C 49200 52800 1 0 0 gnd-1.sym
 T 44700 51300 9 24 1 0 0 0 1
 Shield clips (RF channels)
-C 57500 57200 1 0 0 mounting_hole_2_48.sym
+C 57500 57200 1 0 0 mounting_hole_unc_2_56.sym
 {
 T 58200 55995 5 10 0 0 0 0 1
-device=hole_2_48
+device=hole_unc_2_56
 T 58200 56195 5 10 0 0 0 0 1
-footprint=HOLE_2_48.fp
+footprint=HOLE_UNC_2_56.fp
 T 59200 57195 5 10 1 1 0 0 1
 refdes=MH1
 }
-C 61500 57200 1 0 0 mounting_hole_2_48.sym
+C 61500 57200 1 0 0 mounting_hole_unc_2_56.sym
 {
 T 62200 55995 5 10 0 0 0 0 1
-device=hole_2_48
+device=hole_unc_2_56
 T 62200 56195 5 10 0 0 0 0 1
-footprint=HOLE_2_48.fp
+footprint=HOLE_UNC_2_56.fp
 T 63200 57195 5 10 1 1 0 0 1
 refdes=MH2
 }
-C 57500 53700 1 0 0 mounting_hole_2_48.sym
+C 57500 53700 1 0 0 mounting_hole_unc_2_56.sym
 {
 T 58200 52495 5 10 0 0 0 0 1
-device=hole_2_48
+device=hole_unc_2_56
 T 58200 52695 5 10 0 0 0 0 1
-footprint=HOLE_2_48.fp
+footprint=HOLE_UNC_2_56.fp
 T 59200 53695 5 10 1 1 0 0 1
 refdes=MH3
 }
-C 61500 53700 1 0 0 mounting_hole_2_48.sym
+C 61500 53700 1 0 0 mounting_hole_unc_2_56.sym
 {
 T 62200 52495 5 10 0 0 0 0 1
-device=hole_2_48
+device=hole_unc_2_56
 T 62200 52695 5 10 0 0 0 0 1
-footprint=HOLE_2_48.fp
+footprint=HOLE_UNC_2_56.fp
 T 63200 53695 5 10 1 1 0 0 1
 refdes=MH4
 }

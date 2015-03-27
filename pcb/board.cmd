@@ -1498,6 +1498,13 @@ ChangePinName(U10, 13, AVDD)
 ChangePinName(U10, 12, AVDD)
 ChangePinName(U10, 1, AVDD)
 
+# Start of element U22
+ChangePinName(U22, 2, GND)
+ChangePinName(U22, 1, VIN)
+ChangePinName(U22, 4, FAULT/)
+ChangePinName(U22, 3, EN)
+ChangePinName(U22, 5, VOUT)
+
 # Start of element FB16
 ChangePinName(FB16, 1, 1)
 ChangePinName(FB16, 2, 2)
@@ -1797,6 +1804,13 @@ ChangePinName(U7, 20, IOUT-)
 ChangePinName(U7, 19, IOUT+)
 ChangePinName(U7, 4, RFIN)
 
+# Start of element U21
+ChangePinName(U21, 2, GND)
+ChangePinName(U21, 1, VIN)
+ChangePinName(U21, 4, FAULT/)
+ChangePinName(U21, 3, EN)
+ChangePinName(U21, 5, VOUT)
+
 # Start of element FB15
 ChangePinName(FB15, 1, 1)
 ChangePinName(FB15, 2, 2)
@@ -2095,6 +2109,13 @@ ChangePinName(U4, 17, QOUT+)
 ChangePinName(U4, 20, IOUT-)
 ChangePinName(U4, 19, IOUT+)
 ChangePinName(U4, 4, RFIN)
+
+# Start of element U20
+ChangePinName(U20, 2, GND)
+ChangePinName(U20, 1, VIN)
+ChangePinName(U20, 4, FAULT/)
+ChangePinName(U20, 3, EN)
+ChangePinName(U20, 5, VOUT)
 
 # Start of element FB14
 ChangePinName(FB14, 1, 1)
