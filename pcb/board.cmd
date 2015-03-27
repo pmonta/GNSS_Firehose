@@ -1,10 +1,10 @@
 # Pin name action command file
 
-# Start of element SC10
-ChangePinName(SC10, 1, shield)
+# Start of element FID6
 
-# Start of element SC9
-ChangePinName(SC9, 1, shield)
+# Start of element FID5
+
+# Start of element FID4
 
 # Start of element FID3
 
@@ -518,6 +518,26 @@ ChangePinName(R52, 2, 2)
 ChangePinName(R51, 1, 1)
 ChangePinName(R51, 2, 2)
 
+# Start of element R150
+ChangePinName(R150, 1, 1)
+ChangePinName(R150, 2, 2)
+
+# Start of element R149
+ChangePinName(R149, 1, 1)
+ChangePinName(R149, 2, 2)
+
+# Start of element R148
+ChangePinName(R148, 1, 1)
+ChangePinName(R148, 2, 2)
+
+# Start of element R147
+ChangePinName(R147, 1, 1)
+ChangePinName(R147, 2, 2)
+
+# Start of element R146
+ChangePinName(R146, 1, 1)
+ChangePinName(R146, 2, 2)
+
 # Start of element LED2
 ChangePinName(LED2, 1, K)
 ChangePinName(LED2, 2, A)
@@ -957,6 +977,28 @@ ChangePinName(J6, 3, 3)
 ChangePinName(J6, 2, 2)
 ChangePinName(J6, 1, 1)
 
+# Start of element C255
+ChangePinName(C255, 2, 2)
+ChangePinName(C255, 1, 1)
+
+# Start of element C254
+ChangePinName(C254, 2, 2)
+ChangePinName(C254, 1, 1)
+
+# Start of element FB17
+ChangePinName(FB17, 1, 1)
+ChangePinName(FB17, 2, 2)
+
+# Start of element U19
+ChangePinName(U19, 4, GND)
+ChangePinName(U19, 1, CLKIN)
+ChangePinName(U19, 2, 1G)
+ChangePinName(U19, 7, Y3)
+ChangePinName(U19, 5, Y2)
+ChangePinName(U19, 8, Y1)
+ChangePinName(U19, 3, Y0)
+ChangePinName(U19, 6, VDD)
+
 # Start of element R144
 ChangePinName(R144, 1, 1)
 ChangePinName(R144, 2, 2)
@@ -1048,10 +1090,6 @@ ChangePinName(FB5, 2, 2)
 ChangePinName(FB4, 1, 1)
 ChangePinName(FB4, 2, 2)
 
-# Start of element J9
-ChangePinName(J9, 1, 1)
-ChangePinName(J9, 2, 2)
-
 # Start of element TP12
 ChangePinName(TP12, 1, 1)
 
@@ -1081,10 +1119,6 @@ ChangePinName(TP4, 1, 1)
 
 # Start of element TP3
 ChangePinName(TP3, 1, 1)
-
-# Start of element R134
-ChangePinName(R134, 1, 1)
-ChangePinName(R134, 2, 2)
 
 # Start of element R133
 ChangePinName(R133, 1, 1)

@@ -1,3 +1,6 @@
+SOT-23-5.fp: SOT-23-5.py
+	python SOT-23-5.py >SOT-23-5.fp
+
 APA2106.fp: APA2106.py
 	python APA2106.py >APA2106.fp
 
