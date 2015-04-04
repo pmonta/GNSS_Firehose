@@ -1,11 +1,5 @@
 # Pin name action command file
 
-# Start of element FID6
-
-# Start of element FID5
-
-# Start of element FID4
-
 # Start of element FID3
 
 # Start of element FID2

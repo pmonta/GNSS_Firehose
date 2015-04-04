@@ -84,7 +84,7 @@ net phy_tx_data<2> loc=p87 | iostandard=lvcmos33 ;
 net phy_tx_data<3> loc=p85 | iostandard=lvcmos33 ;
 net phy_tx_ctl loc=p83     | iostandard=lvcmos33 ;
 
-net phy_rx_clk loc=p62     | iostandard=lvcmos33 ;
+net phy_rx_clk loc=p56     | iostandard=lvcmos33 ;
 net phy_rx_data<0> loc=p79 | iostandard=lvcmos33 ;
 net phy_rx_data<1> loc=p80 | iostandard=lvcmos33 ;
 net phy_rx_data<2> loc=p81 | iostandard=lvcmos33 ;
@@ -94,7 +94,7 @@ net phy_rx_ctl loc=p78     | iostandard=lvcmos33 ;
 net phy_mdc loc=p59   | iostandard=lvcmos33 | slew="slow" ;
 net phy_mdio loc=p58  | iostandard=lvcmos33 | slew="slow" ;
 net phy_mdint loc=p57 | iostandard=lvcmos33 ;
-net phy_nreset loc=p56  | iostandard=lvcmos33 | slew="slow" ;
+net phy_nreset loc=p62  | iostandard=lvcmos33 | slew="slow" ;
 
 net clock_clk loc=p93      | iostandard=lvcmos33 | slew="slow" ;
 net clock_data loc=p94     | iostandard=lvcmos33 | slew="slow" ;
@@ -119,4 +119,4 @@ net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
 # net tp19=p66 |  iostandard=lvcmos33 ;
 # net tp20=p61 |  iostandard=lvcmos33 ;
 
-NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;  #fixme: put PHY_RX_CLK on a GCLK pin
+#NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;  #fixme: put PHY_RX_CLK on a GCLK pin

@@ -15,6 +15,9 @@ all:
 	refdes_renum $(SCH)
 	gsch2pcb --skip-m4 -o $(DEST)/board $(SCH)
 
+bom:
+	gnetlist -g bom2 $(SCH) -Oattribs=value,footprint,device -o firehose.bom
+
 pdf:
 	rm -f schematic.ps
 	for i in $(SCH); do \
