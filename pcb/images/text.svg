@@ -13,7 +13,7 @@
    height="248.03149"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="text.svg">
   <defs
      id="defs4" />
@@ -24,18 +24,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="76.538023"
-     inkscape:cy="47.902745"
+     inkscape:zoom="31.678384"
+     inkscape:cx="46.06974"
+     inkscape:cy="46.310185"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      units="mm"
      inkscape:snap-global="true"
-     inkscape:window-width="1395"
-     inkscape:window-height="1343"
-     inkscape:window-x="382"
-     inkscape:window-y="48"
+     inkscape:window-width="1366"
+     inkscape:window-height="768"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -184,7 +184,7 @@
          y="158.88553">Peter Monta</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:Sans;-inkscape-font-specification:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        x="16.920055"
        y="170.75482"
        id="text3047"
@@ -193,10 +193,10 @@
          sodipodi:role="line"
          id="tspan3049"
          x="16.920055"
-         y="170.75482">May 2014</tspan></text>
+         y="170.75482">April 2015</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:Sans;-inkscape-font-specification:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        x="12.879445"
        y="188.4325"
        id="text3051"
@@ -205,10 +205,10 @@
          sodipodi:role="line"
          id="tspan3053"
          x="12.879445"
-         y="188.4325">version 2.0 rev A</tspan></text>
+         y="188.4325">version 2.1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:Sans;-inkscape-font-specification:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        x="75.00383"
        y="1009.9358"
        id="text3055"
@@ -216,7 +216,7 @@
          sodipodi:role="line"
          id="tspan3057"
          x="75.00383"
-         y="1009.9358">4.5--9V</tspan></text>
+         y="1009.9358">5V</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
@@ -284,5 +284,11 @@
          id="tspan3883"
          x="26.220472"
          y="1008.7795">-</tspan></text>
+    <circle
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path4175"
+       r="1.7716459"
+       cy="1006.2992"
+       cx="44.29134" />
   </g>
 </svg>
