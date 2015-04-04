@@ -5,7 +5,7 @@ FileVersion[20100606]
 
 PCB["GNSS Firehose" 4640.00mil 3900.00mil]
 
-Grid[1000.000000 0.0000 0.0000 1]
+Grid[500.000000 0.0000 0.0000 1]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[6.00mil 5.00mil 6.00mil 5.00mil 15.00mil 5.00mil]
@@ -786,7 +786,7 @@ Symbol['~' 12.00mil]
 	SymbolLine[20.00mil 35.00mil 25.00mil 30.00mil 8.00mil]
 )
 Attribute("PCB::grid::unit" "mil")
-Attribute("PCB::grid::size" "10.00mil")
+Attribute("PCB::grid::size" "5.00mil")
 Via[2389.00mil 2633.00mil 25.00mil 12.00mil 0.0000 15.00mil "" ""]
 Via[2993.00mil 2050.00mil 25.00mil 12.00mil 0.0000 15.00mil "" "thermal(2S)"]
 Via[3067.00mil 2839.00mil 25.00mil 12.00mil 0.0000 15.00mil "" ""]
@@ -10235,6 +10235,10 @@ Layer(7 "silk")
 	Line[4140.00mil 1670.00mil 4120.00mil 1670.00mil 6.00mil 12.00mil ""]
 	Line[4120.00mil 1670.00mil 4120.00mil 1830.00mil 6.00mil 12.00mil ""]
 	Line[4120.00mil 1830.00mil 4140.00mil 1830.00mil 6.00mil 12.00mil ""]
+	Line[2070.00mil 3255.00mil 2390.00mil 3255.00mil 6.00mil 12.00mil ""]
+	Line[2390.00mil 3255.00mil 2390.00mil 3495.00mil 6.00mil 12.00mil ""]
+	Line[2390.00mil 3495.00mil 2070.00mil 3495.00mil 6.00mil 12.00mil ""]
+	Line[2070.00mil 3495.00mil 2070.00mil 3255.00mil 6.00mil 12.00mil ""]
 	Text[2953.00mil 2151.00mil 0 60 "+" "clearline"]
 	Text[2295.00mil 303.00mil 0 60 "1.2 V" "clearline"]
 	Text[2954.00mil 311.00mil 0 60 "+" "clearline"]
@@ -13329,6 +13333,10 @@ Layer(7 "silk")
 	Polygon("clearpoly")
 	(
 		[2736.00mil 811.00mil] [2757.00mil 811.00mil] [2757.00mil 832.00mil] [2736.00mil 832.00mil] 
+	)
+	Polygon("clearpoly")
+	(
+		[2375.00mil 3255.00mil] [2390.00mil 3255.00mil] [2390.00mil 3270.00mil] [2375.00mil 3270.00mil] 
 	)
 )
 NetList()
