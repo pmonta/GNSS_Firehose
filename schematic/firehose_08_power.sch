@@ -85,7 +85,7 @@ symversion=0.1
 T 62500 54900 5 10 1 1 0 0 1
 value=0.1 uF 25V
 T 61800 54600 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 62700 54300 1 0 0 inductor-1.sym
 {
@@ -122,7 +122,7 @@ refdes=R70
 T 55000 53100 5 10 1 1 0 0 1
 value=54.9k
 T 54900 53300 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 56900 52500 1 90 0 resistor-1.sym
 {
@@ -133,7 +133,7 @@ refdes=R71
 T 57200 52500 5 10 1 1 90 0 1
 value=12.1k
 T 56900 52500 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 61900 52500 1 90 0 resistor-1.sym
 {
@@ -144,7 +144,7 @@ refdes=R72
 T 62100 52600 5 10 1 1 90 0 1
 value=10k
 T 61900 52500 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 62500 53300 1 0 0 resistor-1.sym
 {
@@ -155,7 +155,7 @@ refdes=R73
 T 62700 53100 5 10 1 1 0 0 1
 value=10k
 T 62500 53300 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 54100 56700 1 0 0 gnd-1.sym
 C 55100 56700 1 0 0 gnd-1.sym
@@ -192,7 +192,7 @@ symversion=0.1
 T 55400 54900 5 10 1 1 0 0 1
 value=0.1 uF 25V
 T 56000 54600 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 53700 53500 1 90 0 capacitor-1.sym
 {
@@ -243,7 +243,7 @@ refdes=R74
 T 55600 55400 5 10 1 1 90 0 1
 value=162k
 T 55400 55300 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 55200 55000 1 0 0 gnd-1.sym
 N 55300 56200 56200 56200 4
@@ -260,7 +260,7 @@ refdes=R75
 T 55400 48500 5 10 1 1 0 0 1
 value=330
 T 55000 48700 5 10 0 1 270 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 N 56300 48800 55900 48800 4
 N 53800 48800 55000 48800 4

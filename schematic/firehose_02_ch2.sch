@@ -48,7 +48,7 @@ refdes=C67
 T 56700 59000 5 10 0 0 0 0 1
 symversion=0.1
 T 56500 58100 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 56500 58100 5 10 1 1 0 0 1
 value=47 nF
 }
@@ -59,7 +59,7 @@ device=RESISTOR
 T 50500 54900 5 10 1 1 90 0 1
 refdes=R17
 T 50800 54700 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 51100 54900 5 10 1 1 90 0 1
 value=86.6
 }
@@ -70,7 +70,7 @@ device=RESISTOR
 T 47600 56700 5 10 1 1 90 0 1
 refdes=R18
 T 47900 56500 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 48200 56700 5 10 1 1 90 0 1
 value=5.1k
 }
@@ -81,7 +81,7 @@ device=RESISTOR
 T 51300 55800 5 10 1 1 0 0 1
 refdes=R19
 T 51100 55500 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 51300 55300 5 10 1 1 0 0 1
 value=43.2
 }
@@ -94,7 +94,7 @@ refdes=C68
 T 49700 58900 5 10 0 0 0 0 1
 symversion=0.1
 T 49500 58000 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 50100 58500 5 10 1 1 0 0 1
 value=10 nF
 }
@@ -107,7 +107,7 @@ refdes=C69
 T 44400 56300 5 10 0 1 0 0 1
 symversion=0.1
 T 44200 55400 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 44400 55200 5 10 1 1 0 0 1
 value=100 pF
 }
@@ -120,7 +120,7 @@ refdes=C70
 T 49700 58100 5 10 0 0 0 0 1
 symversion=0.1
 T 49500 57200 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 49700 57000 5 10 1 1 0 0 1
 value=100 pF
 }
@@ -133,7 +133,7 @@ refdes=C71
 T 50000 56300 5 10 0 0 0 0 1
 symversion=0.1
 T 49800 55400 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 49800 55200 5 10 1 1 0 0 1
 value=100 pF
 }
@@ -150,7 +150,7 @@ refdes=L4
 T 44800 54800 5 10 0 0 90 0 1
 symversion=0.1
 T 45400 54600 5 10 0 1 90 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 45700 54800 5 10 1 1 90 0 1
 value=6 nH
 }
@@ -163,7 +163,7 @@ refdes=L5
 T 48900 56300 5 10 0 0 90 0 1
 symversion=0.1
 T 49500 56100 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 49800 56200 5 10 1 1 90 0 1
 value=47 nH
 }
@@ -183,7 +183,7 @@ refdes=C72
 T 52500 56300 5 10 0 0 0 0 1
 symversion=0.1
 T 52300 55400 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 52400 55100 5 10 1 1 0 0 1
 value=100 pF
 }
@@ -199,7 +199,7 @@ refdes=C73
 T 55600 59000 5 10 0 0 0 0 1
 symversion=0.1
 T 55400 58100 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 55400 58100 5 10 1 1 0 0 1
 value=47 nF
 }
@@ -212,7 +212,7 @@ refdes=C74
 T 59600 57900 5 10 0 0 0 0 1
 symversion=0.1
 T 59400 57000 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 60000 57300 5 10 1 1 0 0 1
 value=47 nF
 }
@@ -225,7 +225,7 @@ refdes=C75
 T 59600 57300 5 10 0 0 0 0 1
 symversion=0.1
 T 59400 56400 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 60000 56700 5 10 1 1 0 0 1
 value=47 nF
 }
@@ -238,7 +238,7 @@ refdes=C76
 T 59600 56700 5 10 0 0 0 0 1
 symversion=0.1
 T 59400 55800 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 60000 56100 5 10 1 1 0 0 1
 value=47 nF
 }
@@ -251,7 +251,7 @@ refdes=C77
 T 59600 56100 5 10 0 0 0 0 1
 symversion=0.1
 T 59400 55200 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 60000 55500 5 10 1 1 0 0 1
 value=47 nF
 }
@@ -346,7 +346,7 @@ device=RESISTOR
 T 52700 49200 5 10 1 1 0 0 1
 refdes=R20
 T 52500 48900 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 53100 49200 5 10 1 1 0 0 1
 value=820
 }
@@ -359,7 +359,7 @@ refdes=C78
 T 50900 48300 5 10 0 0 90 0 1
 symversion=0.1
 T 51800 48100 5 10 0 1 90 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 51900 47900 5 10 1 1 90 0 1
 value=2.2 nF
 }
@@ -372,7 +372,7 @@ refdes=C79
 T 51800 47400 5 10 0 0 90 0 1
 symversion=0.1
 T 52700 47200 5 10 0 1 90 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 52900 47400 5 10 1 1 90 0 1
 value=33 nF
 }
@@ -385,7 +385,7 @@ refdes=C80
 T 52700 48300 5 10 0 0 90 0 1
 symversion=0.1
 T 53600 48100 5 10 0 1 90 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 53800 48200 5 10 1 1 90 0 1
 value=100 pF
 }
@@ -396,7 +396,7 @@ device=RESISTOR
 T 52300 48300 5 10 1 1 90 0 1
 refdes=R21
 T 52600 48100 5 10 0 1 90 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 52800 48300 5 10 1 1 90 0 1
 value=390
 }
@@ -428,7 +428,7 @@ refdes=R22
 T 58700 49200 5 10 1 1 0 0 1
 value=10k
 T 58000 48900 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 59100 48100 1 90 0 capacitor-1.sym
 {
@@ -441,7 +441,7 @@ symversion=0.1
 T 59400 48100 5 10 1 1 90 0 1
 value=0.1 uF
 T 59100 48100 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 58800 47800 1 0 0 gnd-1.sym
 N 58000 49000 56300 49000 4
@@ -465,7 +465,7 @@ symversion=0.1
 T 54200 51000 5 10 1 1 0 0 1
 value=0.1 uF
 T 54200 51000 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 53900 50700 1 0 0 gnd-1.sym
 C 53700 43800 1 90 0 capacitor-1.sym
@@ -479,7 +479,7 @@ symversion=0.1
 T 53200 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 53700 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 54400 43800 1 90 0 capacitor-1.sym
 {
@@ -492,7 +492,7 @@ symversion=0.1
 T 53900 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 54400 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 55100 43800 1 90 0 capacitor-1.sym
 {
@@ -505,7 +505,7 @@ symversion=0.1
 T 54600 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 55100 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 55800 43800 1 90 0 capacitor-1.sym
 {
@@ -518,7 +518,7 @@ symversion=0.1
 T 55300 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 55800 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 56500 43800 1 90 0 capacitor-1.sym
 {
@@ -531,7 +531,7 @@ symversion=0.1
 T 56000 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 56500 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 57200 43800 1 90 0 capacitor-1.sym
 {
@@ -544,7 +544,7 @@ symversion=0.1
 T 56700 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 57200 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 57900 43800 1 90 0 capacitor-1.sym
 {
@@ -557,7 +557,7 @@ symversion=0.1
 T 57400 43500 5 10 1 1 0 0 1
 value=1000 pF
 T 57900 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 N 52700 44700 57700 44700 4
 {
@@ -581,7 +581,7 @@ refdes=C90
 T 45900 56300 5 10 0 0 0 0 1
 symversion=0.1
 T 45700 55400 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 45800 55200 5 10 1 1 0 0 1
 value=100 pF
 }
@@ -616,7 +616,7 @@ refdes=C91
 T 59800 53800 5 10 0 0 90 0 1
 symversion=0.1
 T 60700 53600 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 61000 53700 5 10 1 1 90 0 1
 value=0.1 uF
 }
@@ -664,7 +664,7 @@ symversion=0.1
 T 61900 55700 5 10 1 1 90 0 1
 value=0.1 uF
 T 62400 55700 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 62700 54700 1 90 0 capacitor-1.sym
 {
@@ -677,7 +677,7 @@ symversion=0.1
 T 62200 54700 5 10 1 1 90 0 1
 value=0.1 uF
 T 62700 54700 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 C 62100 55400 1 0 0 gnd-1.sym
 C 62400 54400 1 0 0 gnd-1.sym
@@ -691,7 +691,7 @@ refdes=C94
 T 62500 45800 5 10 0 0 90 0 1
 symversion=0.1
 T 63400 45600 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 63000 45400 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -704,7 +704,7 @@ refdes=C95
 T 63200 45800 5 10 0 0 90 0 1
 symversion=0.1
 T 64100 45600 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 63700 45400 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -717,7 +717,7 @@ refdes=C96
 T 63900 45800 5 10 0 0 90 0 1
 symversion=0.1
 T 64800 45600 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 64400 45400 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -730,7 +730,7 @@ refdes=C97
 T 64600 45800 5 10 0 0 90 0 1
 symversion=0.1
 T 65500 45600 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 65100 45400 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -743,7 +743,7 @@ refdes=C98
 T 63600 44000 5 10 0 0 90 0 1
 symversion=0.1
 T 64500 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 64100 43600 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -756,7 +756,7 @@ refdes=C99
 T 64300 44000 5 10 0 0 90 0 1
 symversion=0.1
 T 65200 43800 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 64800 43600 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -783,7 +783,7 @@ refdes=C100
 T 63500 49700 5 10 0 0 0 0 1
 symversion=0.1
 T 63300 48800 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 63900 48800 5 10 1 1 0 0 1
 value=0.1 uF
 }
@@ -794,7 +794,7 @@ device=RESISTOR
 T 63100 48300 5 10 1 1 90 0 1
 refdes=R23
 T 63400 48100 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 63600 48300 5 10 1 1 90 0 1
 value=80
 }
@@ -843,7 +843,7 @@ refdes=R81
 T 56800 47400 5 10 1 1 0 0 1
 value=10k
 T 56200 47100 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 N 57100 47200 58100 47200 4
 {
@@ -864,7 +864,7 @@ refdes=R82
 T 56800 46800 5 10 1 1 0 0 1
 value=10k
 T 56200 46500 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 }
 N 57100 46600 58100 46600 4
 {
@@ -883,7 +883,7 @@ device=INDUCTOR
 T 43300 56100 5 10 0 0 90 0 1
 symversion=0.1
 T 44000 55900 5 10 0 1 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 43700 56500 5 10 1 1 180 0 1
 refdes=L13
 T 44000 56400 5 10 1 1 0 0 1
@@ -935,7 +935,7 @@ device=CAPACITOR
 T 46000 48300 5 10 0 0 90 0 1
 symversion=0.1
 T 46900 48100 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 46400 48300 5 10 1 1 90 0 1
 refdes=C244
 T 46400 47800 5 10 1 1 0 0 1
@@ -948,7 +948,7 @@ device=CAPACITOR
 T 46700 48300 5 10 0 0 90 0 1
 symversion=0.1
 T 47600 48100 5 10 0 0 0 0 1
-footprint=0402.fp
+footprint=s0402.fp
 T 47100 48300 5 10 1 1 90 0 1
 refdes=C245
 T 47100 47800 5 10 1 1 0 0 1
