@@ -1,5 +1,5 @@
 # PcbBOM Version 1.0
-# Date: Thu 16 Apr 2015 06:26:10 PM GMT UTC
+# Date: Sun 19 Apr 2015 08:06:33 AM GMT UTC
 # Author: Peter Monta
 # Title: GNSS Firehose - PCB BOM
 # Quantity, Description, Value, RefDes
@@ -26,7 +26,6 @@
 1,"CTS_ATS.fp","25_MHz",Y1 
 3,"FIDUCIAL.fp","unknown",FID2 FID1 FID3 
 8,"0603.fp","0",L20 L21 R98 R99 R128 R127 R126 R132 
-1,"LQFP144","unknown",U12 
 1,"LLP64_EP","unknown",U15 
 27,"0402.fp","1000_pF",C242 C244 C246 C83 C84 C85 C86 C87 C88 C89 C20 C21 C22 C23 C25 C26 C24 C124 C123 C122 C121 C120 C119 C118 C247 C245 C243 
 6,"0603.fp","240",FB14 FB15 FB16 FB11 FB12 FB13 
@@ -83,3 +82,4 @@
 3,"SOT-23-5.fp","unknown",U22 U21 U20 
 1,"D75J","unknown",OSC1 
 2,"0402.fp","60.4",R35 R34 
+1,"LQFP144","unknown",U12 

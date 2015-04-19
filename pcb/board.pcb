@@ -9,7 +9,7 @@ Grid[100.000000 0.0000 0.0000 1]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[6.00mil 5.00mil 6.00mil 5.00mil 10.00mil 5.00mil]
-Flags("nameonpcb,snappin,showmask")
+Flags("nameonpcb,snappin")
 Groups("1,c:4,s:5:2:3")
 Styles["Signal,6.00mil,25.00mil,15.00mil,6.00mil:Power,50.00mil,145.00mil,120.00mil,6.00mil:Fat,18.00mil,60.00mil,35.00mil,6.00mil:Skinny,10.00mil,25.00mil,15.00mil,6.00mil"]
 
@@ -1238,13 +1238,13 @@ Via[2276.00mil 1538.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2790.00mil 1340.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2789.00mil 1447.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2494.00mil 1371.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
-Via[2187.00mil 1312.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S,6S)"]
+Via[2187.00mil 1312.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S,8S)"]
 Via[2221.00mil 1311.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2372.00mil 1311.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2634.00mil 1311.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2450.00mil 1849.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(2S)"]
 Via[2416.00mil 1849.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
-Via[2736.00mil 1692.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S,6)"]
+Via[2736.00mil 1692.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S,8)"]
 Via[2786.00mil 1526.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2789.00mil 1798.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
 Via[2671.00mil 1731.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1S)"]
@@ -1636,25 +1636,25 @@ Via[640.00mil 2316.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 2316.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[716.00mil 2275.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 2234.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
-Via[454.00mil 2275.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,6X)"]
+Via[454.00mil 2275.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,8X)"]
 Via[640.00mil 2234.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[640.00mil 1686.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 1686.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[716.00mil 1645.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 1604.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
-Via[454.00mil 1645.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,6X)"]
+Via[454.00mil 1645.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,8X)"]
 Via[640.00mil 1604.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[640.00mil 1056.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 1056.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[716.00mil 1015.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 974.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
-Via[454.00mil 1015.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,6X)"]
+Via[454.00mil 1015.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,8X)"]
 Via[640.00mil 974.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[640.00mil 426.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 426.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[716.00mil 385.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[535.00mil 344.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
-Via[454.00mil 385.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,6X)"]
+Via[454.00mil 385.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(0S,1X,8X)"]
 Via[640.00mil 344.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[898.00mil 385.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
 Via[1162.00mil 385.00mil 22.00mil 12.00mil 16.00mil 12.00mil "" "thermal(1X)"]
@@ -5379,11 +5379,11 @@ Element["" "TSSOP8.fp" "U19" "unknown" 2182.00mil 3094.00mil 54.16mil 65.42mil 0
 
 Element["" "SOT-23-5.fp" "U22" "unknown" 330.00mil 46.3388mm 10.00mil -4.2002mm 0 60 ""]
 (
-	Pad[0.0000 -0.1700mm 0.0000 0.1700mm 0.6600mm 20.00mil 0.9140mm "VIN" "1" "square,edge2"]
-	Pad[0.9500mm -0.1700mm 0.9500mm 0.1700mm 0.6600mm 20.00mil 0.9140mm "GND" "2" "square,edge2"]
-	Pad[1.9000mm -0.1700mm 1.9000mm 0.1700mm 0.6600mm 20.00mil 0.9140mm "EN" "3" "square,edge2"]
-	Pad[1.9000mm -2.7700mm 1.9000mm -2.4300mm 0.6600mm 20.00mil 0.9140mm "FAULT/" "4" "square"]
-	Pad[0.0000 -2.7700mm 0.0000 -2.4300mm 0.6600mm 20.00mil 0.9140mm "VOUT" "5" "square"]
+	Pad[0.0000 -0.1700mm 0.0000 0.1700mm 0.6600mm 20.00mil 0.7870mm "VIN" "1" "square,edge2"]
+	Pad[0.9500mm -0.1700mm 0.9500mm 0.1700mm 0.6600mm 20.00mil 0.7870mm "GND" "2" "square,edge2"]
+	Pad[1.9000mm -0.1700mm 1.9000mm 0.1700mm 0.6600mm 20.00mil 0.7870mm "EN" "3" "square,edge2"]
+	Pad[1.9000mm -2.7700mm 1.9000mm -2.4300mm 0.6600mm 20.00mil 0.7870mm "FAULT/" "4" "square"]
+	Pad[0.0000 -2.7700mm 0.0000 -2.4300mm 0.6600mm 20.00mil 0.7870mm "VOUT" "5" "square"]
 
 	)
 
@@ -5396,11 +5396,11 @@ Element["" "0603.fp" "R128" "0" 260.00mil 46.6748mm -32.00mil -2.3518mm 0 60 ""]
 
 Element["" "SOT-23-5.fp" "U21" "unknown" 332.00mil 30.6924mm 8.00mil -170.00mil 0 60 ""]
 (
-	Pad[0.0000 -0.1700mm 0.0000 0.1700mm 0.6600mm 20.00mil 0.9140mm "VIN" "1" "square,edge2"]
-	Pad[0.9500mm -0.1700mm 0.9500mm 0.1700mm 0.6600mm 20.00mil 0.9140mm "GND" "2" "square,edge2"]
-	Pad[1.9000mm -0.1700mm 1.9000mm 0.1700mm 0.6600mm 20.00mil 0.9140mm "EN" "3" "square,edge2"]
-	Pad[1.9000mm -2.7700mm 1.9000mm -2.4300mm 0.6600mm 20.00mil 0.9140mm "FAULT/" "4" "square"]
-	Pad[0.0000 -2.7700mm 0.0000 -2.4300mm 0.6600mm 20.00mil 0.9140mm "VOUT" "5" "square"]
+	Pad[0.0000 -0.1700mm 0.0000 0.1700mm 0.6600mm 20.00mil 0.7870mm "VIN" "1" "square,edge2"]
+	Pad[0.9500mm -0.1700mm 0.9500mm 0.1700mm 0.6600mm 20.00mil 0.7870mm "GND" "2" "square,edge2"]
+	Pad[1.9000mm -0.1700mm 1.9000mm 0.1700mm 0.6600mm 20.00mil 0.7870mm "EN" "3" "square,edge2"]
+	Pad[1.9000mm -2.7700mm 1.9000mm -2.4300mm 0.6600mm 20.00mil 0.7870mm "FAULT/" "4" "square"]
+	Pad[0.0000 -2.7700mm 0.0000 -2.4300mm 0.6600mm 20.00mil 0.7870mm "VOUT" "5" "square"]
 
 	)
 
@@ -5413,11 +5413,11 @@ Element["" "0603.fp" "R127" "0" 268.00mil 1213.00mil -45.00mil -94.00mil 0 60 ""
 
 Element["" "SOT-23-5.fp" "U20" "unknown" 329.00mil 573.00mil 64.00mil -168.00mil 0 60 ""]
 (
-	Pad[0.0000 -0.1700mm 0.0000 0.1700mm 0.6600mm 20.00mil 0.9140mm "VIN" "1" "square,edge2"]
-	Pad[0.9500mm -0.1700mm 0.9500mm 0.1700mm 0.6600mm 20.00mil 0.9140mm "GND" "2" "square,edge2"]
-	Pad[1.9000mm -0.1700mm 1.9000mm 0.1700mm 0.6600mm 20.00mil 0.9140mm "EN" "3" "square,edge2"]
-	Pad[1.9000mm -2.7700mm 1.9000mm -2.4300mm 0.6600mm 20.00mil 0.9140mm "FAULT/" "4" "square"]
-	Pad[0.0000 -2.7700mm 0.0000 -2.4300mm 0.6600mm 20.00mil 0.9140mm "VOUT" "5" "square"]
+	Pad[0.0000 -0.1700mm 0.0000 0.1700mm 0.6600mm 20.00mil 0.7870mm "VIN" "1" "square,edge2"]
+	Pad[0.9500mm -0.1700mm 0.9500mm 0.1700mm 0.6600mm 20.00mil 0.7870mm "GND" "2" "square,edge2"]
+	Pad[1.9000mm -0.1700mm 1.9000mm 0.1700mm 0.6600mm 20.00mil 0.7870mm "EN" "3" "square,edge2"]
+	Pad[1.9000mm -2.7700mm 1.9000mm -2.4300mm 0.6600mm 20.00mil 0.7870mm "FAULT/" "4" "square"]
+	Pad[0.0000 -2.7700mm 0.0000 -2.4300mm 0.6600mm 20.00mil 0.7870mm "VOUT" "5" "square"]
 
 	)
 
