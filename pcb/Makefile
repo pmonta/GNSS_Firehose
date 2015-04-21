@@ -13,7 +13,7 @@ cam:
 	pcb -x png --outfile temp.png --dpi 1000 --photo-mode --photo-flip-x --photo-plating gold board.pcb
 	<temp.png pngtopnm | pamscale 0.5 | pnmtopng >board-reverse.png
 	rm -f temp.png
-	pcb -x ps --scale 2 --outfile board.ps board.pcb
+	pcb -x ps --scale 1 --outfile board.ps board.pcb
 	ps2pdf board.ps board.pdf
 	rm -f board.ps
 
