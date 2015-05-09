@@ -9,7 +9,7 @@ Grid[100.000000 0.0000 0.0000 1]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[6.00mil 5.00mil 6.00mil 5.00mil 10.00mil 5.00mil]
-Flags("nameonpcb")
+Flags("nameonpcb,snappin")
 Groups("1,c:4,s:5:2:3")
 Styles["Signal,6.00mil,25.00mil,15.00mil,6.00mil:Power,50.00mil,145.00mil,120.00mil,6.00mil:Fat,18.00mil,60.00mil,35.00mil,6.00mil:Skinny,10.00mil,25.00mil,15.00mil,6.00mil"]
 
@@ -9944,7 +9944,6 @@ Layer(4 "solder")
 	Line[2513.00mil 44.0865mm 64.0763mm 1726.00mil 18.00mil 12.00mil ""]
 	Line[2463.00mil 44.1241mm 62.2765mm 1726.00mil 18.00mil 12.00mil ""]
 	Line[2463.00mil 1773.00mil 2463.00mil 44.1241mm 18.00mil 12.00mil ""]
-	Line[61.4116mm 47.0098mm 2416.00mil 1849.00mil 18.00mil 12.00mil ""]
 	Line[62.2112mm 46.9834mm 2450.00mil 1849.00mil 18.00mil 12.00mil ""]
 	Line[66.8970mm 33.2928mm 2634.00mil 1311.00mil 18.00mil 12.00mil ""]
 	Line[64.1815mm 1371.00mil 2540.00mil 35.1579mm 18.00mil 12.00mil ""]
@@ -10206,8 +10205,6 @@ Layer(4 "solder")
 	Line[56.7248mm 45.1424mm 2236.00mil 1780.00mil 18.00mil 12.00mil ""]
 	Line[57.6900mm 1752.00mil 57.6900mm 45.1292mm 18.00mil 12.00mil ""]
 	Line[57.6900mm 45.1292mm 2268.00mil 1780.00mil 18.00mil 12.00mil ""]
-	Line[61.3288mm 1876.00mil 61.3288mm 47.0276mm 18.00mil 12.00mil ""]
-	Line[61.3288mm 47.0276mm 2416.50mil 1849.50mil 18.00mil 12.00mil ""]
 	Line[62.2940mm 1876.00mil 62.2940mm 47.0286mm 18.00mil 12.00mil ""]
 	Line[62.2940mm 47.0286mm 2450.00mil 1849.00mil 18.00mil 12.00mil ""]
 	Line[2523.00mil 48.9138mm 64.7380mm 48.9138mm 18.00mil 12.00mil ""]
@@ -10244,6 +10241,8 @@ Layer(4 "solder")
 	Line[2456.00mil 3046.00mil 2444.00mil 3046.00mil 18.00mil 12.00mil ""]
 	Line[2340.00mil 3110.00mil 2358.00mil 3110.00mil 6.00mil 12.00mil ""]
 	Line[2358.00mil 3110.00mil 2359.00mil 3109.00mil 6.00mil 12.00mil ""]
+	Line[2416.00mil 1849.00mil 2416.00mil 47.6128mm 10.00mil 12.00mil ""]
+	Line[2416.00mil 47.6128mm 61.3288mm 1876.00mil 10.00mil 12.00mil ""]
 	Polygon("clearpoly")
 	(
 		[2284.00mil 2271.00mil] [2425.00mil 2271.00mil] [2425.00mil 2573.00mil] [2284.00mil 2573.00mil] 
