@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="238.93156"
+     inkscape:cx="352.87265"
      inkscape:cy="636.62127"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -167,13 +167,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:13.75px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="88.274506"
-       y="540.78809"
+       x="88.779579"
+       y="570.08252"
        id="text35824"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="88.274506"
-         y="540.78809"
+         x="88.779579"
+         y="570.08252"
          id="tspan42475">Thieving: allowed on outer layers only; allowed to within 100 mils of any copper feature</tspan></text>
     <text
        xml:space="preserve"
@@ -27795,21 +27795,17 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="89.081215"
-       y="569.66675"
+       y="593.9104"
        id="text42469"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          x="89.081215"
-         y="569.66675"
+         y="593.9104"
          id="tspan42519">UL logo, manufacturer's logo, manufacturer's part identification, 94V rating, and date code</tspan><tspan
          sodipodi:role="line"
          x="89.081215"
-         y="586.85425"
-         id="tspan42473">shall be rendered in copper on the bottom side of the board in an unobtrusive place well clear</tspan><tspan
-         sodipodi:role="line"
-         x="89.081215"
-         y="604.04175"
-         id="tspan42539">of other copper features</tspan></text>
+         y="611.0979"
+         id="tspan42539">shall be rendered in silkscreen on the bottom side of the board in an unobtrusive place</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -27858,24 +27854,24 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="88.162445"
-       y="514.93073"
+       y="548.77081"
        id="text42495"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan42497"
          x="88.162445"
-         y="514.93073">100% electrical test</tspan></text>
+         y="548.77081">100% electrical test</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="88.634453"
-       y="630.34705"
+       y="638.42822"
        id="text42499"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan42501"
          x="88.634453"
-         y="630.34705">All material must be RoHS compliant</tspan></text>
+         y="638.42822">All material must be RoHS compliant</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -27897,7 +27893,15 @@
          sodipodi:role="line"
          id="tspan42509"
          x="87.581154"
-         y="489.06531">Most vias are encroached.  The soldermask clearance aims to avoid tenting</tspan></text>
+         y="489.06531">The 12-mil vias are designed with soldermask encroached on the via pad.  Manufacturer can</tspan><tspan
+         sodipodi:role="line"
+         x="87.581154"
+         y="506.25281"
+         id="tspan15366">adjust the soldermask clearance for these vias to assure vias are open for ENIG finish, while</tspan><tspan
+         sodipodi:role="line"
+         x="87.581154"
+         y="523.44031"
+         id="tspan15368">keeping the pads encroached with soldermask as much as possible.</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -27919,7 +27923,7 @@
            height="459"
            x="18"
            y="117" /></flowRegion><flowPara
-         id="flowPara42533"></flowPara></flowRoot>    <text
+         id="flowPara42533" /></flowRoot>    <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="48.12183"
@@ -28033,45 +28037,45 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="40.454315"
-       y="515.89771"
+       y="549.73779"
        id="text42581"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan42583"
          x="40.454315"
-         y="515.89771">11.</tspan></text>
+         y="549.73779">11.</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="39.535534"
-       y="541.38251"
+       x="40.040611"
+       y="570.67694"
        id="text42585"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan42587"
-         x="39.535534"
-         y="541.38251">12.</tspan></text>
+         x="40.040611"
+         y="570.67694">12.</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="39.030457"
-       y="569.39264"
+       y="593.63629"
        id="text42589"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan42591"
          x="39.030457"
-         y="569.39264">13.</tspan></text>
+         y="593.63629">13.</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.75px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="38.525383"
-       y="630.87744"
+       y="638.95862"
        id="text42593"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan42595"
          x="38.525383"
-         y="630.87744">14.</tspan></text>
+         y="638.95862">14.</tspan></text>
   </g>
 </svg>

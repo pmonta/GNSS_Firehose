@@ -9,7 +9,7 @@ Grid[100.000000 0.0000 0.0000 1]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[6.00mil 5.00mil 6.00mil 5.00mil 10.00mil 5.00mil]
-Flags("nameonpcb,snappin")
+Flags("nameonpcb,snappin,showmask")
 Groups("1,c:4,s:5:2:3")
 Styles["Signal,6.00mil,25.00mil,15.00mil,6.00mil:Power,50.00mil,145.00mil,120.00mil,6.00mil:Fat,18.00mil,60.00mil,35.00mil,6.00mil:Skinny,10.00mil,25.00mil,15.00mil,6.00mil"]
 
@@ -9170,8 +9170,8 @@ Layer(1 "component")
 	Line[3911.00mil 2141.00mil 3910.00mil 2140.00mil 18.00mil 12.00mil ""]
 	Line[3949.00mil 2170.00mil 3949.00mil 2141.00mil 18.00mil 12.00mil ""]
 	Line[3949.00mil 2141.00mil 3950.00mil 2140.00mil 18.00mil 12.00mil ""]
-	Text[3605.00mil 241.00mil 0 100 "P/N: 1002-01" "clearline"]
-	Text[3605.00mil 304.00mil 0 100 "REV: 2.1" "clearline"]
+	Text[3605.00mil 241.00mil 0 100 "P/N  1002-01" "clearline"]
+	Text[3605.00mil 304.00mil 0 100 "REV   2.1" "clearline"]
 	Polygon("clearpoly")
 	(
 		[2346.00mil 633.00mil] [2462.00mil 633.00mil] [2462.00mil 777.00mil] [2346.00mil 777.00mil] 
@@ -9564,7 +9564,6 @@ Layer(4 "solder")
 	Line[2024.00mil 3567.00mil 2608.00mil 3567.00mil 6.00mil 12.00mil ""]
 	Line[2608.00mil 3551.00mil 2609.00mil 3552.00mil 6.00mil 12.00mil ""]
 	Line[2022.00mil 3551.00mil 2608.00mil 3551.00mil 6.00mil 12.00mil ""]
-	Line[2958.00mil 2748.00mil 2958.00mil 2510.00mil 18.00mil 12.00mil ""]
 	Line[3200.00mil 2131.00mil 3404.00mil 2131.00mil 6.00mil 12.00mil ""]
 	Line[3219.00mil 2088.00mil 3432.00mil 2088.00mil 6.00mil 12.00mil ""]
 	Line[3434.00mil 1862.00mil 3418.00mil 1878.00mil 6.00mil 12.00mil ""]
@@ -10166,11 +10165,9 @@ Layer(4 "solder")
 	Line[2631.00mil 1276.00mil 2634.00mil 1279.00mil 18.00mil 12.00mil ""]
 	Line[2607.00mil 1314.00mil 2631.00mil 1314.00mil 18.00mil 12.00mil ""]
 	Line[2631.00mil 1314.00mil 2634.00mil 1311.00mil 18.00mil 12.00mil ""]
-	Line[2791.00mil 1311.00mil 2791.00mil 1339.00mil 18.00mil 12.00mil ""]
 	Line[2791.00mil 1339.00mil 2790.00mil 1340.00mil 18.00mil 12.00mil ""]
 	Line[2829.00mil 1311.00mil 2829.00mil 1337.00mil 18.00mil 12.00mil ""]
 	Line[2829.00mil 1337.00mil 2826.50mil 1339.50mil 18.00mil 12.00mil ""]
-	Line[70.8472mm 1418.00mil 70.8472mm 36.7472mm 18.00mil 12.00mil ""]
 	Line[70.8472mm 36.7472mm 2789.00mil 1447.00mil 18.00mil 12.00mil ""]
 	Line[71.8124mm 1418.00mil 71.8124mm 36.7218mm 18.00mil 12.00mil ""]
 	Line[71.8124mm 36.7218mm 2826.50mil 1446.50mil 18.00mil 12.00mil ""]
@@ -10219,12 +10216,6 @@ Layer(4 "solder")
 	Line[70.7964mm 45.7134mm 2789.00mil 1798.00mil 18.00mil 12.00mil ""]
 	Line[71.7616mm 1826.00mil 71.7616mm 45.8028mm 18.00mil 12.00mil ""]
 	Line[71.7616mm 45.8028mm 2821.00mil 1799.00mil 18.00mil 12.00mil ""]
-	Line[2698.00mil 1276.00mil 2687.00mil 1276.00mil 18.00mil 12.00mil ""]
-	Line[2687.00mil 1276.00mil 2684.00mil 1279.00mil 18.00mil 12.00mil ""]
-	Line[2684.00mil 1279.00mil 2669.00mil 1279.00mil 18.00mil 12.00mil ""]
-	Line[2698.00mil 1314.00mil 2688.00mil 1314.00mil 18.00mil 12.00mil ""]
-	Line[2688.00mil 1314.00mil 2685.00mil 1311.00mil 18.00mil 12.00mil ""]
-	Line[2685.00mil 1311.00mil 2669.00mil 1311.00mil 18.00mil 12.00mil ""]
 	Line[2288.00mil 1926.00mil 2315.00mil 1926.00mil 10.00mil 12.00mil ""]
 	Line[2288.00mil 1964.00mil 2315.00mil 1964.00mil 10.00mil 12.00mil ""]
 	Line[3217.00mil 2131.00mil 2870.00mil 2131.00mil 6.00mil 12.00mil ""]
@@ -10243,6 +10234,15 @@ Layer(4 "solder")
 	Line[2358.00mil 3110.00mil 2359.00mil 3109.00mil 6.00mil 12.00mil ""]
 	Line[2416.00mil 1849.00mil 2416.00mil 47.6128mm 10.00mil 12.00mil ""]
 	Line[2416.00mil 47.6128mm 61.3288mm 1876.00mil 10.00mil 12.00mil ""]
+	Line[2958.00mil 2748.00mil 2958.00mil 2643.00mil 18.00mil 12.00mil ""]
+	Line[2958.00mil 2643.00mil 2959.00mil 2642.00mil 18.00mil 12.00mil ""]
+	Line[70.8472mm 1418.00mil 70.8472mm 36.7472mm 10.00mil 12.00mil ""]
+	Line[2791.00mil 1311.00mil 2791.00mil 1339.00mil 10.00mil 12.00mil ""]
+	Line[2791.00mil 1339.00mil 2789.50mil 1340.50mil 10.00mil 12.00mil ""]
+	Line[2670.00mil 1311.00mil 2695.00mil 1311.00mil 10.00mil 12.00mil ""]
+	Line[2695.00mil 1311.00mil 2698.00mil 1314.00mil 10.00mil 12.00mil ""]
+	Line[2670.00mil 1279.00mil 2695.00mil 1279.00mil 10.00mil 12.00mil ""]
+	Line[2695.00mil 1279.00mil 2698.00mil 1276.00mil 10.00mil 12.00mil ""]
 	Polygon("clearpoly")
 	(
 		[2284.00mil 2271.00mil] [2425.00mil 2271.00mil] [2425.00mil 2573.00mil] [2284.00mil 2573.00mil] 
