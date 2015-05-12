@@ -3,9 +3,6 @@
 
 cam:	
 	pcb -x gerber --gerberfile layout --all-layers --copy-outline mask --name-style fixed board.pcb
-	pcb -x gerber --gerberfile layout_via_plugs --all-layers --copy-outline mask --name-style fixed via_plugs.pcb
-	mv layout_via_plugs.topsilk.gbr layout.via_plugs.gbr
-	rm layout_via_plugs.*
 	pcb -x bom --bomfile board.bom --xyfile board.xy board.pcb
 	pcb -x png --outfile temp.png --dpi 1000 --photo-mode --photo-plating gold board.pcb
 	<temp.png pngtopnm | pamscale 0.5 | pnmtopng >board.png
