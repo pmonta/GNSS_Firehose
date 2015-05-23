@@ -4,3 +4,4 @@ run
 -ifmt Verilog
 -top chip
 -p xc6slx9-2tqg144
+-infer_ramb8 no
