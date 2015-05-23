@@ -109,8 +109,11 @@ module packet_streamer(
   reg [63:0] pticks;
 //  reg [15:0] d;
 
+  wire tx_clk_reset;
+  reset_gen(tx_clk, tx_clk_reset);
+
   always @(posedge tx_clk)
-    if (reset) begin
+    if (tx_clk_reset) begin
       flag_1 <= 0;
       flag_2 <= 0;
       tx_ctl <= 2'b00;

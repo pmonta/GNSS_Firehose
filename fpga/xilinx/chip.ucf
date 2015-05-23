@@ -120,3 +120,8 @@ net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
 # net tp20=p61 |  iostandard=lvcmos33 ;
 
 #NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;  #fixme: put PHY_RX_CLK on a GCLK pin
+
+net "*streamer_enable*" tig;
+net "*packet_count*" tig;
+net "*activity_clk64*" tig;
+net "*activity_phy_tx_clk*" tig;

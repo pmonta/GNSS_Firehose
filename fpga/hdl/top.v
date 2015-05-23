@@ -171,9 +171,11 @@ module top(
   assign source_data = s_bits;
   assign source_en = s_en;
 
-  wire [15:0] packet_count;
+  (* KEEP = "TRUE" *) wire [15:0] packet_count;
 
 // Ethernet MAC
+
+  (* KEEP = "TRUE" *) wire streamer_enable;
 
   packet_streamer _packet_streamer(
     source_clk, source_reset,
@@ -185,15 +187,13 @@ module top(
 
 // clock activity counters
 
-  wire [7:0] activity_clk64;
-  wire [7:0] activity_clk125;
-  wire [7:0] activity_phy_tx_clk;
-  wire [7:0] activity_phy_rx_clk;
+  (* KEEP = "TRUE" *) wire [7:0] activity_clk64;
+  (* KEEP = "TRUE" *) wire [7:0] activity_phy_tx_clk;
+  (* KEEP = "TRUE" *) wire [7:0] activity_phy_rx_clk;
 
   clock_counter _clk1(clk64, activity_clk64);
-  clock_counter _clk2(clk125, activity_clk125);
-  clock_counter _clk3(phy_tx_clk, activity_phy_tx_clk);
-  clock_counter _clk4(phy_rx_clk, activity_phy_rx_clk);
+  clock_counter _clk2(phy_tx_clk, activity_phy_tx_clk);
+  clock_counter _clk3(phy_rx_clk, activity_phy_rx_clk);
 
 // I/O ports for peripherals
 
@@ -296,7 +296,7 @@ module top(
   assign in_port_26 = packet_count[15:8];
   assign in_port_27 = packet_count[7:0];
   assign in_port_28 = activity_clk64;
-  assign in_port_29 = activity_clk125;
+  assign in_port_29 = 0;
   assign in_port_30 = activity_phy_tx_clk;
   assign in_port_31 = activity_phy_rx_clk;
   assign in_port_35 = ch1_i_sum;
@@ -357,7 +357,7 @@ module gray_to_binary(
 
   wire [7:0] xr = {x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7]};
 
-  always @(x) begin
+  always @(xr) begin
     z[7] = xr[7];
     z[6] = xr[6]^z[7];
     z[5] = xr[5]^z[6];
@@ -385,3 +385,4 @@ endmodule
 `include "activity.v"
 `include "quantize.v"
 `include "histogram.v"
+`include "reset_gen.v"
