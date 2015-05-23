@@ -30,3 +30,5 @@ clean:
 	rm -rf *.prm *.mcs *.cfi
 	rm -rf _impact.cmd _impact.log _impactbatch.log
 	rm -rf impact_impact.xwbt impact.xsl webtalk_impact.xml
+	rm -f chip.edif ngc2edif.log
+	rm -f chip_map.twr chip_map.twx
