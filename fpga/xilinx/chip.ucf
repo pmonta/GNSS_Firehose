@@ -6,8 +6,8 @@
 net "clk64" tnm_net = "clkADC";
 timespec "ts_clkADC" = period "clkADC" 14.5ns;
 
-net "phy_rx_clk" tnm_net = "clkPHY";
-timespec "ts_clkPHY" = period "clkPHY" 8ns;
+#net "phy_rx_clk" tnm_net = "clkPHY";
+#timespec "ts_clkPHY" = period "clkPHY" 8ns;
 
 net "clk_3888" tnm_net = "clkTCXO";
 timespec "ts_clkTCXO" = period "clkTCXO" 25.72ns;
@@ -118,8 +118,6 @@ net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
 # net tp18=p67 |  iostandard=lvcmos33 ;
 # net tp19=p66 |  iostandard=lvcmos33 ;
 # net tp20=p61 |  iostandard=lvcmos33 ;
-
-#NET "phy_rx_clk" CLOCK_DEDICATED_ROUTE = FALSE;  #fixme: put PHY_RX_CLK on a GCLK pin
 
 net "*streamer_enable*" tig;
 net "*packet_count*" tig;

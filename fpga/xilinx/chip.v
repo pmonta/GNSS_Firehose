@@ -159,16 +159,16 @@ module chip(
 
 // demultiplex PHY RX signals
 
-  wire phy_rx_demux_clk;
-  wire [7:0] phy_rx_demux_data;
-  wire [1:0] phy_rx_demux_ctl;
-
-  BUFG _phy_rx_bufg(      // fixme: should be using local clock resources
-    .I(phy_rx_clk),
-    .O(phy_rx_demux_clk)
-  );
-
-  demux_rx _demux_rx(phy_rx_demux_clk, phy_rx_data, phy_rx_demux_data, phy_rx_ctl, phy_rx_demux_ctl);
+//  wire phy_rx_demux_clk;
+//  wire [7:0] phy_rx_demux_data;
+//  wire [1:0] phy_rx_demux_ctl;
+//
+//  BUFG _phy_rx_bufg(      // fixme: should be using local clock resources
+//    .I(phy_rx_clk),
+//    .O(phy_rx_demux_clk)
+//  );
+//
+//  demux_rx _demux_rx(phy_rx_demux_clk, phy_rx_data, phy_rx_demux_data, phy_rx_ctl, phy_rx_demux_ctl);
 
 // multiplex PHY TX signals
 
