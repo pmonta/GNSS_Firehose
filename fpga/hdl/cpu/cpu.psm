@@ -109,11 +109,15 @@ skip4:	compare s0, 73   ; 's'
 	jump nz, skip5
 	call scratchpad_fetch
 	return
-skip5:	compare s0, 70   ; 'p'
+skip5:  compare s0, 74   ; 't'
 	jump nz, skip6
+	call scratchpad_store
+	return
+skip6:	compare s0, 70   ; 'p'
+	jump nz, skip7
 	call phy_read
 	return
-skip6:  and s0, 0f
+skip7:  and s0, 0f
 	sl0 s1
 	sl0 s1
 	sl0 s1
@@ -142,6 +146,10 @@ port_echo:
 scratchpad_fetch:
 	fetch s0, (s2)
 	call putchar
+	return
+
+scratchpad_store:
+	store s1, (s2)
 	return
 
 getchar:
