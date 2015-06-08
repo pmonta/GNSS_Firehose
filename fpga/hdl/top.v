@@ -171,11 +171,11 @@ module top(
   assign source_data = s_bits;
   assign source_en = s_en;
 
-  (* KEEP = "TRUE" *) wire [15:0] packet_count;
+  (* keep="true" *) wire [15:0] packet_count;
 
 // Ethernet MAC
 
-  (* KEEP = "TRUE" *) wire streamer_enable;
+  (* keep="true" *) wire streamer_enable;
 
   packet_streamer _packet_streamer(
     source_clk, source_reset,
@@ -187,9 +187,9 @@ module top(
 
 // clock activity counters
 
-  (* KEEP = "TRUE" *) wire [7:0] activity_clk64;
-  (* KEEP = "TRUE" *) wire [7:0] activity_phy_tx_clk;
-  (* KEEP = "TRUE" *) wire [7:0] activity_phy_rx_clk;
+  (* keep="true" *) wire [7:0] activity_clk64;
+  (* keep="true" *) wire [7:0] activity_phy_tx_clk;
+  (* keep="true" *) wire [7:0] activity_phy_rx_clk;
 
   clock_counter _clk1(clk64, activity_clk64);
   clock_counter _clk2(phy_tx_clk, activity_phy_tx_clk);

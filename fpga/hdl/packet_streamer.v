@@ -110,7 +110,7 @@ module packet_streamer(
 //  reg [15:0] d;
 
   wire tx_clk_reset;
-  reset_gen(tx_clk, tx_clk_reset);
+  reset_gen _reset(tx_clk, tx_clk_reset);
 
   always @(posedge tx_clk)
     if (tx_clk_reset) begin
