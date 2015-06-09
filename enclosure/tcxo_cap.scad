@@ -7,8 +7,8 @@ module exterior() {
 }
 
 module interior() {
-  translate([0,0,1]) {
-    linear_extrude(height=100, center=false) {
+  translate([0,0,-1]) {
+    linear_extrude(height=4.5, center=false) {
       polygon(points=[[0+w,0+w],[15-w,0+w],[15-w,7.5-w/2],[11.5-w/2,11-w],[0+w,11-w]]);
     }
   }
