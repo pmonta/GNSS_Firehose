@@ -72,7 +72,14 @@ module chip(
 // LEDs
 
   output led0,
-  output led1
+  output led1,
+	    
+// flash chip
+
+  output spi_cclk,
+  input spi_din,
+  output spi_mosi,
+  output spi_cso_b
 );
   
 // clocks
@@ -245,6 +252,10 @@ module chip(
     uart_tx,
     led0,
     led1,
+    spi_cclk,
+    spi_din,
+    spi_mosi,
+    spi_cso_b,
     dcm_rst,
     dcm_locked
   );

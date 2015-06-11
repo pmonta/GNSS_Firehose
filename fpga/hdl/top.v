@@ -80,6 +80,13 @@ module top(
   output led0,
   output led1,
 
+// SPI access to flash chip
+
+  output spi_cclk,
+  input spi_din,
+  output spi_mosi,
+  output spi_cso_b,
+
 // DCM control and status
 
   output dcm_rst,
@@ -176,13 +183,15 @@ module top(
 // Ethernet MAC
 
   (* keep="true" *) wire streamer_enable;
+  (* keep="true" *) wire [47:0] mac_addr;
 
   packet_streamer _packet_streamer(
     source_clk, source_reset,
     source_data, source_en,
     phy_tx_clk, phy_tx_mux_data, phy_tx_mux_ctl,
     packet_count,
-    streamer_enable
+    streamer_enable,
+    mac_addr
   );
 
 // clock activity counters
@@ -223,6 +232,13 @@ module top(
   wire [7:0] out_port_26;  // ch3_i DC correction
   wire [7:0] out_port_27;  // ch3_q DC correction
   wire [7:0] out_port_30;  // DCM reset
+  wire [7:0] out_port_31;  // SPI flash
+  wire [7:0] out_port_40;  // Ethernet MAC address
+  wire [7:0] out_port_41;
+  wire [7:0] out_port_42;
+  wire [7:0] out_port_43;
+  wire [7:0] out_port_44;
+  wire [7:0] out_port_45;
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
   assign led1 = out_port_2[0];
@@ -246,6 +262,8 @@ module top(
   assign ch3_i_dc = out_port_26;
   assign ch3_q_dc = out_port_27;
   assign dcm_rst = out_port_30[0];
+  assign {spi_cclk,spi_mosi,spi_cso_b} = out_port_31[2:0];
+  assign mac_addr = {out_port_40,out_port_41,out_port_42,out_port_43,out_port_44,out_port_45};
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
   wire [7:0] in_port_1;  // loopback testing
@@ -276,6 +294,7 @@ module top(
   wire [7:0] in_port_39; // DC sum of ch3_i
   wire [7:0] in_port_40; // DC sum of ch3_q
   wire [7:0] in_port_43; // DCM locked
+  wire [7:0] in_port_48; // SPI flash
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -306,6 +325,7 @@ module top(
   assign in_port_39 = ch3_i_sum;
   assign in_port_40 = ch3_q_sum;
   assign in_port_43 = dcm_locked;
+  assign in_port_48 = spi_din;
 
 // housekeeping CPU
 
@@ -318,13 +338,16 @@ module top(
     out_port_21,
     out_port_22, out_port_23, out_port_24, out_port_25, out_port_26, out_port_27,
     out_port_30,
+    out_port_31,
+    out_port_40, out_port_41, out_port_42, out_port_43, out_port_44, out_port_45,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,
     in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
     in_port_26, in_port_27,
     in_port_28, in_port_29, in_port_30, in_port_31,
     in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
-    in_port_43
+    in_port_43,
+    in_port_48
   );
 
 // monitor the lock-detect signal

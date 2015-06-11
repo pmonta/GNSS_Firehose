@@ -19,6 +19,8 @@ module cpu(
   output reg [7:0] out_port_21,
   output reg [7:0] out_port_22, out_port_23, out_port_24, out_port_25, out_port_26, out_port_27,
   output reg [7:0] out_port_30,
+  output reg [7:0] out_port_31,
+  output reg [7:0] out_port_40, out_port_41, out_port_42, out_port_43, out_port_44, out_port_45,
   input [7:0] in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7,
   input [7:0] in_port_8,
   input [7:0] in_port_17, in_port_18, in_port_19,
@@ -26,7 +28,8 @@ module cpu(
   input [7:0] in_port_26, in_port_27,
   input [7:0] in_port_28, in_port_29, in_port_30, in_port_31,
   input [7:0] in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
-  input [7:0] in_port_43
+  input [7:0] in_port_43,
+  input [7:0] in_port_48
 );
 
   wire baudclk16;
@@ -87,6 +90,7 @@ module cpu(
                        (port_id==8'd40) ? in_port_40 :
                        (port_id==8'd43) ? in_port_43 :
                        (port_id==8'd44) ? jiffies :
+                       (port_id==8'd48) ? in_port_48 :
                        8'hff;
 
   wire read_strobe;
@@ -122,9 +126,16 @@ module cpu(
       out_port_26 <= 0;
       out_port_27 <= 0;
       out_port_30 <= 0;
+      out_port_31 <= 8'b00000001;
       uart_tx_data <= 0;
       uart_rx_read <= 0;
       uart_tx_write <= 0;
+      out_port_40 <= 8'h00;
+      out_port_41 <= 8'h01;
+      out_port_42 <= 8'h02;
+      out_port_43 <= 8'h03;
+      out_port_44 <= 8'h04;
+      out_port_45 <= 8'h09;
     end else begin
       if (write_strobe)
         case (port_id)
@@ -154,9 +165,16 @@ module cpu(
           8'd26: out_port_26 <= out_port;
           8'd27: out_port_27 <= out_port;
           8'd30: out_port_30 <= out_port;
+          8'd31: out_port_31 <= out_port;
           8'd32: uart_tx_data <= out_port;
           8'd33: uart_rx_read <= out_port[0];
           8'd34: uart_tx_write <= out_port[0];
+          8'd40: out_port_40 <= out_port;
+          8'd41: out_port_41 <= out_port;
+          8'd42: out_port_42 <= out_port;
+          8'd43: out_port_43 <= out_port;
+          8'd44: out_port_44 <= out_port;
+          8'd45: out_port_45 <= out_port;
         endcase
     end
 

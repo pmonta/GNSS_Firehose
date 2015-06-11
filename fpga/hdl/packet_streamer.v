@@ -11,7 +11,8 @@ module packet_streamer(
   output reg [7:0] tx_data,
   output reg [1:0] tx_ctl,
   output reg [15:0] packet_count,
-  input streamer_enable
+  input streamer_enable,
+  input [47:0] mac_addr
 );
 
   reg [9:0] waddr;
@@ -154,14 +155,14 @@ module packet_streamer(
         DEST_3: begin tx_data <= 8'hff; state <= DEST_4; end
         DEST_4: begin tx_data <= 8'hff; state <= DEST_5; end
         DEST_5: begin tx_data <= 8'hff; state <= SRC_0; end
-        SRC_0: begin tx_data <= 8'h00; state <= SRC_1; end
-        SRC_1: begin tx_data <= 8'h01; state <= SRC_2; end
-        SRC_2: begin tx_data <= 8'h02; state <= SRC_3; end
-        SRC_3: begin tx_data <= 8'h03; state <= SRC_4; end
-        SRC_4: begin tx_data <= 8'h04; state <= SRC_5; end
-        SRC_5: begin tx_data <= 8'h09; state <= TYPELEN_0; end
-        TYPELEN_0: begin tx_data <= 8'h98; state <= TYPELEN_1; end  // Ethernet protocol 0x9800 --- random unused value
-        TYPELEN_1: begin tx_data <= 8'h00; state <= TICKS_0; end
+        SRC_0: begin tx_data <= mac_addr[47:40]; state <= SRC_1; end
+        SRC_1: begin tx_data <= mac_addr[39:32]; state <= SRC_2; end
+        SRC_2: begin tx_data <= mac_addr[31:24]; state <= SRC_3; end
+        SRC_3: begin tx_data <= mac_addr[23:16]; state <= SRC_4; end
+        SRC_4: begin tx_data <= mac_addr[15:8]; state <= SRC_5; end
+        SRC_5: begin tx_data <= mac_addr[7:0]; state <= TYPELEN_0; end
+        TYPELEN_0: begin tx_data <= 8'h88; state <= TYPELEN_1; end
+        TYPELEN_1: begin tx_data <= 8'hb5; state <= TICKS_0; end
         TICKS_0: begin tx_data <= pticks[63:56]; state <= TICKS_1; end
         TICKS_1: begin tx_data <= pticks[55:48]; state <= TICKS_2; end
         TICKS_2: begin tx_data <= pticks[47:40]; state <= TICKS_3; end

@@ -108,6 +108,11 @@ net uart_tx loc=p102  | iostandard=lvcmos33 | slew="slow" ;
 net led0 loc=p105 | iostandard=lvcmos33 | slew="slow" ;
 net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
 
+net spi_cclk  loc=p70 | iostandard=lvcmos33 | slew="slow" ;
+net spi_din   loc=p65 | iostandard=lvcmos33 ;
+net spi_mosi  loc=p64 | iostandard=lvcmos33 | slew="slow" ;
+net spi_cso_b loc=p38 | iostandard=lvcmos33 | slew="slow" ;
+
 # net spare1_p=p75 | iostandard=lvcmos33 ;
 # net spare1_n=p74 | iostandard=lvcmos33 ;
 # net spare2_p=p100 | iostandard=lvcmos33 ;
@@ -123,3 +128,4 @@ net "*streamer_enable*" tig;
 net "*packet_count*" tig;
 net "*activity_clk64*" tig;
 net "*activity_phy_tx_clk*" tig;
+net "*mac_addr*" tig;
