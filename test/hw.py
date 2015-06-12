@@ -19,7 +19,9 @@ class hw:
 
   def swrite(self, s):
     # print 'writing <%s>' % s
-    self.ser.write(s)
+    for c in s:
+      self.ser.write(c)
+      time.sleep(0.001)
   def sread(self):
     x = self.ser.read(1)
     # print 'read <0x%02x>' % ord(x)
@@ -29,19 +31,26 @@ class hw:
     if port!=self.port:
       self.swrite('%sm' % self.phex(port))
       self.port = port    
+
   def write(self, port, val):
     self.addr(port)
     self.swrite('%sw' % self.phex(val))
+
   def read(self, port):
     self.addr(port)
     self.swrite('r')
     x = self.sread()
     return ord(x)
+
   def read_scratchpad(self, addr):
     self.addr(addr)
     self.swrite('s')
     x = self.sread()
     return ord(x)
+
+  def write_scratchpad(self, addr, val):
+    self.addr(addr)
+    self.swrite('%st' % self.phex(val))
 
   def test(self):
     print '0x%02x' % self.read(31)
@@ -85,7 +94,7 @@ class hw:
       x = (x<<1) | self.clock_read_bit()
     return x
 
-  def clock_init(self, vco_div, max2112_div, adc_div):
+  def clock_init(self, vco_p, vco_div, max2112_div, adc_div):
     vals = [
       (0, (1<<31) | (1<<17) | (max2112_div<<5)),
       # R0: clkout0/1 max2112 channel 1,2 reference
@@ -121,7 +130,7 @@ class hw:
       (26, 0x83a00000 | (0<<29) | (0<<26) | (8192<<6)),
       (28, (1<<20)),
       (29, 0x00800000 | (0<<24) | (vco_div<<5)),
-      (30, (2<<24) | (vco_div<<5)),
+      (30, (vco_p<<24) | (vco_div<<5)),
     ]
     for (addr,val) in vals:
       # print 'writing 0x%08x to address %d' % (val,addr)
@@ -233,6 +242,25 @@ class hw:
       x = (x<<1) | self.phy_smi_read_bit()
     return x
 
+  def phy_smi_read_uart(self, addr):
+    self.addr(addr)
+    self.swrite('p')
+    x0 = self.sread()
+    x1 = self.sread()
+    x = ord(x0)*256 + ord(x1)
+    return x
+
+  def phy_dump(self):
+    for addr in range(32):
+      print '%d: 0x%04x' % (addr,self.phy_smi_read_uart(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read_uart(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read_uart(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read_uart(addr))
+      print '%d: 0x%04x' % (addr,self.phy_smi_read(addr))
+
   def phy_smi_write(self, addr, val, phy_addr=0):
     self.phy_smi_write_bit(0)
     self.phy_smi_write_bit(1)
@@ -256,9 +284,9 @@ class hw:
 
   def phy_reset(self):
     self.write(20, 1)
-    time.sleep(2)
+    time.sleep(20)
     self.write(20, 0)
-    time.sleep(2)
+    time.sleep(20)
 
   def i2c_set(self, channel):
     port = 17 + (channel-1)
@@ -399,7 +427,56 @@ class hw:
       (0, (FRAC<<7) | (N>>8)),
     ]
     for (addr,val) in regs:
-      # print 'writing %d: 0x%02x' % (addr,val)
+      print 'writing %d: 0x%02x' % (addr,val)
+      self.i2c_write(channel, addr, val)
+    # for addr in range(14):
+    #   print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
+    r12 = self.i2c_read(channel, 12)
+    r13 = self.i2c_read(channel, 13)
+    print 'channel %d:  0x%02x 0x%02x   locked:%d vco:%d' % (channel,r12,r13,(r12>>4)&1,r13>>3)
+
+  def max2112_init_frac(self, channel, N, F):
+    self.i2c_init(channel)
+    FRAC = 1
+    CPLIN = 1
+    CPMP = 0
+#    F = 0
+    R = 2
+    XD = 0
+    ICP = 0
+    CPS = 1
+    freq = N*34992000   # assume 35 MHz reference frequency for divider selection
+    if freq<1125000000:
+      D24 = 1
+    else:
+      D24 = 0
+    ADE = 0
+    ADL = 0
+    VAS = 1
+    VCO = 25
+    LPF = 92   # 3dB point: 4 MHz + (LPF-12)*0.29MHz == 27.20 MHz
+    BBG = 7
+    PWDN = 0
+    STBY = 0
+    LDMUX = 0
+    TURBO = 1
+    CPTST = 0
+    regs = [
+      (5, (XD<<5) | R),
+      (6, (D24<<7) | (CPS<<6) | (ICP<<5)),
+      (7, (VCO<<3) | (VAS<<2) | (ADL<<1) | ADE),
+      (8, LPF),
+      (9, (STBY<<7) | (PWDN<<5) | BBG),
+      (10, 0),
+      (11, (CPTST<<5) | (TURBO<<3) | LDMUX),
+      (1, (N&0xff)),
+      (2, (CPMP<<6) | (CPLIN<<4) | (F>>16)),
+      (3, (F>>8)&0xff),
+      (4, (F&0xff)),
+      (0, (FRAC<<7) | (N>>8)),
+    ]
+    for (addr,val) in regs:
+      print 'writing %d: 0x%02x' % (addr,val)
       self.i2c_write(channel, addr, val)
     # for addr in range(14):
     #   print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
@@ -410,10 +487,14 @@ class hw:
   def max2112_dump(self, channel):
     for addr in range(14):
       print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
+    r12 = self.i2c_read(channel, 12)
+    r13 = self.i2c_read(channel, 13)
+    print 'channel %d:  0x%02x 0x%02x   locked:%d vco:%d' % (channel,r12,r13,(r12>>4)&1,r13>>3)
 
   def histogram_dump(self):
     print 'histograms: ',self.read(20), self.read(21), self.read(22), self.read(23), self.read(24), self.read(25)
     print 'gc values: ',self.read_scratchpad(0), self.read_scratchpad(1), self.read_scratchpad(2), self.read_scratchpad(3), self.read_scratchpad(4), self.read_scratchpad(5)
+    print 'dc values: ',self.read(35),self.read(36),self.read(37),self.read(38),self.read(39),self.read(40)
 
   def set_agc(self, channel, val):
     msb = (val>>8)&3
@@ -427,3 +508,69 @@ class hw:
     msb = self.read(26)
     lsb = self.read(27)
     return 256*msb + lsb
+
+  def claim_smi(self):
+    self.write_scratchpad(9,1)
+
+  def yield_smi(self):
+    self.write_scratchpad(9,0)
+
+  def spi_byte(self, x):
+    y = 0
+    for i in range(8):
+      bit = (x>>(7-i))&1
+      self.write(31,0x2*bit)
+      self.write(31,4+0x2*bit)
+      r = self.read(48)&1
+      self.write(31,0x2*bit)
+      y = (y<<1) + r
+    return y
+
+  def spi_read(self, addr):
+    self.write(31,1)
+    self.write(31,0) # assert chip select
+    self.spi_byte(0x03)  # READ command
+    self.spi_byte(addr>>16)
+    self.spi_byte((addr>>8)&0xff)
+    self.spi_byte(addr&0xff)
+    val = self.spi_byte(0)
+    self.write(31,1)
+    return val
+
+  def spi_read_status(self):
+    self.write(31,1)
+    self.write(31,0) # assert chip select
+    self.spi_byte(0x05)  # RDSR command (read status register)
+    val = self.spi_byte(0)
+    self.write(31,1)
+    return val
+
+  def spi_wren(self):
+    self.write(31,1)
+    self.write(31,0) # assert chip select
+    self.spi_byte(0x06)  # WREN command (write enable)
+    self.write(31,1)
+
+  def spi_write(self, addr, val):
+    self.spi_wren()
+    self.write(31,1)
+    self.write(31,0) # assert chip select
+    self.spi_byte(0x02)  # PP command (page program)
+    self.spi_byte(addr>>16)
+    self.spi_byte((addr>>8)&0xff)
+    self.spi_byte(addr&0xff)
+    self.spi_byte(val)
+    self.write(31,1)
+    time.sleep(0.1)
+
+  def spi_sector_erase(self):
+    self.spi_wren()
+    self.write(31,1)
+    self.write(31,0) # assert chip select
+    self.spi_byte(0xd8)  # SE command (sector erase)
+    addr = 0x70000
+    self.spi_byte(addr>>16)
+    self.spi_byte((addr>>8)&0xff)
+    self.spi_byte(addr&0xff)
+    self.write(31,1)
+    time.sleep(3)
