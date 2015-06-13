@@ -15,6 +15,9 @@
 	constant port_streamer_enable, 15
 	constant port_dcm_rst, 1e
 	constant port_jiffies, 2c
+	constant port_out_spi, 1f
+	constant port_in_spi, 30
+	constant port_mac, 28
 
 	constant max2112_i2c_slave_addr, 60
 
@@ -82,6 +85,7 @@ hw_init:
 	store s0, scratch_uart_phy   ; control of PHY SMI bus is initially local
 	load s0, 01
 	store s0, scratch_auto_agc   ; enable automatic AGC by default
+	call spi_init_mac            ; initialize MAC address from flash
 	return
 
 uart_service:
@@ -835,6 +839,85 @@ set_agc:
 	store s7, (sF)
 	add sF, 1
 	store s8, (sF)
+	return
+
+spi_byte:
+	load sF, 00
+	load s6, 80
+sb1:	test s5, s6
+	jump nz, spi_1
+	load sD, 00
+	output sD, port_out_spi
+	call delay_200ns
+	load sD, 04
+	output sD, port_out_spi
+	call delay_200ns
+	input sE, port_in_spi
+	and sE, 01
+	sl0 sF
+	add sF, sE
+	load sD, 00
+	output sD, port_out_spi
+	call delay_200ns
+	jump sb2
+spi_1:	load sD, 02
+	output sD, port_out_spi
+	call delay_200ns
+	load sD, 06
+	output sD, port_out_spi
+	call delay_200ns
+	input sE, port_in_spi
+	and sE, 01
+	sl0 sF
+	add sF, sE
+	load sD, 02
+	output sD, port_out_spi
+	call delay_200ns
+sb2:	sr0 s6
+	jump nz, sb1
+	return
+
+spi_read:
+	load sD, 01
+	output sD, port_out_spi
+	call delay_200ns
+	load sD, 00
+	output sD, port_out_spi
+	call delay_200ns
+	load s5, 03        ; READ command to SPI flash
+	call spi_byte
+	load s5, s0        ; address
+	call spi_byte
+	load s5, s1
+	call spi_byte
+	load s5, s2
+	call spi_byte
+	load s5, 00        ; value in sF
+	call spi_byte
+	load sD, 01
+	output sD, port_out_spi
+	call delay_200ns
+	return
+
+spi_init_mac:
+	load s0, 07	; MAC address in 4 Mbit flash chip starts at 0x7ff00
+	load s1, ff
+	load s2, 00
+	load s3, port_mac
+	load s4, 00
+ml:	call spi_read
+	output sF, (s3)
+	add s2, 01
+	add s3, 01
+	add s4, 01
+	compare s4, 06  ; configure six bytes
+	jump nz, ml
+	return
+
+delay_200ns:
+	load s0, s0
+	load s0, s0
+	load s0, s0
 	return
 
 delay_5us:
