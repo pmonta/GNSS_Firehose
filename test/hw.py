@@ -574,3 +574,11 @@ class hw:
     self.spi_byte(addr&0xff)
     self.write(31,1)
     time.sleep(3)
+
+  def spi_dump(self):
+    for i in range(8):
+      addr = 0x7ff00 + i
+      print '0x%05x: 0x%02x ' % (addr,self.spi_read(addr))
+
+  def spi_status(self):
+    print 'status: 0x%02x' % self.spi_read_status()
