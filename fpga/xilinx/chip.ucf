@@ -6,8 +6,8 @@
 net "clk64" tnm_net = "clkADC";
 timespec "ts_clkADC" = period "clkADC" 14.5ns;
 
-#net "phy_rx_clk" tnm_net = "clkPHY";
-#timespec "ts_clkPHY" = period "clkPHY" 8ns;
+net "phy_rx_clk" tnm_net = "clkPHY";
+timespec "ts_clkPHY" = period "clkPHY" 8ns;
 
 net "clk_3888" tnm_net = "clkTCXO";
 timespec "ts_clkTCXO" = period "clkTCXO" 25.72ns;
@@ -113,16 +113,16 @@ net spi_din   loc=p65 | iostandard=lvcmos33 ;
 net spi_mosi  loc=p64 | iostandard=lvcmos33 | slew="slow" ;
 net spi_cso_b loc=p38 | iostandard=lvcmos33 | slew="slow" ;
 
-# net spare1_p=p75 | iostandard=lvcmos33 ;
-# net spare1_n=p74 | iostandard=lvcmos33 ;
-# net spare2_p=p100 | iostandard=lvcmos33 ;
-# net spare2_n=p99 | iostandard=lvcmos33 ;
-# net spare3_p=p112 | iostandard=lvcmos33 ;
-# net spare3_n=p111 | iostandard=lvcmos33 ;
+# net spare1_p loc=p75  | iostandard=lvcmos33 ;
+# net spare1_n loc=p74  | iostandard=lvcmos33 ;
+# net spare2_p loc=p100 | iostandard=lvcmos33 ;
+# net spare2_n loc=p99  | iostandard=lvcmos33 ;
+# net spare3_p loc=p112 | iostandard=lvcmos33 ;
+# net spare3_n loc=p111 | iostandard=lvcmos33 ;
 
-# net tp18=p67 |  iostandard=lvcmos33 ;
-# net tp19=p66 |  iostandard=lvcmos33 ;
-# net tp20=p61 |  iostandard=lvcmos33 ;
+# net tp18 loc=p67 | iostandard=lvcmos33 ;
+# net tp19 loc=p66 | iostandard=lvcmos33 ;
+# net tp20 loc=p61 | iostandard=lvcmos33 ;
 
 net "*streamer_enable*" tig;
 net "*packet_count*" tig;

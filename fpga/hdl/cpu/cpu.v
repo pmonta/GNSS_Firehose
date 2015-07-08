@@ -21,6 +21,8 @@ module cpu(
   output reg [7:0] out_port_30,
   output reg [7:0] out_port_31,
   output reg [7:0] out_port_40, out_port_41, out_port_42, out_port_43, out_port_44, out_port_45,
+  output reg [7:0] out_port_46,
+  output reg [7:0] out_port_47,
   input [7:0] in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7,
   input [7:0] in_port_8,
   input [7:0] in_port_17, in_port_18, in_port_19,
@@ -29,7 +31,8 @@ module cpu(
   input [7:0] in_port_28, in_port_29, in_port_30, in_port_31,
   input [7:0] in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
   input [7:0] in_port_43,
-  input [7:0] in_port_48
+  input [7:0] in_port_48,
+  input [7:0] in_port_49
 );
 
   wire baudclk16;
@@ -91,6 +94,7 @@ module cpu(
                        (port_id==8'd43) ? in_port_43 :
                        (port_id==8'd44) ? jiffies :
                        (port_id==8'd48) ? in_port_48 :
+                       (port_id==8'd49) ? in_port_49 :
                        8'hff;
 
   wire read_strobe;
@@ -136,6 +140,8 @@ module cpu(
       out_port_43 <= 8'h03;
       out_port_44 <= 8'h04;
       out_port_45 <= 8'h09;
+      out_port_46 <= 0;
+      out_port_47 <= 0;
     end else begin
       if (write_strobe)
         case (port_id)
@@ -175,6 +181,8 @@ module cpu(
           8'd43: out_port_43 <= out_port;
           8'd44: out_port_44 <= out_port;
           8'd45: out_port_45 <= out_port;
+          8'd46: out_port_46 <= out_port;
+          8'd47: out_port_47 <= out_port;
         endcase
     end
 

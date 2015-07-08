@@ -169,9 +169,40 @@ module top(
 
   reg [15:0] s_bits;
   reg s_en;
+  wire [7:0] mode;
+  reg [7:0] bits;
 
   always @(posedge source_clk) begin
-    s_bits <= {s_bits[7:0],ch1_si,ch1_sq,ch2_si,ch2_sq};
+    case (mode)
+      8'd0: bits = {ch1_si,ch1_sq,ch2_si,ch2_sq};
+      8'd1: bits = ch1_i;
+      8'd2: bits = ch1_q;
+      8'd3: bits = ch2_i;
+      8'd4: bits = ch2_q;
+      8'd5: bits = ch3_i;
+      8'd6: bits = ch3_q;
+      8'd7: bits = ch4_i;
+      8'd8: bits = ch4_q;
+      8'd9: bits = {ch1_i[7:4],ch1_q[7:4]};
+      8'd10: bits = {ch1_i[6:3],ch1_q[6:3]};
+      8'd11: bits = {ch1_i[5:2],ch1_q[5:2]};
+      8'd12: bits = {ch1_i[4:1],ch1_q[4:1]};
+      8'd13: bits = {ch1_i[3:0],ch1_q[3:0]};
+      8'd14: bits = {ch2_i[7:4],ch2_q[7:4]};
+      8'd15: bits = {ch2_i[6:3],ch2_q[6:3]};
+      8'd16: bits = {ch2_i[5:2],ch2_q[5:2]};
+      8'd17: bits = {ch2_i[4:1],ch2_q[4:1]};
+      8'd18: bits = {ch2_i[3:0],ch2_q[3:0]};
+      8'd19: bits = {ch3_i[7:4],ch3_q[7:4]};
+      8'd20: bits = {ch3_i[6:3],ch3_q[6:3]};
+      8'd21: bits = {ch3_i[5:2],ch3_q[5:2]};
+      8'd22: bits = {ch3_i[4:1],ch3_q[4:1]};
+      8'd23: bits = {ch3_i[3:0],ch3_q[3:0]};
+      8'd24: bits = {ch1_si,ch1_sq,ch3_si,ch3_sq};
+      8'd25: bits = {ch2_si,ch2_sq,ch3_si,ch3_sq};
+      default: bits = 0;
+    endcase
+    s_bits <= {s_bits[7:0],bits};
     s_en <= ~s_en;
   end
 
@@ -192,6 +223,18 @@ module top(
     packet_count,
     streamer_enable,
     mac_addr
+  );
+
+// Ethernet receiver
+
+  wire [7:0] cpu_addr;
+  wire [7:0] cpu_data;
+  wire [7:0] packet_count_rx;
+
+  packet_rx _packet_rx(
+    phy_rx_clk, phy_rx_demux_data, phy_rx_demux_ctl,
+    packet_count_rx,
+    clk_cpu, cpu_addr, cpu_data
   );
 
 // clock activity counters
@@ -239,6 +282,8 @@ module top(
   wire [7:0] out_port_43;
   wire [7:0] out_port_44;
   wire [7:0] out_port_45;
+  wire [7:0] out_port_46;  // address for Ethernet rx buffer
+  wire [7:0] out_port_47;  // sampling mode
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
   assign led1 = out_port_2[0];
@@ -264,6 +309,8 @@ module top(
   assign dcm_rst = out_port_30[0];
   assign {spi_cclk,spi_mosi,spi_cso_b} = out_port_31[2:0];
   assign mac_addr = {out_port_40,out_port_41,out_port_42,out_port_43,out_port_44,out_port_45};
+  assign cpu_addr = out_port_46;
+  assign mode = out_port_47;
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
   wire [7:0] in_port_1;  // loopback testing
@@ -295,6 +342,7 @@ module top(
   wire [7:0] in_port_40; // DC sum of ch3_q
   wire [7:0] in_port_43; // DCM locked
   wire [7:0] in_port_48; // SPI flash
+  wire [7:0] in_port_49; // Ethernet rx
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -326,6 +374,7 @@ module top(
   assign in_port_40 = ch3_q_sum;
   assign in_port_43 = dcm_locked;
   assign in_port_48 = spi_din;
+  assign in_port_49 = cpu_data;
 
 // housekeeping CPU
 
@@ -340,6 +389,8 @@ module top(
     out_port_30,
     out_port_31,
     out_port_40, out_port_41, out_port_42, out_port_43, out_port_44, out_port_45,
+    out_port_46,
+    out_port_47,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,
     in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
@@ -347,7 +398,8 @@ module top(
     in_port_28, in_port_29, in_port_30, in_port_31,
     in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
     in_port_43,
-    in_port_48
+    in_port_48,
+    in_port_49
   );
 
 // monitor the lock-detect signal
@@ -409,3 +461,4 @@ endmodule
 `include "quantize.v"
 `include "histogram.v"
 `include "reset_gen.v"
+`include "packet_rx.v"
