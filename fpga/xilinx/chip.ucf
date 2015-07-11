@@ -129,3 +129,6 @@ net "*packet_count*" tig;
 net "*activity_clk64*" tig;
 net "*activity_phy_tx_clk*" tig;
 net "*mac_addr*" tig;
+net "*eth_rx_data*" tig;
+net "*eth_rx_ready*" tig;
+net "*eth_rx_read*" tig;

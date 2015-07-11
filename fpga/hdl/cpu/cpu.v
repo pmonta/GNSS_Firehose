@@ -12,6 +12,9 @@ module cpu(
   input clk, reset,
   output uart_tx,
   input uart_rx,
+  input [7:0] eth_rx_data,
+  input eth_rx_ready,
+  output reg eth_rx_read,
   output reg [7:0] out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
   output reg [7:0] out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
   output reg [7:0] out_port_17, out_port_18, out_port_19,
@@ -31,8 +34,7 @@ module cpu(
   input [7:0] in_port_28, in_port_29, in_port_30, in_port_31,
   input [7:0] in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
   input [7:0] in_port_43,
-  input [7:0] in_port_48,
-  input [7:0] in_port_49
+  input [7:0] in_port_48
 );
 
   wire baudclk16;
@@ -94,7 +96,8 @@ module cpu(
                        (port_id==8'd43) ? in_port_43 :
                        (port_id==8'd44) ? jiffies :
                        (port_id==8'd48) ? in_port_48 :
-                       (port_id==8'd49) ? in_port_49 :
+                       (port_id==8'd50) ? eth_rx_data :
+                       (port_id==8'd51) ? {7'd0,eth_rx_ready} :
                        8'hff;
 
   wire read_strobe;
@@ -142,6 +145,7 @@ module cpu(
       out_port_45 <= 8'h09;
       out_port_46 <= 0;
       out_port_47 <= 0;
+      eth_rx_read <= 0;
     end else begin
       if (write_strobe)
         case (port_id)
@@ -183,6 +187,7 @@ module cpu(
           8'd45: out_port_45 <= out_port;
           8'd46: out_port_46 <= out_port;
           8'd47: out_port_47 <= out_port;
+          8'd48: eth_rx_read <= out_port[0];
         endcase
     end
 

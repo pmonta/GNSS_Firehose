@@ -227,14 +227,15 @@ module top(
 
 // Ethernet receiver
 
-  wire [7:0] cpu_addr;
-  wire [7:0] cpu_data;
-  wire [7:0] packet_count_rx;
+  wire [7:0] eth_rx_data;
+  wire eth_rx_ready;
+  wire eth_rx_read;
 
   packet_rx _packet_rx(
     phy_rx_clk, phy_rx_demux_data, phy_rx_demux_ctl,
-    packet_count_rx,
-    clk_cpu, cpu_addr, cpu_data
+    mac_addr,
+    clk_cpu, clk_cpu_reset,
+    eth_rx_data, eth_rx_ready, eth_rx_read
   );
 
 // clock activity counters
@@ -309,7 +310,6 @@ module top(
   assign dcm_rst = out_port_30[0];
   assign {spi_cclk,spi_mosi,spi_cso_b} = out_port_31[2:0];
   assign mac_addr = {out_port_40,out_port_41,out_port_42,out_port_43,out_port_44,out_port_45};
-  assign cpu_addr = out_port_46;
   assign mode = out_port_47;
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
@@ -342,7 +342,6 @@ module top(
   wire [7:0] in_port_40; // DC sum of ch3_q
   wire [7:0] in_port_43; // DCM locked
   wire [7:0] in_port_48; // SPI flash
-  wire [7:0] in_port_49; // Ethernet rx
 
   assign in_port_0 = {6'd0,clock_readback,clock_ftest_ld};
   assign in_port_1 = out_port_1;
@@ -374,12 +373,12 @@ module top(
   assign in_port_40 = ch3_q_sum;
   assign in_port_43 = dcm_locked;
   assign in_port_48 = spi_din;
-  assign in_port_49 = cpu_data;
 
 // housekeeping CPU
 
   cpu _cpu(clk_cpu, clk_cpu_reset,
     uart_tx, uart_rx,
+    eth_rx_data, eth_rx_ready, eth_rx_read,
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,
@@ -398,8 +397,7 @@ module top(
     in_port_28, in_port_29, in_port_30, in_port_31,
     in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
     in_port_43,
-    in_port_48,
-    in_port_49
+    in_port_48
   );
 
 // monitor the lock-detect signal

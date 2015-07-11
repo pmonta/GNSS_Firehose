@@ -6,6 +6,10 @@
 	constant uart_tx_ready, 22
 	constant uart_tx_write, 22
 
+	constant eth_rx_data, 32
+	constant eth_rx_ready, 33
+	constant eth_rx_read, 30
+
 	constant port_out_clock, 00
 	constant port_in_phy_smi, 02
 	constant port_out_phy_smi, 04
@@ -30,6 +34,7 @@
 
 main:   call hw_init
 loop:   call uart_service     ; service any UART commands
+	call eth_service      ; service any Ethernet commands
 	call poll             ; low-rate polling of various background services
 	jump loop
 
@@ -93,6 +98,18 @@ uart_service:
 	compare s0, 00
 	return z
 	call getchar
+	call process_char
+	return
+
+eth_service:
+	input s0, eth_rx_ready
+	compare s0, 00
+	return z
+	call eth_getchar
+	call process_char
+	return
+
+process_char:
 	compare s0, 6d   ; 'm'
 	jump nz, skip1
 	call port_addr
@@ -165,6 +182,17 @@ getchar:
 	output sF, uart_rx_read
 	load sF, 00
 	output sF, uart_rx_read
+	return
+
+eth_getchar:
+	input sF, eth_rx_ready
+	compare sF, 00
+	jump z, eth_getchar
+	input s0, eth_rx_data
+	load sF, 01
+	output sF, eth_rx_read
+	load sF, 00
+	output sF, eth_rx_read
 	return
 
 putchar:

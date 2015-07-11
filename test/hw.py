@@ -6,13 +6,32 @@
 
 import serial
 import time
+import socket
 
 class hw:
-  def __init__(self, ttyport="/dev/ttyUSB0"):
-    self.ser = serial.Serial(ttyport, 115200, timeout=1)
+  def __init__(self, mode="uart", ttyport="/dev/ttyUSB0", eth_interface="eth0", eth_dest="00:01:02:03:04:09"):
+    self.mode = mode
+    if self.mode=="uart":
+      self.ser = serial.Serial(ttyport, 115200, timeout=1)
+    elif self.mode=="ethernet":
+      self.eth_interface = eth_interface
+      self.eth_dest = eth_dest
+      self.s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
+      self.s.bind((self.eth_interface, 0))
+      eth_src = "00:01:02:03:04:0b"
+      ethertype = "\x88\xb5"            # local experimental; 0x88b6 also available
+      self.preamble = self.parse_hw_addr(self.eth_dest) + self.parse_hw_addr(eth_src) + ethertype
     self.port = None
     self.sda = {}
     self.scl = {}
+
+  def parse_hw_addr(self, x):
+    s = ""
+    for i in range(6):
+      b = int(x[3*i:3*i+2],16)
+      print b
+      s += chr(b)
+    return s
 
   def phex(self, p):
     return '%s%s' % (chr(ord('0')+((p>>4)&15)),chr(ord('0')+(p&15)))
@@ -20,12 +39,19 @@ class hw:
   def swrite(self, s):
     # print 'writing <%s>' % s
     for c in s:
-      self.ser.write(c)
+      if self.mode=="uart":
+        self.ser.write(c)
+      elif self.mode=="ethernet":
+        self.s.send(self.preamble+c)
       time.sleep(0.001)
+
   def sread(self):
-    x = self.ser.read(1)
-    # print 'read <0x%02x>' % ord(x)
-    return x
+    if self.mode=="uart":
+      x = self.ser.read(1)
+      # print 'read <0x%02x>' % ord(x)
+      return x
+    elif self.mode=="ethernet":
+      return None
 
   def addr(self, port):
     if port!=self.port:
@@ -284,9 +310,9 @@ class hw:
 
   def phy_reset(self):
     self.write(20, 1)
-    time.sleep(20)
+    time.sleep(1)
     self.write(20, 0)
-    time.sleep(20)
+    time.sleep(1)
 
   def i2c_set(self, channel):
     port = 17 + (channel-1)
@@ -487,6 +513,11 @@ class hw:
   def max2112_dump(self, channel):
     for addr in range(14):
       print '%d: 0x%02x' % (addr,self.i2c_read(channel, addr))
+    r12 = self.i2c_read(channel, 12)
+    r13 = self.i2c_read(channel, 13)
+    print 'channel %d:  0x%02x 0x%02x   locked:%d vco:%d' % (channel,r12,r13,(r12>>4)&1,r13>>3)
+
+  def max2112_dump_locked(self, channel):
     r12 = self.i2c_read(channel, 12)
     r13 = self.i2c_read(channel, 13)
     print 'channel %d:  0x%02x 0x%02x   locked:%d vco:%d' % (channel,r12,r13,(r12>>4)&1,r13>>3)
