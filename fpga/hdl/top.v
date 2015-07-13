@@ -6,7 +6,6 @@
 module top(
   input clk_cpu, clk_cpu_reset,
   input clk_adc,
-  input clk125,
 
 // RF channel 1
 
@@ -331,7 +330,6 @@ module top(
   wire [7:0] in_port_26; // packet count
   wire [7:0] in_port_27;
   wire [7:0] in_port_28; // clock activity counter, clk_adc
-  wire [7:0] in_port_29; // clock activity counter, clk125
   wire [7:0] in_port_30; // clock activity counter, phy_tx_clk
   wire [7:0] in_port_31; // clock activity counter, phy_rx_clk
   wire [7:0] in_port_35; // DC sum of ch1_i
@@ -362,7 +360,6 @@ module top(
   assign in_port_26 = packet_count[15:8];
   assign in_port_27 = packet_count[7:0];
   assign in_port_28 = activity_clk_adc;
-  assign in_port_29 = 0;
   assign in_port_30 = activity_phy_tx_clk;
   assign in_port_31 = activity_phy_rx_clk;
   assign in_port_35 = ch1_i_sum;
@@ -394,7 +391,7 @@ module top(
     in_port_17, in_port_18, in_port_19,
     in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
     in_port_26, in_port_27,
-    in_port_28, in_port_29, in_port_30, in_port_31,
+    in_port_28, in_port_30, in_port_31,
     in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
     in_port_43,
     in_port_48

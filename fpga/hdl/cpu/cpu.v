@@ -31,7 +31,7 @@ module cpu(
   input [7:0] in_port_17, in_port_18, in_port_19,
   input [7:0] in_port_20, in_port_21, in_port_22, in_port_23, in_port_24, in_port_25,
   input [7:0] in_port_26, in_port_27,
-  input [7:0] in_port_28, in_port_29, in_port_30, in_port_31,
+  input [7:0] in_port_28, in_port_30, in_port_31,
   input [7:0] in_port_35, in_port_36, in_port_37, in_port_38, in_port_39, in_port_40,
   input [7:0] in_port_43,
   input [7:0] in_port_48
@@ -81,7 +81,6 @@ module cpu(
                        (port_id==8'd26) ? in_port_26 :
                        (port_id==8'd27) ? in_port_27 :
                        (port_id==8'd28) ? in_port_28 :
-                       (port_id==8'd29) ? in_port_29 :
                        (port_id==8'd30) ? in_port_30 :
                        (port_id==8'd31) ? in_port_31 :
                        (port_id==8'd32) ? uart_rx_data :

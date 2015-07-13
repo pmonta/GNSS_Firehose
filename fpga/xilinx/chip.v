@@ -95,6 +95,7 @@ module chip(
   BUFG _bufg_clk_tcxo(.I(clk_tcxo_i), .O(clk_tcxo));
 
 // synthesize Ethernet PHY transmit clock (125 MHz) from clk_tcxo
+//   125 MHz ~= 38.88 MHz * (254/79)   (53 ppm error)
 
   wire clk125;
   wire clk125_dcm;
@@ -210,7 +211,6 @@ module chip(
   top _top(
     clk_tcxo, clk_tcxo_reset,
     clk_adc,
-    clk125,
     ch1_sda_t, ch1_scl_t, ch1_gc1,
     ch1_sda_i, ch1_scl_i,
     ch1_cs, ch1_sclk,
