@@ -5,7 +5,7 @@
 
 module top(
   input clk_cpu, clk_cpu_reset,
-  input clk64,
+  input clk_adc,
   input clk125,
 
 // RF channel 1
@@ -106,7 +106,7 @@ module top(
   wire [15:0] source_data;
   wire source_en;
 
-  assign source_clk = clk64;
+  assign source_clk = clk_adc;
   assign source_reset = clk_cpu_reset;
 
   wire [7:0] ch1_i, ch1_q;
@@ -119,14 +119,14 @@ module top(
   wire [15:0] ch3_data_binary;
   wire [15:0] ch4_data_binary;
 
-  gray_to_binary _gray0(clk64, ch1_data[15:8], ch1_data_binary[15:8]);
-  gray_to_binary _gray1(clk64, ch1_data[7:0], ch1_data_binary[7:0]);
-  gray_to_binary _gray2(clk64, ch2_data[15:8], ch2_data_binary[15:8]);
-  gray_to_binary _gray3(clk64, ch2_data[7:0], ch2_data_binary[7:0]);
-  gray_to_binary _gray4(clk64, ch3_data[15:8], ch3_data_binary[15:8]);
-  gray_to_binary _gray5(clk64, ch3_data[7:0], ch3_data_binary[7:0]);
-  gray_to_binary _gray6(clk64, ch4_data[15:8], ch4_data_binary[15:8]);
-  gray_to_binary _gray7(clk64, ch4_data[7:0], ch4_data_binary[7:0]);
+  gray_to_binary _gray0(clk_adc, ch1_data[15:8], ch1_data_binary[15:8]);
+  gray_to_binary _gray1(clk_adc, ch1_data[7:0], ch1_data_binary[7:0]);
+  gray_to_binary _gray2(clk_adc, ch2_data[15:8], ch2_data_binary[15:8]);
+  gray_to_binary _gray3(clk_adc, ch2_data[7:0], ch2_data_binary[7:0]);
+  gray_to_binary _gray4(clk_adc, ch3_data[15:8], ch3_data_binary[15:8]);
+  gray_to_binary _gray5(clk_adc, ch3_data[7:0], ch3_data_binary[7:0]);
+  gray_to_binary _gray6(clk_adc, ch4_data[15:8], ch4_data_binary[15:8]);
+  gray_to_binary _gray7(clk_adc, ch4_data[7:0], ch4_data_binary[7:0]);
 
   assign {ch1_i, ch1_q} = {ch1_data_binary[15:8], ch1_data_binary[7:0]};
   assign {ch2_i, ch2_q} = {ch2_data_binary[15:8], ch2_data_binary[7:0]};
@@ -240,11 +240,11 @@ module top(
 
 // clock activity counters
 
-  (* keep="true" *) wire [7:0] activity_clk64;
+  (* keep="true" *) wire [7:0] activity_clk_adc;
   (* keep="true" *) wire [7:0] activity_phy_tx_clk;
   (* keep="true" *) wire [7:0] activity_phy_rx_clk;
 
-  clock_counter _clk1(clk64, activity_clk64);
+  clock_counter _clk1(clk_adc, activity_clk_adc);
   clock_counter _clk2(phy_tx_clk, activity_phy_tx_clk);
   clock_counter _clk3(phy_rx_clk, activity_phy_rx_clk);
 
@@ -330,7 +330,7 @@ module top(
   wire [7:0] in_port_25;
   wire [7:0] in_port_26; // packet count
   wire [7:0] in_port_27;
-  wire [7:0] in_port_28; // clock activity counter, clk64
+  wire [7:0] in_port_28; // clock activity counter, clk_adc
   wire [7:0] in_port_29; // clock activity counter, clk125
   wire [7:0] in_port_30; // clock activity counter, phy_tx_clk
   wire [7:0] in_port_31; // clock activity counter, phy_rx_clk
@@ -361,7 +361,7 @@ module top(
   assign in_port_25 = ch3_hist_1;
   assign in_port_26 = packet_count[15:8];
   assign in_port_27 = packet_count[7:0];
-  assign in_port_28 = activity_clk64;
+  assign in_port_28 = activity_clk_adc;
   assign in_port_29 = 0;
   assign in_port_30 = activity_phy_tx_clk;
   assign in_port_31 = activity_phy_rx_clk;

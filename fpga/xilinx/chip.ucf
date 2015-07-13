@@ -3,7 +3,7 @@
 # GNSS Firehose
 # Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
-net "clk64" tnm_net = "clkADC";
+net "clk_adc" tnm_net = "clkADC";
 timespec "ts_clkADC" = period "clkADC" 14.5ns;
 
 net "phy_rx_clk" tnm_net = "clkPHY";
@@ -12,8 +12,8 @@ timespec "ts_clkPHY" = period "clkPHY" 8ns;
 net "clk_3888" tnm_net = "clkTCXO";
 timespec "ts_clkTCXO" = period "clkTCXO" 25.72ns;
 
-net clk64_p loc=p51 | iostandard=lvds_33 | diff_term="true" ;
-net clk64_n loc=p50 | iostandard=lvds_33 | diff_term="true" ;
+net clk_adc_p loc=p51 | iostandard=lvds_33 | diff_term="true" ;
+net clk_adc_n loc=p50 | iostandard=lvds_33 | diff_term="true" ;
 net clk_3888 loc=p55 | iostandard=lvcmos33 ;
 
 net ch1_sda loc=p115  | iostandard=lvcmos33 | slew="slow" ;
@@ -126,7 +126,7 @@ net spi_cso_b loc=p38 | iostandard=lvcmos33 | slew="slow" ;
 
 net "*streamer_enable*" tig;
 net "*packet_count*" tig;
-net "*activity_clk64*" tig;
+net "*activity_clk_adc*" tig;
 net "*activity_phy_tx_clk*" tig;
 net "*mac_addr*" tig;
 net "*eth_rx_data*" tig;

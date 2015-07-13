@@ -4,7 +4,7 @@
 // Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
 module chip(
-  input clk64_p, clk64_n,
+  input clk_adc_p, clk_adc_n,
   input clk_3888,
 
 // RF channel 1
@@ -84,10 +84,10 @@ module chip(
   
 // clocks
 
-  wire clk64;
-  wire clk64_i;
-  IBUFDS _ibuf_clk64(.I(clk64_p), .IB(clk64_n), .O(clk64_i));
-  BUFG _bufg_clk64(.I(clk64_i), .O(clk64));
+  wire clk_adc;
+  wire clk_adc_i;
+  IBUFDS _ibuf_clk_adc(.I(clk_adc_p), .IB(clk_adc_n), .O(clk_adc_i));
+  BUFG _bufg_clk_adc(.I(clk_adc_i), .O(clk_adc));
 
   wire clk_tcxo;
   wire clk_tcxo_i;
@@ -190,10 +190,10 @@ module chip(
 
   wire [15:0] ch1_data, ch2_data, ch3_data, ch4_data;
 
-  demux_adc _demux_adc_ch1(clk64, ch1_d, ch1_data);
-  demux_adc _demux_adc_ch2(clk64, ch2_d, ch2_data);
-  demux_adc _demux_adc_ch3(clk64, ch3_d, ch3_data);
-  demux_adc _demux_adc_ch4(clk64, ch4_d, ch4_data);
+  demux_adc _demux_adc_ch1(clk_adc, ch1_d, ch1_data);
+  demux_adc _demux_adc_ch2(clk_adc, ch2_d, ch2_data);
+  demux_adc _demux_adc_ch3(clk_adc, ch3_d, ch3_data);
+  demux_adc _demux_adc_ch4(clk_adc, ch4_d, ch4_data);
 
 // generate reset signals
 
@@ -209,7 +209,7 @@ module chip(
 
   top _top(
     clk_tcxo, clk_tcxo_reset,
-    clk64,
+    clk_adc,
     clk125,
     ch1_sda_t, ch1_scl_t, ch1_gc1,
     ch1_sda_i, ch1_scl_i,
