@@ -56,7 +56,7 @@ module chip(
   input phy_mdint,
   output phy_nreset,
 
-// clock chip control and status
+// clock chip (LMK03806) control and status
 
   output clock_clk,
   output clock_data,

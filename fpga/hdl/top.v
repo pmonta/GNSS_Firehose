@@ -446,8 +446,8 @@ endmodule
 
 `include "cpu/cpu.v"
 `include "cpu/uart.v"
-`include "cpu/pacoblaze/pacoblaze.v"
-`include "cpu/cpu_rom.v"
+`include "cpu/picorv32_soc.v"
+`include "cpu/picorv32.v"
 `include "ram.v"
 `include "pwm.v"
 `include "packet_streamer.v"

@@ -7,16 +7,18 @@ DEVICE=xc6slx9-2tqg144
 
 all:
 	xst -ifn chip.xst
-	ngdbuild -p ${DEVICE} -uc chip.ucf chip.ngc chip.ngd
+	ngdbuild -p ${DEVICE} -bm chip.bmm -uc chip.ucf chip.ngc chip.ngd
 	map -w -timing -detail -ol high -p ${DEVICE} -o chip_map.ncd chip.ngd chip.pcf
 	par -w -ol high chip_map.ncd chip.ncd chip.pcf
-	bitgen -g Compress -g ConfigRate:26 -w chip.ncd chip.bit chip.pcf
-	promgen -w -spi -p mcs -s 4096 -u 0 chip.bit
+
+firmware:
+	bitgen -g Compress -g ConfigRate:26 -bd ../firmware/firmware.elf -w chip.ncd chip.bit chip.pcf
 
 prog:
 	LD_PRELOAD=~/libusb-driver.so impact -batch impact.cmd
 
 flash:
+	promgen -w -spi -p mcs -s 4096 -u 0 chip_mem.bit
 	LD_PRELOAD=~/libusb-driver.so impact -batch impact_flash.cmd
 
 clean:

@@ -190,21 +190,14 @@ module cpu(
         endcase
     end
 
-  wire [9:0] address;
-  wire [17:0] instruction;
-  wire interrupt = 0;
-  wire interrupt_ack;
-
-  cpu_rom _cpu_rom(address, instruction, clk);
-
-  pacoblaze _pacoblaze(
-    address, instruction,
-    port_id,
-    write_strobe, out_port,
-    read_strobe, in_port,
-    interrupt,
-    interrupt_ack,
-    reset, clk
+  picorv32_soc _picorv32_soc(
+    .clk(clk),
+    .reset(reset),
+    .port_id(port_id),
+    .write_strobe(write_strobe),
+    .out_port(out_port),
+    .read_strobe(read_strobe),
+    .in_port(in_port)
   );
 
 endmodule
