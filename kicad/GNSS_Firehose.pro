@@ -1,4 +1,4 @@
-update=Sat 18 Mar 2017 11:24:36 AM PDT
+update=Mon 20 Mar 2017 11:13:09 AM PDT
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,12 +25,6 @@ version=1
 NetIExt=net
 [general]
 version=1
-[eeschema]
-version=1
-LibDir=
-[eeschema/libraries]
-LibName1=GNSS_Firehose
-LibName2=device
 [schematic_editor]
 version=1
 PageLayoutDescrFile=title_block_simple_letter.kicad_wks
@@ -41,3 +35,8 @@ NetFmtName=
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=60
+[eeschema]
+version=1
+LibDir=
+[eeschema/libraries]
+LibName1=GNSS_Firehose
