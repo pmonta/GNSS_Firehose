@@ -45,6 +45,7 @@ par_usage_statistics.html
 *.bgn
 usage_statistics_webtalk.html
 webtalk.log
+*_bd.bmm
 
 # promgen
 

@@ -4,9 +4,13 @@
 #define UART_RX_READY  0x80000084
 #define UART_TX_READY  0x80000088
 
+#define LED            0x80000008
 #define UART_TX_DATA   0x80000080
 #define UART_RX_READ   0x80000084
 #define UART_TX_WRITE  0x80000088
+
+void led(int x)
+{ *(volatile unsigned int*)LED = x; }
 
 void uart_tx_data(int x)
 { *(volatile unsigned int*)UART_TX_DATA = x;

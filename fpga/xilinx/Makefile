@@ -34,3 +34,4 @@ clean:
 	rm -rf impact_impact.xwbt impact.xsl webtalk_impact.xml
 	rm -f chip.edif ngc2edif.log
 	rm -f chip_map.twr chip_map.twx
+	rm -f chip_bd.bmm

@@ -5,8 +5,14 @@ int main()
   char c;
   unsigned int a,b,y;
 
+  for (i=0; i<20; i++) {
+    led(1);
+    delay(100000);
+    led(0);
+    delay(100000); }
+
   delay(10000);
-  puts("picorv32\n");
+  puts("GNSS Firehose started\n");
 
   a = 23;
   b = 45;
