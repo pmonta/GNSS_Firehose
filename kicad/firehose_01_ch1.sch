@@ -1,6 +1,5 @@
 EESchema Schematic File Version 2
 LIBS:GNSS_Firehose
-LIBS:GNSS_Firehose-cache
 EELAYER 25 0
 EELAYER END
 $Descr A 11000 8500
@@ -716,23 +715,23 @@ $EndComp
 $Comp
 L R R7
 U 1 1 58CD3547
-P 8050 5900
-F 0 "R7" V 8050 6050 50  0000 C CNN
-F 1 "80" V 8150 6050 50  0000 C CNN
-F 2 "" V 7980 5900 50  0000 C CNN
-F 3 "" H 8050 5900 50  0000 C CNN
-	1    8050 5900
+P 8250 5900
+F 0 "R7" V 8250 6050 50  0000 C CNN
+F 1 "80" V 8350 6050 50  0000 C CNN
+F 2 "" V 8180 5900 50  0000 C CNN
+F 3 "" H 8250 5900 50  0000 C CNN
+	1    8250 5900
 	0    1    1    0   
 $EndComp
 $Comp
 L C C37
 U 1 1 58CD362F
-P 8350 5750
-F 0 "C37" H 8250 5900 50  0000 C CNN
-F 1 "0.1 uF" H 8500 5900 50  0000 C CNN
-F 2 "" H 8350 5750 50  0001 C CNN
-F 3 "" H 8350 5750 50  0001 C CNN
-	1    8350 5750
+P 8550 5750
+F 0 "C37" H 8450 5900 50  0000 C CNN
+F 1 "0.1 uF" H 8700 5900 50  0000 C CNN
+F 2 "" H 8550 5750 50  0001 C CNN
+F 3 "" H 8550 5750 50  0001 C CNN
+	1    8550 5750
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -960,7 +959,7 @@ Text Notes 5100 5050 0    100  ~ 20
 downconverter
 Text Notes 7900 5050 0    100  ~ 20
 ADC
-Text Notes 4000 6500 0    100  ~ 20
+Text Notes 4250 6500 0    100  ~ 20
 loop filter
 Text Label 3450 7000 0    50   ~ 0
 ch1_vcc
@@ -1193,10 +1192,10 @@ VCC_3.3V
 Text Label 5200 7400 0    50   ~ 0
 VCC_3.3V
 Wire Wire Line
-	7500 5750 8200 5750
-Connection ~ 8050 5750
+	7700 5750 8400 5750
+Connection ~ 8250 5750
 Wire Wire Line
-	8500 5750 8950 5750
+	8700 5750 9150 5750
 Wire Wire Line
 	6200 5750 5250 5750
 Wire Wire Line
@@ -1206,9 +1205,9 @@ Text Label 5250 5750 0    50   ~ 0
 CH1_GC1_FPGA_LPF
 Text Label 6750 5750 0    50   ~ 0
 ch1_gc1_lpf
-Text Label 7500 5750 0    50   ~ 0
+Text Label 7700 5750 0    50   ~ 0
 CH1_REF+
-Text Label 8550 5750 0    50   ~ 0
+Text Label 8750 5750 0    50   ~ 0
 ch1_xtal
 $Comp
 L GND #PWR026
@@ -1224,12 +1223,12 @@ $EndComp
 $Comp
 L GND #PWR027
 U 1 1 58CE2F1B
-P 8050 6100
-F 0 "#PWR027" H 8250 6000 50  0001 C CNN
-F 1 "GND" H 8250 5900 50  0001 C CNN
-F 2 "" H 8050 6100 50  0001 C CNN
-F 3 "" H 8050 6100 50  0001 C CNN
-	1    8050 6100
+P 8250 6100
+F 0 "#PWR027" H 8450 6000 50  0001 C CNN
+F 1 "GND" H 8450 5900 50  0001 C CNN
+F 2 "" H 8250 6100 50  0001 C CNN
+F 3 "" H 8250 6100 50  0001 C CNN
+	1    8250 6100
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -1267,4 +1266,6 @@ Connection ~ 3300 7300
 Wire Wire Line
 	3050 2850 3050 3050
 Connection ~ 3050 3050
+Text Notes 8400 800  0    150  ~ 30
+RF channel 1
 $EndSCHEMATC

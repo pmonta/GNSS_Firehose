@@ -1,6 +1,5 @@
 EESchema Schematic File Version 2
 LIBS:GNSS_Firehose
-LIBS:GNSS_Firehose-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
