@@ -1,10 +1,11 @@
 EESchema Schematic File Version 2
 LIBS:GNSS_Firehose
+LIBS:GNSS_Firehose-cache
 EELAYER 25 0
 EELAYER END
-$Descr A4 11693 8268
+$Descr A 11000 8500
 encoding utf-8
-Sheet 1 10
+Sheet 6 10
 Title ""
 Date ""
 Rev ""
@@ -14,4 +15,37 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
+$Comp
+L TCXO OSC?
+U 1 1 58D1264E
+P 1300 3100
+F 0 "OSC?" H 1850 2800 60  0000 C CNN
+F 1 "TCXO" H 1850 2700 60  0000 C CNN
+F 2 "" H 1300 3100 60  0001 C CNN
+F 3 "" H 1300 3100 60  0001 C CNN
+	1    1300 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L CDCLVC1102 U?
+U 1 1 58D12665
+P 3250 3200
+F 0 "U?" H 3700 2750 60  0000 C CNN
+F 1 "CDCLVC1102" H 3900 2600 60  0000 C CNN
+F 2 "" H 3250 3250 60  0001 C CNN
+F 3 "" H 3250 3250 60  0001 C CNN
+	1    3250 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L LMK03806 U?
+U 1 1 58D126BC
+P 8150 3250
+F 0 "U?" H 8050 700 60  0000 C CNN
+F 1 "LMK03806" H 8150 550 60  0000 C CNN
+F 2 "" H 7650 3250 60  0001 C CNN
+F 3 "" H 7650 3250 60  0001 C CNN
+	1    8150 3250
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
