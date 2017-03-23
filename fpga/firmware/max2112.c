@@ -1,17 +1,71 @@
 #define MAX2112_I2C_SLAVE_ADDR     0x60
 
-void i2c_write(int channel,int addr,int val)
-{}
-
 void i2c_set_sda(int channel,int val)
-{}
+{ int x;
+  int port = PORT_I2C + (channel-1);
+  if ((channel<1) || (channel>N_CHANNEL))
+    return;
+  x = port_read(port);
+  x = (x&0xfd) | (val<<1);
+  port_write(port,x);
+  delay_5us(); }
 
 void i2c_set_scl(int channel,int val)
-{}
+{ int x;
+  int port = PORT_I2C + (channel-1);
+  if ((channel<1) || (channel>N_CHANNEL))
+    return;
+  x = port_read(port);
+  x = (x&0xfe) | (val);
+  port_write(port,x);
+  delay_5us(); }
+
+void i2c_bit(int channel,int bit)
+{ i2c_set_sda(channel,bit);
+  i2c_set_scl(channel,1);
+  i2c_set_scl(channel,0); }
+
+void i2c_bits(int channel,int x,int bits)
+{ int i,b;
+  for (i=0; i<bits; i++) {
+    b = (x&0x80)==0;
+    i2c_bit(channel,b);
+    x <<= 1; } }
+
+int i2c_get_bit(int channel)
+{ int b;
+  i2c_set_sda(channel,1);
+  i2c_set_scl(channel,1);
+  //fixme: read bit from sda
+  b = 0;
+  i2c_set_scl(channel,0);
+  return b; }
+
+void i2c_ack(int channel)
+{ (void)i2c_get_bit(channel); }
+
+void i2c_start(int channel)
+{ i2c_set_sda(channel,0);
+  i2c_set_scl(channel,0); }
+
+void i2c_stop(int channel)
+{ i2c_set_scl(channel,1);
+  i2c_set_sda(channel,1); }
 
 void i2c_init(int channel)
 { i2c_set_sda(channel,1);
   i2c_set_scl(channel,1); }
+
+void i2c_write(int channel,int addr_reg,int val)
+{ i2c_start(channel);
+  i2c_bits(channel,MAX2112_I2C_SLAVE_ADDR,7);
+  i2c_bit(channel,0);
+  i2c_ack(channel);
+  i2c_bits(channel,addr_reg,8);
+  i2c_ack(channel);
+  i2c_bits(channel,val,8);
+  i2c_ack(channel);
+  i2c_stop(channel); }
 
 void max2112_init(int channel,int N,int F)
 { i2c_init(channel);
@@ -27,14 +81,3 @@ void max2112_init(int channel,int N,int F)
   i2c_write(channel,3,(F>>12)&0xff);
   i2c_write(channel,4,0x00);
   i2c_write(channel,0,0x80); }
-
-#define N_CHANNEL 3
-int gain[N_CHANNEL+1];
-
-void set_agc(int channel,int val)
-{ int port_base = PORT_OUT_PWM+2*(channel-1);
-  if (channel>N_CHANNEL)
-    return;
-  port_write(port_base,val&0xff);
-  port_write(port_base+1,(val>>8)&0x3);
-  gain[channel] = val; }

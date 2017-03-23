@@ -3,6 +3,11 @@ void delay(int m)
   for (i=0; i<m; i++) {
     asm volatile("nop"); } }
 
+void delay_200ns()
+{ asm volatile("nop");
+  asm volatile("nop");
+  asm volatile("nop"); }
+
 void delay_5us()
 { delay(13); }
 
