@@ -7,6 +7,7 @@
 #define PORT_ADC_SPI_OUT      12
 #define PORT_FLASH_SPI_OUT    31
 #define PORT_I2C              17
+#define PORT_STREAMER_ENABLE  21
 #define PORT_DCM_RST          30
 #define PORT_UART_TX_DATA     32
 #define PORT_UART_RX_READ     33
@@ -18,6 +19,7 @@
 
 #define PORT_IN_PHY_SMI        2
 #define PORT_ADC_SPI_IN        5
+#define PORT_HIST             20
 #define PORT_UART_RX_DATA     32
 #define PORT_UART_RX_READY    33
 #define PORT_UART_TX_READY    34
@@ -68,3 +70,15 @@ int eth_rx_ready()
 
 unsigned int get_jiffies()
 { return port_read(PORT_JIFFIES); }
+
+void putchar(char c)
+{ while (!uart_tx_ready()) ;
+  uart_tx_data(c); }
+//fixme: also write a single-character packet to Ethernet
+//  while (eth_link_up && !eth_tx_ready()) ;
+//  eth_tx_data(c);
+
+void puts(char* s)
+{ char c;
+  while (c=*s++)
+    putchar(c); }
