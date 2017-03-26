@@ -87,7 +87,7 @@ void phy_read(int addr)
 void phy_service()
 { int r;
   int status;
-  if (!uart_phy)
+  if (uart_phy)
     return;
   r = phy_smi_read(1);
   status = (r&0x04)!=0;

@@ -18,7 +18,7 @@ prog:
 	LD_PRELOAD=~/libusb-driver.so impact -batch impact.cmd
 
 flash:
-	promgen -w -spi -p mcs -s 4096 -u 0 chip_mem.bit
+	promgen -w -spi -p mcs -s 4096 -u 0 chip.bit
 	LD_PRELOAD=~/libusb-driver.so impact -batch impact_flash.cmd
 
 clean:

@@ -30,6 +30,7 @@ void process_char(char c)
     case 'r':  putchar(port_read(addr)); break;
     case 'x':  putchar(addr); break;
     case 'p':  phy_read(addr); break;
+    case 'f':  putchar(spi_read(0x7ff00+addr)); break;
     default:  data = (data<<4) | (c&0x0f); data &= 0xff; break; } }
 
 void eth_service()

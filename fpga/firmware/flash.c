@@ -6,13 +6,13 @@ int spi_byte(int x)
   int b;
   for (i=0; i<8; i++) {
     if (x&mask) {
-      v1 = 0;
-      v2 = 4;
-      v3 = 0; }
-    else {
       v1 = 2;
       v2 = 6;
       v3 = 2; }
+    else {
+      v1 = 0;
+      v2 = 4;
+      v3 = 0; }
     mask >>= 1;
     port_write(PORT_FLASH_SPI_OUT,v1);
     delay_200ns();
