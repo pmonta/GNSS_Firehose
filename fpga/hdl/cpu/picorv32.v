@@ -60,11 +60,7 @@ module picorv32 #(
 	parameter [ 0:0] ENABLE_COUNTERS = 1,
 	parameter [ 0:0] ENABLE_COUNTERS64 = 1,
 	parameter [ 0:0] ENABLE_REGS_16_31 = 1,
-`ifndef XILINX_ISE_14_7
 	parameter [ 0:0] ENABLE_REGS_DUALPORT = 1,
-`else
-	parameter [ 0:0] ENABLE_REGS_DUALPORT = 0,
-`endif
 	parameter [ 0:0] LATCHED_MEM_RDATA = 0,
 	parameter [ 0:0] TWO_STAGE_SHIFT = 1,
 	parameter [ 0:0] BARREL_SHIFTER = 0,
@@ -1270,15 +1266,9 @@ module picorv32 #(
 
 	reg cpuregs_write;
 	reg [31:0] cpuregs_wrdata;
-`ifndef XILINX_ISE_14_7
 	reg [31:0] cpuregs_rs1;
 	reg [31:0] cpuregs_rs2;
 	reg [regindex_bits-1:0] decoded_rs;
-`else
-	wire [31:0] cpuregs_rs1;
-	wire [31:0] cpuregs_rs2;
-	wire [regindex_bits-1:0] decoded_rs;
-`endif
 
 	always @* begin
 		cpuregs_write = 0;
@@ -1312,7 +1302,6 @@ module picorv32 #(
 			cpuregs[latched_rd] <= cpuregs_wrdata;
 	end
 
-`ifndef XILINX_ISE_14_7
 	always @* begin
 		decoded_rs = 'bx;
 		if (ENABLE_REGS_DUALPORT) begin
@@ -1324,11 +1313,6 @@ module picorv32 #(
 			cpuregs_rs2 = cpuregs_rs1;
 		end
 	end
-`else
-        assign decoded_rs = (cpu_state == cpu_state_ld_rs2) ? decoded_rs2 : decoded_rs1;
-        assign cpuregs_rs1 = decoded_rs ? cpuregs[decoded_rs] : 0;
-        assign cpuregs_rs2 = cpuregs_rs1;
-`endif
 
 	assign launch_next_insn = cpu_state == cpu_state_fetch && decoder_trigger && (!ENABLE_IRQ || irq_delay || irq_active || !(irq_pending & ~irq_mask));
 
