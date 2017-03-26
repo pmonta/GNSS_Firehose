@@ -23,6 +23,16 @@ int gain[N_CHANNEL];            // channel gains (10-bit PWM)
 #include "ethernet.c"
 #include "flash.c"
 
+int scratchpad(int addr)
+{ switch (addr) {
+    case 0: return gain[0]&0xff; break;
+    case 1: return (gain[0]>>8)&0xff; break;
+    case 2: return gain[1]&0xff; break;
+    case 3: return (gain[1]>>8)&0xff; break;
+    case 4: return gain[2]&0xff; break;
+    case 5: return (gain[2]>>8)&0xff; break;
+    default: return 0; } }
+
 void process_char(char c)
 { switch (c) {
     case 'm':  addr = data; break;
@@ -31,6 +41,7 @@ void process_char(char c)
     case 'x':  putchar(addr); break;
     case 'p':  phy_read(addr); break;
     case 'f':  putchar(spi_read(0x7ff00+addr)); break;
+    case 's':  putchar(scratchpad(addr)); break;
     default:  data = (data<<4) | (c&0x0f); data &= 0xff; break; } }
 
 void eth_service()
@@ -61,7 +72,14 @@ void hw_init()
   set_agc(3,240);
   uart_phy = 0;                // control of PHY SMI bus is initially local, not UART
   auto_agc = 1;                // enable automatic AGC by default
-  spi_init_mac(); }            // initialize MAC address from flash
+  spi_init_mac();              // initialize MAC address from flash
+//  port_write(PORT_DC_BASE+0,6);   //fixme: read these from flash
+//  port_write(PORT_DC_BASE+1,3);
+//  port_write(PORT_DC_BASE+2,5);
+//  port_write(PORT_DC_BASE+3,3);
+//  port_write(PORT_DC_BASE+4,8);
+//  port_write(PORT_DC_BASE+5,5);
+}
 
 void poll()
 { unsigned int j;

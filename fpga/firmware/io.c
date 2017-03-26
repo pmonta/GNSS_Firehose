@@ -8,6 +8,7 @@
 #define PORT_FLASH_SPI_OUT    31
 #define PORT_I2C              17
 #define PORT_STREAMER_ENABLE  21
+#define PORT_DC_BASE          22
 #define PORT_DCM_RST          30
 #define PORT_UART_TX_DATA     32
 #define PORT_UART_RX_READ     33
