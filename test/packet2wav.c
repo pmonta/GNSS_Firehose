@@ -34,6 +34,18 @@ void convert_zeros(int n)
     buf[2*i+1] = 0; }
   fwrite(buf,2048,1,stdout); }
 
+int read_next_valid_packet()
+{ int plen;
+  int n;
+  for (;;) {
+    n = fread(buf,16,1,stdin);
+    if (n!=1)
+      return 0;
+    plen = buf[8] + (buf[9]<<8) + (buf[10]<<16) + (buf[11]<<22);
+    fread(buf+16,plen,1,stdin);
+    if (plen==0x0416)
+      return 1; } }
+
 int main(int argc, char* argv[])
 { int i,n;
   int skip;
@@ -49,7 +61,7 @@ int main(int argc, char* argv[])
   fread(buf,4,1,stdin);
   fread(buf,4,1,stdin);
   for (i=0; i<skip; i++) {
-    fread(buf,1062,1,stdin);
+    n = read_next_valid_packet();
     timestamp = (((long long)buf[30])<<56) |
                 (((long long)buf[31])<<48) |
                 (((long long)buf[32])<<40) |
@@ -61,7 +73,7 @@ int main(int argc, char* argv[])
   t0 = timestamp;
   i = skip;
   for (;;) {
-    n = fread(buf,1062,1,stdin);
+    n = read_next_valid_packet();
     if (n!=1)
       break;
     timestamp = (((long long)buf[30])<<56) |
