@@ -3,7 +3,7 @@ LIBS:GNSS_Firehose
 LIBS:GNSS_Firehose-cache
 EELAYER 25 0
 EELAYER END
-$Descr A 11000 8500
+$Descr USLetter 11000 8500
 encoding utf-8
 Sheet 6 10
 Title ""
