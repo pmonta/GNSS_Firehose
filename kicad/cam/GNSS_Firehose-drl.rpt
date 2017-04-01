@@ -1,0 +1,23 @@
+Drill report for /home/pmonta/github/GNSS_Firehose/kicad/GNSS_Firehose.kicad_pcb
+Created on Thu 30 Mar 2017 11:33:38 PM PDT
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  In1.Cu                    inner1
+    L3 :  In2.Cu                    inner2
+    L4 :  B.Cu                      back
+
+
+Drill file 'GNSS_Firehose.drl' contains
+    plated through holes:
+    =============================================================
+
+    Total plated holes count 0
+
+
+Drill file 'GNSS_Firehose-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+
+    Total unplated holes count 0
