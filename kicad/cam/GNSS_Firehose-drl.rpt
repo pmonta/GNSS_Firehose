@@ -1,5 +1,5 @@
 Drill report for /home/pmonta/github/GNSS_Firehose/kicad/GNSS_Firehose.kicad_pcb
-Created on Thu 30 Mar 2017 11:33:38 PM PDT
+Created on Sat 01 Apr 2017 11:31:59 PM PDT
 
 Copper Layer Stackup:
     =============================================================
@@ -12,8 +12,20 @@ Copper Layer Stackup:
 Drill file 'GNSS_Firehose.drl' contains
     plated through holes:
     =============================================================
+    T1  0.30mm  0.012"  (1 hole)
+    T2  0.89mm  0.035"  (12 holes)
+    T3  0.90mm  0.035"  (14 holes)
+    T4  1.07mm  0.042"  (16 holes)
+    T5  1.27mm  0.050"  (5 holes)
+    T6  1.57mm  0.062"  (2 holes)
+    T7  1.60mm  0.063"  (1 hole)
+    T8  2.29mm  0.090"  (1 hole)
+    T9  2.44mm  0.096"  (4 holes)
+    T10  2.54mm  0.100"  (2 holes)
+    T11  2.79mm  0.110"  (1 hole)
+    T12  3.25mm  0.128"  (2 holes)
 
-    Total plated holes count 0
+    Total plated holes count 61
 
 
 Drill file 'GNSS_Firehose-NPTH.drl' contains
