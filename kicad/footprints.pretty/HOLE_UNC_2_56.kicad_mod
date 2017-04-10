@@ -1,4 +1,5 @@
 (module HOLE_UNC_2_56 (layer F.Cu) (tedit 0)
+  (attr virtual)
   (fp_text reference "" (at -0.06096 0.6096) (layer F.SilkS)
     (effects (font (size 0.63 0.54) (thickness 0.12)))
   )
