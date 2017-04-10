@@ -1548,4 +1548,6 @@ F 3 "" H 3400 3900 60  0001 C CNN
 	1    3400 3850
 	1    0    0    -1  
 $EndComp
+Text Notes 9400 900  0    150  ~ 30
+Clock
 $EndSCHEMATC

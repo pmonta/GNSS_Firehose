@@ -5,7 +5,7 @@ EELAYER 25 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 8 10
+Sheet 9 10
 Title ""
 Date ""
 Rev ""
@@ -646,4 +646,14 @@ F 3 "" H 10150 3900 50  0001 C CNN
 	1    10150 3900
 	1    0    0    -1  
 $EndComp
+Text Notes 9050 950  0    150  ~ 30
+Power
+Text Notes 1050 3150 0    100  ~ 20
+DC input
+Text Notes 1250 3400 0    100  ~ 20
+5V
+Text Notes 2400 4650 0    100  ~ 20
+3.3V
+Text Notes 9600 4650 0    100  ~ 20
+1.2V
 $EndSCHEMATC

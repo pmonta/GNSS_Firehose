@@ -5,7 +5,7 @@ EELAYER 25 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 9 10
+Sheet 10 10
 Title ""
 Date ""
 Rev ""
@@ -318,4 +318,6 @@ F 3 "" H 3550 4450 50  0001 C CNN
 	1    3550 4450
 	1    0    0    -1  
 $EndComp
+Text Notes 8600 950  0    150  ~ 30
+Mechanical
 $EndSCHEMATC

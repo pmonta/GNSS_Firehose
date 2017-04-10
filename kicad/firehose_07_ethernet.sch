@@ -5,7 +5,7 @@ EELAYER 25 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 7 10
+Sheet 8 10
 Title ""
 Date ""
 Rev ""
@@ -1415,4 +1415,6 @@ Text Label 6100 3650 0    60   ~ 0
 phyad0
 Text Label 6100 3750 0    60   ~ 0
 phyad1
+Text Notes 8900 900  0    150  ~ 30
+Ethernet
 $EndSCHEMATC

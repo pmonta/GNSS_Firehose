@@ -15,6 +15,20 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
+Text Notes 4250 1400 0    250  ~ 50
+GNSS Firehose
+Text Notes 2400 1950 0    150  ~ 30
+Wideband front end for GPS, GLONASS, Galileo, BeiDou
+Text Notes 4750 4050 0    100  ~ 0
+placeholder for\nblock-diagram graphics
+Wire Notes Line
+	4150 3100 7050 3100
+Wire Notes Line
+	7050 3100 7050 4900
+Wire Notes Line
+	7050 4900 4150 4900
+Wire Notes Line
+	4150 4900 4150 3100
 $Sheet
 S 600  6600 750  450 
 U 58CB876E
@@ -27,10 +41,6 @@ U 58CEAC80
 F0 "RF Channel 2" 60
 F1 "firehose_02_ch2.sch" 60
 $EndSheet
-Text Notes 4250 1400 0    250  ~ 50
-GNSS Firehose
-Text Notes 2400 1950 0    150  ~ 30
-Wideband front end for GPS, GLONASS, Galileo, BeiDou
 $Sheet
 S 3200 6600 750  450 
 U 58CEAC97
@@ -50,6 +60,12 @@ F0 "Clock generation" 60
 F1 "firehose_05_clock.sch" 60
 $EndSheet
 $Sheet
+S 7100 6600 750  450 
+U 58CEAF28
+F0 "FPGA" 60
+F1 "firehose_06_fpga.sch" 60
+$EndSheet
+$Sheet
 S 8400 6600 750  450 
 U 58CEACA4
 F0 "Ethernet" 60
@@ -67,20 +83,4 @@ U 58CEACAA
 F0 "Mechanical" 60
 F1 "firehose_09_mechanical.sch" 60
 $EndSheet
-$Sheet
-S 7100 6600 750  450 
-U 58CEAF28
-F0 "FPGA" 60
-F1 "firehose_06_fpga.sch" 60
-$EndSheet
-Text Notes 4750 4050 0    100  ~ 0
-placeholder for\nblock-diagram graphics
-Wire Notes Line
-	4150 3100 7050 3100
-Wire Notes Line
-	7050 3100 7050 4900
-Wire Notes Line
-	7050 4900 4150 4900
-Wire Notes Line
-	4150 4900 4150 3100
 $EndSCHEMATC

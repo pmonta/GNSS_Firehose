@@ -5,7 +5,7 @@ EELAYER 25 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 10 10
+Sheet 7 10
 Title ""
 Date ""
 Rev ""
@@ -1974,4 +1974,10 @@ F 3 "" H 6000 6800 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6100 4400 5300 4400
+Text Notes 9250 750  0    150  ~ 30
+FPGA
+Text Notes 10050 2100 0    100  ~ 20
+JTAG
+Text Notes 8800 6150 0    100  ~ 20
+flash
 $EndSCHEMATC
