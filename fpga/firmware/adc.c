@@ -1,5 +1,5 @@
 void adc_cs(int channel,int val)
-{ port_write(PORT_ADC_SPI_OUT+channel,val ? 0x09 : 0x01);
+{ port_write(PORT_ADC_SPI_OUT+(channel-1),val ? 0x09 : 0x01);
   delay_5us(); }
 
 void adc_write_bit(int channel,int b)
@@ -10,11 +10,11 @@ void adc_write_bit(int channel,int b)
   else {
     v1 = 3;
     v2 = 7; }
-  port_write(PORT_ADC_SPI_OUT+channel,v1);
+  port_write(PORT_ADC_SPI_OUT+(channel-1),v1);
   delay_5us();
-  port_write(PORT_ADC_SPI_OUT+channel,v2);
+  port_write(PORT_ADC_SPI_OUT+(channel-1),v2);
   delay_5us();
-  port_write(PORT_ADC_SPI_OUT+channel,v1);
+  port_write(PORT_ADC_SPI_OUT+(channel-1),v1);
   delay_5us(); }
 
 void adc_write(int channel,int addr,int val)

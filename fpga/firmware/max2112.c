@@ -27,10 +27,9 @@ void i2c_bit(int channel,int bit)
 
 void i2c_bits(int channel,int x,int bits)
 { int i,b;
-  for (i=0; i<bits; i++) {
-    b = (x&0x80)==0;
-    i2c_bit(channel,b);
-    x <<= 1; } }
+  for (i=bits-1; i>=0; i--) {
+    b = (x&(1<<i))!=0;
+    i2c_bit(channel,b); } }
 
 int i2c_get_bit(int channel)
 { int b;
@@ -78,6 +77,6 @@ void max2112_init(int channel,int N,int F)
   i2c_write(channel,11,0x08);
   i2c_write(channel,1,N);
   i2c_write(channel,2,0x10|((F>>16)&0xf));
-  i2c_write(channel,3,(F>>12)&0xff);
-  i2c_write(channel,4,0x00);
+  i2c_write(channel,3,(F>>8)&0xff);
+  i2c_write(channel,4,F&0xff);
   i2c_write(channel,0,0x80); }
