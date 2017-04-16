@@ -102,8 +102,8 @@ module top(
 
 // quantizers
 
-  wire [15:0] source_data;
-  wire source_en;
+  reg [15:0] source_data;
+  reg source_en;
 
   assign source_clk = clk_adc;
   assign source_reset = clk_cpu_reset;
@@ -166,47 +166,65 @@ module top(
   dc_sum _dc_sum5(source_clk, ch3_i, ch3_i_sum);
   dc_sum _dc_sum6(source_clk, ch3_q, ch3_q_sum);
 
-  reg [15:0] s_bits;
-  reg s_en;
   wire [7:0] mode;
-  reg [7:0] bits;
+
+  reg [7:0] ch1_i_1, ch1_q_1;
+
+  reg [1:0] ch1_si_1, ch1_sq_1;
+  reg [1:0] ch2_si_1, ch2_sq_1;
+  reg [1:0] ch3_si_1, ch3_sq_1;
 
   always @(posedge source_clk) begin
-    case (mode)
-      8'd0: bits = {ch1_si,ch1_sq,ch2_si,ch2_sq};
-      8'd1: bits = ch1_i;
-      8'd2: bits = ch1_q;
-      8'd3: bits = ch2_i;
-      8'd4: bits = ch2_q;
-      8'd5: bits = ch3_i;
-      8'd6: bits = ch3_q;
-      8'd7: bits = ch4_i;
-      8'd8: bits = ch4_q;
-      8'd9: bits = {ch1_i[7:4],ch1_q[7:4]};
-      8'd10: bits = {ch1_i[6:3],ch1_q[6:3]};
-      8'd11: bits = {ch1_i[5:2],ch1_q[5:2]};
-      8'd12: bits = {ch1_i[4:1],ch1_q[4:1]};
-      8'd13: bits = {ch1_i[3:0],ch1_q[3:0]};
-      8'd14: bits = {ch2_i[7:4],ch2_q[7:4]};
-      8'd15: bits = {ch2_i[6:3],ch2_q[6:3]};
-      8'd16: bits = {ch2_i[5:2],ch2_q[5:2]};
-      8'd17: bits = {ch2_i[4:1],ch2_q[4:1]};
-      8'd18: bits = {ch2_i[3:0],ch2_q[3:0]};
-      8'd19: bits = {ch3_i[7:4],ch3_q[7:4]};
-      8'd20: bits = {ch3_i[6:3],ch3_q[6:3]};
-      8'd21: bits = {ch3_i[5:2],ch3_q[5:2]};
-      8'd22: bits = {ch3_i[4:1],ch3_q[4:1]};
-      8'd23: bits = {ch3_i[3:0],ch3_q[3:0]};
-      8'd24: bits = {ch1_si,ch1_sq,ch3_si,ch3_sq};
-      8'd25: bits = {ch2_si,ch2_sq,ch3_si,ch3_sq};
-      default: bits = 0;
-    endcase
-    s_bits <= {s_bits[7:0],bits};
-    s_en <= ~s_en;
+    ch1_i_1 <= ch1_i;
+    ch1_q_1 <= ch1_q;
+    ch1_si_1 <= ch1_si;
+    ch1_sq_1 <= ch1_sq;
+    ch2_si_1 <= ch2_si;
+    ch2_sq_1 <= ch2_sq;
+    ch3_si_1 <= ch3_si;
+    ch3_sq_1 <= ch3_sq;
+  end
+     
+  reg [1:0] phase;
+  reg [7:0] phase_c;
+
+  always @(posedge source_clk) begin
+    phase <= phase + 1;
+    if (phase==2'd3)
+      phase_c <= (phase_c==8'd239) ? 0 : (phase_c+1);
   end
 
-  assign source_data = s_bits;
-  assign source_en = s_en;
+  reg p_end;
+  wire source_packet_end = (phase_c==8'd239) && p_end;
+
+  always @* begin
+    p_end = 0;
+    case (mode)
+      8'd0:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch1_si_1,ch1_sq_1, ch2_si_1,ch2_sq_1, ch3_si_1,ch3_sq_1, ch1_si,ch1_sq}; end
+            2'd1: begin source_en = 1; source_data = {ch2_si_1,ch2_sq_1, ch3_si_1,ch3_sq_1, ch1_si,ch1_sq,     ch2_si,ch2_sq}; end
+            2'd2: begin source_en = 1; source_data = {ch3_si_1,ch3_sq_1, ch1_si,ch1_sq,     ch2_si,ch2_sq,     ch3_si,ch3_sq}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd1:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch1_i_1,ch1_i}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch1_i_1,ch1_i}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd2:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch1_q_1,ch1_q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch1_q_1,ch1_q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      default:
+          begin source_en = 0; source_data = 0; end
+    endcase
+  end
 
   (* keep="true" *) wire [15:0] packet_count;
 
@@ -217,7 +235,7 @@ module top(
 
   packet_streamer _packet_streamer(
     source_clk, source_reset,
-    source_data, source_en,
+    source_data, source_en, source_packet_end,
     phy_tx_clk, phy_tx_mux_data, phy_tx_mux_ctl,
     packet_count,
     streamer_enable,

@@ -96,3 +96,28 @@ module dpram_9_16(
   assign data_out_b = addr_b[0] ? x[15:8] : x[7:0];
 
 endmodule
+
+module dpram_10_16(
+  input clk_a,
+  input [9:0] addr_a,
+  input [15:0] data_in_a,
+  input we_a,
+  input clk_b,
+  input [10:0] addr_b,
+  output [7:0] data_out_b
+);
+
+  reg [15:0] mem[0:1023];
+
+  always @(posedge clk_a)
+    if (we_a)
+      mem[addr_a] <= data_in_a;
+
+  reg [15:0] x;
+
+  always @(posedge clk_b)
+    x <= mem[addr_b[10:1]];
+
+  assign data_out_b = addr_b[0] ? x[15:8] : x[7:0];
+
+endmodule

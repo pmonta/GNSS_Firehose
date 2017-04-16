@@ -7,6 +7,7 @@ module packet_streamer(
   input clk, reset,
   input [15:0] source_data,
   input source_en,
+  input source_packet_end,
   input tx_clk,
   output reg [7:0] tx_data,
   output reg [1:0] tx_ctl,
@@ -15,22 +16,22 @@ module packet_streamer(
   input [47:0] mac_addr
 );
 
-  reg [9:0] waddr;
-  wire flag = waddr[9];
+  reg [10:0] waddr;
+  wire flag = waddr[10];
   wire wen0, wen1;
 
-  reg [9:0] raddr;
+  reg [10:0] raddr;
   wire [7:0] data0, data1;
 
 // ping-pong buffers
 
-  dpram_9_16 _ram0(
-    clk, waddr[8:0], source_data, wen0,
+  dpram_10_16 _ram0(
+    clk, waddr[9:0], source_data, wen0,
     tx_clk, raddr, data0
   );
 
-  dpram_9_16 _ram1(
-    clk, waddr[8:0], source_data, wen1,
+  dpram_10_16 _ram1(
+    clk, waddr[9:0], source_data, wen1,
     tx_clk, raddr, data1
   );
 
@@ -43,6 +44,7 @@ module packet_streamer(
 // write source data to the two ping-ponged RAMs
 
   reg [63:0] ticks;
+  reg [10:0] packet_length_w;
 
   always @(posedge clk)
     if (reset) begin
@@ -50,8 +52,12 @@ module packet_streamer(
       ticks <= 0;
     end else begin
       if (source_en) begin
-        waddr <= waddr+1;
-        if (waddr[8:0]==9'd8)
+        if (source_packet_end) begin
+	  waddr <= {~waddr[10],10'd0};
+	  packet_length_w <= {waddr[9:0]+1,1'b0};
+        end else
+          waddr <= waddr+1;
+        if (waddr[9:0]==10'd8)
           ticks <= c;
       end
     end
@@ -108,6 +114,7 @@ module packet_streamer(
   reg flag_1, flag_2;
   reg [23:0] t;
   reg [63:0] pticks;
+  reg [10:0] packet_length;
 //  reg [15:0] d;
 
   wire tx_clk_reset;
@@ -133,6 +140,7 @@ module packet_streamer(
             state <= PREAMBLE_0;
             crc_reset <= 1;
             pticks <= ticks;
+            packet_length <= packet_length_w;
             packet_count <= packet_count + 1;
 //            d <= 0;
             tx_ctl <= 2'b00;
@@ -175,7 +183,7 @@ module packet_streamer(
           begin
             tx_data <= flag ? data0 : data1;
             raddr <= raddr+1;
-            if (raddr==10'd0)
+            if (raddr==packet_length)
               state <= FCS_0;
           end
         FCS_0: begin crc_en <= 0; tx_data <= crc[31:24]; t <= crc[23:0]; state <= FCS_1; end
