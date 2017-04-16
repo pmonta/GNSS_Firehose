@@ -1,9 +1,0 @@
-# FPGA timing and pin-location constraints
-#
-# GNSS Firehose
-# Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
-
-net led0 loc=p105 | iostandard=lvcmos33 | slew="slow" ;
-net led1 loc=p104 | iostandard=lvcmos33 | slew="slow" ;
-
-net clk_3888 loc=p55 | iostandard=lvcmos33 ;
