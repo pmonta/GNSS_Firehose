@@ -462,10 +462,10 @@ module gray_to_binary(
 endmodule
 
 
-`include "cpu/cpu.v"
-`include "cpu/uart.v"
-`include "cpu/picorv32_soc.v"
-`include "cpu/picorv32.v"
+`include "cpu.v"
+`include "uart.v"
+`include "picorv32_soc.v"
+`include "picorv32.v"
 `include "ram.v"
 `include "pwm.v"
 `include "packet_streamer.v"
