@@ -12,23 +12,19 @@ unsigned long long t0,timestamp,delta;
 void get_sample(unsigned char buf[],int s,unsigned char* x)
 { int byte_offset = s/4;
   int samp_offset = 3-(s%4);
-//fprintf(stderr,"byte %d offset %d\n",byte_offset,samp_offset);
   *x = (buf[byte_offset]>>(2*samp_offset))&3; }
 
 void convert(unsigned char x[], int chan)
 { int i;
   unsigned char buf[1920];
   unsigned char xi,xq;
-//fprintf(stderr,"buffer:  %d %d %d %d %d %d %d %d\n",x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7]);
   for (i=0; i<960; i++) {
     get_sample(x,6*i+2*(chan-1),&xi);
     get_sample(x,6*i+2*(chan-1)+1,&xq);
-//if (i<20)
-//fprintf(stderr,"complex sample %d:  %d %d\n",i,xi,xq);
     xi = 2*xi - 3;
     xq = 2*xq - 3;
-    buf[2*i] = xq;
-    buf[2*i+1] = xi; }
+    buf[2*i] = xi;
+    buf[2*i+1] = xq; }
   fwrite(buf,1920,1,stdout); }
 
 void convert_zeros(int n)

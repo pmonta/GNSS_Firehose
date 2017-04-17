@@ -127,10 +127,10 @@ module top(
   gray_to_binary _gray6(clk_adc, ch4_data[15:8], ch4_data_binary[15:8]);
   gray_to_binary _gray7(clk_adc, ch4_data[7:0], ch4_data_binary[7:0]);
 
-  assign {ch1_i, ch1_q} = {ch1_data_binary[15:8], ch1_data_binary[7:0]};
-  assign {ch2_i, ch2_q} = {ch2_data_binary[15:8], ch2_data_binary[7:0]};
-  assign {ch3_i, ch3_q} = {ch3_data_binary[15:8], ch3_data_binary[7:0]};
-  assign {ch4_i, ch4_q} = {ch4_data_binary[15:8], ch4_data_binary[7:0]};
+  assign {ch1_i, ch1_q} = {ch1_data_binary[7:0], ch1_data_binary[15:8]};
+  assign {ch2_i, ch2_q} = {ch2_data_binary[7:0], ch2_data_binary[15:8]};
+  assign {ch3_i, ch3_q} = {ch3_data_binary[7:0], ch3_data_binary[15:8]};
+  assign {ch4_i, ch4_q} = {ch4_data_binary[7:0], ch4_data_binary[15:8]};
 
   wire [1:0] ch1_si, ch1_sq;
   wire [1:0] ch2_si, ch2_sq;
@@ -140,12 +140,18 @@ module top(
   wire [7:0] ch2_i_dc, ch2_q_dc;
   wire [7:0] ch3_i_dc, ch3_q_dc;
 
-  quantize _quantize_ch1_i(source_clk, ch1_i+ch1_i_dc, ch1_si);
-  quantize _quantize_ch1_q(source_clk, ch1_q+ch1_q_dc, ch1_sq);
-  quantize _quantize_ch2_i(source_clk, ch2_i+ch2_i_dc, ch2_si);
-  quantize _quantize_ch2_q(source_clk, ch2_q+ch2_q_dc, ch2_sq);
-  quantize _quantize_ch3_i(source_clk, ch3_i+ch3_i_dc, ch3_si);
-  quantize _quantize_ch3_q(source_clk, ch3_q+ch3_q_dc, ch3_sq);
+// source of random bits for rectangular dither
+
+  wire [63:0] rng;
+
+  rng_n2048_r64_t5_k32_sbfbaac _random(.clk(source_clk), .ce(1'b1), .rng(rng));
+
+  quantize _quantize_ch1_i(source_clk, ch1_i, ch1_i_dc, rng[9:0], ch1_si);
+  quantize _quantize_ch1_q(source_clk, ch1_q, ch1_q_dc, rng[19:10], ch1_sq);
+  quantize _quantize_ch2_i(source_clk, ch2_i, ch2_i_dc, rng[29:20], ch2_si);
+  quantize _quantize_ch2_q(source_clk, ch2_q, ch2_q_dc, rng[39:30], ch2_sq);
+  quantize _quantize_ch3_i(source_clk, ch3_i, ch3_i_dc, rng[49:40], ch3_si);
+  quantize _quantize_ch3_q(source_clk, ch3_q, ch3_q_dc, rng[59:50], ch3_sq);
 
   wire [7:0] ch1_hist_0, ch1_hist_1;
   wire [7:0] ch2_hist_0, ch2_hist_1;
@@ -475,3 +481,4 @@ endmodule
 `include "histogram.v"
 `include "reset_gen.v"
 `include "packet_rx.v"
+`include "random.v"

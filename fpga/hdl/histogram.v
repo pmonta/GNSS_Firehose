@@ -23,6 +23,8 @@ module histogram(
 
 endmodule
 
+// integrate-and-dump to estimate DC offset.  output is in units of 1/32 LSB
+
 module dc_sum(
   input clk,
   input [7:0] x,
@@ -36,7 +38,7 @@ module dc_sum(
     if (c==19'd524287) begin
       c <= 0;
       s <= 0;
-      dc <= s[23:16];
+      dc <= s[21:14];
     end else begin
       c <= c + 1;
       s <= s + {{19{x[7]}},x};
