@@ -248,17 +248,29 @@ module top(
     mac_addr
   );
 
-// Ethernet receiver
+// Ethernet receiver for control packets (64 bytes payload)
 
-  wire [7:0] eth_rx_data;
+  wire [5:0] eth_rx_waddr;
+  wire [7:0] eth_rx_wdata;
+  wire eth_rx_we;
   wire eth_rx_ready;
   wire eth_rx_read;
+  wire [5:0] eth_rx_raddr;
+  wire [7:0] eth_rx_rdata;
+
+// 64-byte dual-port RAM holding packet payload for use by the CPU
+
+  dpram_64 _eth_rx_dpram(
+    phy_rx_clk, eth_rx_waddr, eth_rx_wdata, eth_rx_we,
+    clk_cpu, eth_rx_raddr, eth_rx_rdata
+  );
 
   packet_rx _packet_rx(
     phy_rx_clk, phy_rx_demux_data, phy_rx_demux_ctl,
     mac_addr,
     clk_cpu, clk_cpu_reset,
-    eth_rx_data, eth_rx_ready, eth_rx_read
+    eth_rx_waddr, eth_rx_wdata, eth_rx_we,
+    eth_rx_ready, eth_rx_read
   );
 
 // clock activity counters
@@ -306,7 +318,6 @@ module top(
   wire [7:0] out_port_43;
   wire [7:0] out_port_44;
   wire [7:0] out_port_45;
-  wire [7:0] out_port_46;  // address for Ethernet rx buffer
   wire [7:0] out_port_47;  // sampling mode
 
   assign {clock_clk,clock_data,clock_le} = out_port_0[2:0];
@@ -399,7 +410,7 @@ module top(
 
   cpu _cpu(clk_cpu, clk_cpu_reset,
     uart_tx, uart_rx,
-    eth_rx_data, eth_rx_ready, eth_rx_read,
+    eth_rx_rdata, eth_rx_ready, eth_rx_read, eth_rx_raddr,
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,
@@ -409,7 +420,6 @@ module top(
     out_port_30,
     out_port_31,
     out_port_40, out_port_41, out_port_42, out_port_43, out_port_44, out_port_45,
-    out_port_46,
     out_port_47,
     in_port_0, in_port_1, in_port_2, in_port_5, in_port_6, in_port_7, in_port_8,
     in_port_17, in_port_18, in_port_19,

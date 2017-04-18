@@ -26,6 +26,27 @@ module dpram(
 
 endmodule
 
+module dpram_64(
+  input clk_a,
+  input [5:0] addr_a,
+  input [7:0] data_in_a,
+  input we_a,
+  input clk_b,
+  input [5:0] addr_b,
+  output reg [7:0] data_out_b
+);
+
+  reg [7:0] mem[0:63];
+
+  always @(posedge clk_a)
+    if (we_a)
+      mem[addr_a] <= data_in_a;
+
+  always @(posedge clk_b)
+    data_out_b <= mem[addr_b];
+
+endmodule
+
 module dpram14(
   input clk_a,
   input [13:0] addr_a,

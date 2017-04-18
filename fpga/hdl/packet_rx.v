@@ -10,7 +10,9 @@ module packet_rx(
   input [47:0] mac_addr,
   input clk_cpu,
   input clk_cpu_reset,
-  output reg [7:0] eth_rx_data,
+  output reg [5:0] eth_rx_addr,
+  output [7:0] eth_rx_wdata,
+  output reg eth_rx_we,
   output reg eth_rx_ready,
   input eth_rx_read
 );
@@ -32,6 +34,8 @@ module packet_rx(
   reg [3:0] state;
   reg [3:0] c;
 
+  assign eth_rx_wdata = data;
+
   always @(posedge clk)
     case (state)
       IDLE: if (ctl==2'b11) state <= PREAMBLE;
@@ -42,8 +46,27 @@ module packet_rx(
       DEST_4: if (ctl!=2'b11) state <= IDLE; else if (data==mac_addr[23:16]) state <= DEST_5; else state <= IGNORE;
       DEST_5: if (ctl!=2'b11) state <= IDLE; else if (data==mac_addr[15:8]) state <= DEST_6; else state <= IGNORE;
       DEST_6: if (ctl!=2'b11) state <= IDLE; else if (data==mac_addr[7:0]) begin c <= 0; state <= SKIP; end else state <= IGNORE;
-      SKIP: if (ctl!=2'b11) state <= IDLE; else begin c <= c + 1;  if (c==4'd7) state <= PAYLOAD; end
-      PAYLOAD: begin eth_rx_data <= data; eth_rx_ready <= 1; state <= WAIT; end
+      SKIP:                        // skip over source MAC address and type/len field to get to start of payload
+        if (ctl!=2'b11)
+          state <= IDLE;
+        else begin
+          c <= c + 1;
+          if (c==4'd7) begin
+            eth_rx_addr <= 0;
+            eth_rx_we <= 1;
+            state <= PAYLOAD;
+          end
+        end
+      PAYLOAD:                     // place first 64 bytes of payload into packet RAM
+        if (ctl!=2'b11)
+          state <= IDLE;
+        else if (eth_rx_addr==6'd63) begin 
+          eth_rx_we <= 0;
+          eth_rx_ready <= 1;
+          state <= WAIT;
+        end else begin
+          eth_rx_addr <= eth_rx_addr + 1;
+        end
       WAIT: if (eth_rx_read) begin eth_rx_ready <= 0; state <= IDLE; end
       IGNORE: if (ctl!=2'b11) state <= IDLE;
       default: state <= IDLE;
