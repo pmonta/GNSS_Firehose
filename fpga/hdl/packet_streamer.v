@@ -120,29 +120,33 @@ module packet_streamer(
     IPG_5 = 7'd41,
     IPG_6 = 7'd42,
     IPG_7 = 7'd43,
-    CMD_PREAMBLE_0 = 7'd44,
-    CMD_PREAMBLE_1 = 7'd45,
-    CMD_PREAMBLE_2 = 7'd46,
-    CMD_PREAMBLE_3 = 7'd47,
-    CMD_PREAMBLE_4 = 7'd48,
-    CMD_PREAMBLE_5 = 7'd49,
-    CMD_PREAMBLE_6 = 7'd50,
-    CMD_PREAMBLE_7 = 7'd51,
-    CMD_DEST_0 = 7'd52,
-    CMD_DEST_1 = 7'd53,
-    CMD_DEST_2 = 7'd54,
-    CMD_DEST_3 = 7'd55,
-    CMD_DEST_4 = 7'd56,
-    CMD_DEST_5 = 7'd57,
-    CMD_SRC_0 = 7'd58,
-    CMD_SRC_1 = 7'd59,
-    CMD_SRC_2 = 7'd60,
-    CMD_SRC_3 = 7'd61,
-    CMD_SRC_4 = 7'd62,
-    CMD_SRC_5 = 7'd63,
-    CMD_TYPELEN_0 = 7'd64,
-    CMD_TYPELEN_1 = 7'd65,
-    CMD_PAYLOAD = 7'd66;
+    IPG_8 = 7'd44,
+    IPG_9 = 7'd45,
+    IPG_10 = 7'd46,
+    IPG_11 = 7'd47,
+    CMD_PREAMBLE_0 = 7'd48,
+    CMD_PREAMBLE_1 = 7'd49,
+    CMD_PREAMBLE_2 = 7'd50,
+    CMD_PREAMBLE_3 = 7'd51,
+    CMD_PREAMBLE_4 = 7'd52,
+    CMD_PREAMBLE_5 = 7'd53,
+    CMD_PREAMBLE_6 = 7'd54,
+    CMD_PREAMBLE_7 = 7'd55,
+    CMD_DEST_0 = 7'd56,
+    CMD_DEST_1 = 7'd57,
+    CMD_DEST_2 = 7'd58,
+    CMD_DEST_3 = 7'd59,
+    CMD_DEST_4 = 7'd60,
+    CMD_DEST_5 = 7'd61,
+    CMD_SRC_0 = 7'd62,
+    CMD_SRC_1 = 7'd63,
+    CMD_SRC_2 = 7'd64,
+    CMD_SRC_3 = 7'd65,
+    CMD_SRC_4 = 7'd66,
+    CMD_SRC_5 = 7'd67,
+    CMD_TYPELEN_0 = 7'd68,
+    CMD_TYPELEN_1 = 7'd69,
+    CMD_PAYLOAD = 7'd70;
 
   reg [6:0] state;
   reg flag_1, flag_2;
@@ -239,7 +243,11 @@ module packet_streamer(
         IPG_4: begin state <= IPG_5; end
         IPG_5: begin state <= IPG_6; end
         IPG_6: begin state <= IPG_7; end
-        IPG_7: begin state <= IDLE; end
+        IPG_7: begin state <= IPG_8; end
+        IPG_8: begin state <= IPG_9; end
+        IPG_9: begin state <= IPG_10; end
+        IPG_10: begin state <= IPG_11; end
+        IPG_11: begin state <= IDLE; end
 
         CMD_PREAMBLE_0: begin tx_data <= 8'h55; tx_ctl <= 2'b11; state <= CMD_PREAMBLE_1; end               // send a 64-byte status packet
         CMD_PREAMBLE_1: begin tx_data <= 8'h55; state <= CMD_PREAMBLE_2; end
