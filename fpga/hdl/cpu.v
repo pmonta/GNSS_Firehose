@@ -16,6 +16,10 @@ module cpu(
   input eth_rx_ready,
   output reg eth_rx_read,
   output reg [5:0] eth_rx_raddr,
+  output reg [5:0] eth_tx_waddr,
+  output reg [7:0] eth_tx_wdata,
+  output reg eth_tx_we,
+  output reg eth_tx_ready,
   output reg [7:0] out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
   output reg [7:0] out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
   output reg [7:0] out_port_17, out_port_18, out_port_19,
@@ -187,6 +191,10 @@ module cpu(
           8'd47: out_port_47 <= out_port;
           8'd48: eth_rx_read <= out_port[0];
           8'd49: eth_rx_raddr <= out_port[5:0];
+          8'd50: eth_tx_waddr <= out_port[5:0];
+          8'd51: eth_tx_wdata <= out_port;
+          8'd52: eth_tx_we <= out_port[0];
+          8'd53: eth_tx_ready <= out_port[0];
         endcase
     end
 

@@ -131,3 +131,4 @@ net "*activity_phy_tx_clk*" tig;
 net "*mac_addr*" tig;
 net "*eth_rx_ready*" tig;
 net "*eth_rx_read*" tig;
+net "*eth_tx_ready*" tig;

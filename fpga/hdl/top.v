@@ -239,13 +239,28 @@ module top(
   (* keep="true" *) wire streamer_enable;
   (* keep="true" *) wire [47:0] mac_addr;
 
+// 64-byte dual-port RAM holding CPU's tx packet
+
+  wire [5:0] eth_tx_waddr;
+  wire [7:0] eth_tx_wdata;
+  wire eth_tx_we;
+
+  wire [5:0] cmd_addr;
+  wire [7:0] cmd_data;
+
+  dpram_64 _eth_tx_dpram(
+    clk_cpu, eth_tx_waddr, eth_tx_wdata, eth_tx_we,
+    phy_rx_clk, cmd_addr, cmd_data
+  );
+
   packet_streamer _packet_streamer(
     source_clk, source_reset,
     source_data, source_en, source_packet_end,
     phy_tx_clk, phy_tx_mux_data, phy_tx_mux_ctl,
     packet_count,
     streamer_enable,
-    mac_addr
+    mac_addr,
+    eth_tx_ready, cmd_addr, cmd_data
   );
 
 // Ethernet receiver for control packets (64 bytes payload)
@@ -253,12 +268,13 @@ module top(
   wire [5:0] eth_rx_waddr;
   wire [7:0] eth_rx_wdata;
   wire eth_rx_we;
+
   wire eth_rx_ready;
   wire eth_rx_read;
   wire [5:0] eth_rx_raddr;
   wire [7:0] eth_rx_rdata;
 
-// 64-byte dual-port RAM holding packet payload for use by the CPU
+// 64-byte dual-port RAM holding CPU's rx packet
 
   dpram_64 _eth_rx_dpram(
     phy_rx_clk, eth_rx_waddr, eth_rx_wdata, eth_rx_we,
@@ -411,6 +427,7 @@ module top(
   cpu _cpu(clk_cpu, clk_cpu_reset,
     uart_tx, uart_rx,
     eth_rx_rdata, eth_rx_ready, eth_rx_read, eth_rx_raddr,
+    eth_tx_waddr, eth_tx_wdata, eth_tx_we, eth_tx_ready,
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
     out_port_8, out_port_9, out_port_10, out_port_11, out_port_12, out_port_13, out_port_14, out_port_15,
     out_port_17, out_port_18, out_port_19,

@@ -14,40 +14,20 @@ int auto_agc;                   // AGC automatic or manual
 
 int gain[N_CHANNEL];            // channel gains (10-bit PWM)
 
-#include "io.c"
 #include "delay.c"
+#include "io.c"
 #include "clock.c"
 #include "adc.c"
 #include "max2112.c"
 #include "agc.c"
 #include "ethernet.c"
 #include "flash.c"
-
-int scratchpad(int addr)
-{ switch (addr) {
-    case 0: return gain[0]&0xff; break;
-    case 1: return (gain[0]>>8)&0xff; break;
-    case 2: return gain[1]&0xff; break;
-    case 3: return (gain[1]>>8)&0xff; break;
-    case 4: return gain[2]&0xff; break;
-    case 5: return (gain[2]>>8)&0xff; break;
-    default: return 0; } }
-
-void process_char(char c)
-{ switch (c) {
-    case 'm':  addr = data; break;
-    case 'w':  port_write(addr,data); break;
-    case 'r':  putchar(port_read(addr)); break;
-    case 'x':  putchar(addr); break;
-    case 'p':  phy_read(addr); break;
-    case 'f':  putchar(spi_read(0x7ff00+addr)); break;
-    case 's':  putchar(scratchpad(addr)); break;
-    default:  data = (data<<4) | (c&0x0f); data &= 0xff; break; } }
+#include "cmd.c"
 
 void eth_service()
 { if (!eth_rx_ready())
     return;
-  process_char(eth_rx_data()); }
+  process_eth_packet(); }
 
 void uart_service()
 { if (!uart_rx_ready())
