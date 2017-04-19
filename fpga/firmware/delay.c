@@ -20,3 +20,5 @@ void delay_10ms()
 void delay_100ms()
 { delay(259200); }
 
+void delay_1500ms()
+{ delay(3888000); }

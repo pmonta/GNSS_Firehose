@@ -3,15 +3,13 @@
 // Copyright 2017 Peter Monta
 //
 
+#define N_CHANNEL 3
+#define N_ADC     4
+
 unsigned int jiffies;           // system time
-unsigned char addr;             // remote command address
-unsigned char data;             // remote command data
 int uart_phy;                   // who has control of Ethernet PHY SMI bus
 int link_up;                    // Ethernet link status
-int auto_agc;                   // AGC automatic or manual
-
-#define N_CHANNEL 3
-
+int agc_enable;                 // gain control: automatic or manual
 int gain[N_CHANNEL];            // channel gains (10-bit PWM)
 
 #include "delay.c"
@@ -51,7 +49,7 @@ void hw_init()
   set_agc(2,240);
   set_agc(3,240);
   uart_phy = 0;                // control of PHY SMI bus is initially local, not UART
-  auto_agc = 1;                // enable automatic AGC by default
+  agc_enable = 1;              // enable AGC by default
   spi_init_mac();              // initialize MAC address from flash
 //  port_write(PORT_DC_BASE+0,6);   //fixme: read these from flash
 //  port_write(PORT_DC_BASE+1,3);

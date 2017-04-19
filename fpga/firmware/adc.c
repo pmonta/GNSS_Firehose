@@ -1,9 +1,13 @@
 void adc_cs(int channel,int val)
-{ port_write(PORT_ADC_SPI_OUT+(channel-1),val ? 0x09 : 0x01);
+{ if ((channel<1) || (channel>N_ADC))
+    return;
+  port_write(PORT_ADC_SPI_OUT+(channel-1),val ? 0x09 : 0x01);
   delay_5us(); }
 
 void adc_write_bit(int channel,int b)
 { int v1,v2;
+  if ((channel<1) || (channel>N_ADC))
+    return;
   if (b==0) {
     v1 = 1;
     v2 = 5; }
@@ -17,6 +21,20 @@ void adc_write_bit(int channel,int b)
   port_write(PORT_ADC_SPI_OUT+(channel-1),v1);
   delay_5us(); }
 
+int adc_read_bit(int channel)
+{ int b;
+  if ((channel<1) || (channel>N_ADC))
+    return 0;
+  port_write(PORT_ADC_SPI_OUT+(channel-1),0x00);
+  delay_5us();
+  b = port_read(PORT_ADC_SPI_IN+(channel-1));
+  b = b&1;
+  port_write(PORT_ADC_SPI_OUT+(channel-1),0x04);
+  delay_5us();
+  port_write(PORT_ADC_SPI_OUT+(channel-1),0x00);
+  delay_5us();
+  return b; }
+
 void adc_write(int channel,int addr,int val)
 { int i,b;
   adc_cs(channel,0);
@@ -28,6 +46,19 @@ void adc_write(int channel,int addr,int val)
     b = (val>>i)&1;
     adc_write_bit(channel,b); }
   adc_cs(channel,1); }
+
+int adc_read(int channel,int addr)
+{ int i,b,x;
+  adc_cs(channel,0);
+  adc_write_bit(channel,1);
+  for (i=6; i>=0; i--) {
+    b = (addr>>i)&1;
+    adc_write_bit(channel,b); }
+  x = 0;
+  for (i=0; i<8; i++)
+    x = (x<<1) | adc_read_bit(channel);
+  adc_cs(channel,1);
+  return x; }
 
 void adc_init(int channel)
 { adc_cs(channel,1);

@@ -45,6 +45,32 @@ int spi_read(int addr)
   spi_end();
   return x; }
 
+void spi_write_enable()
+{ spi_start();
+  spi_byte(0x06);
+  spi_end(); }
+
+void spi_write(int addr,unsigned char val)
+{ spi_write_enable();
+  spi_start();
+  (void)spi_byte(0x02);
+  (void)spi_byte((addr>>16)&0xff);
+  (void)spi_byte((addr>>8)&0xff);
+  (void)spi_byte(addr&0xff);
+  (void)spi_byte(val);
+  spi_end();
+  delay_100us(); }
+
+void spi_sector_erase(int addr)
+{ spi_write_enable();
+  spi_start();
+  (void)spi_byte(0xd8);
+  (void)spi_byte((addr>>16)&0xff);
+  (void)spi_byte((addr>>8)&0xff);
+  (void)spi_byte(addr&0xff);
+  spi_end();
+  delay_1500ms(); }
+
 void spi_init_mac()
 { int i,x;
   for (i=0; i<6; i++) {

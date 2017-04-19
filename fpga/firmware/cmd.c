@@ -1,4 +1,4 @@
-int scratchpad(int addr)
+int global_read(int addr)
 { switch (addr) {
     case 0: return gain[0]&0xff; break;
     case 1: return (gain[0]>>8)&0xff; break;
@@ -6,7 +6,24 @@ int scratchpad(int addr)
     case 3: return (gain[1]>>8)&0xff; break;
     case 4: return gain[2]&0xff; break;
     case 5: return (gain[2]>>8)&0xff; break;
+    case 6: return link_up; break;
+    case 7: return agc_enable; break;
+    case 8: return uart_phy; break;
     default: return 0; } }
+
+void global_set(int addr,int val)
+{ switch (addr) {
+    case 0: gain[0] = (gain[0]&0xffffff00) | (val&0xff); break;
+    case 1: gain[0] = (gain[0]&0xffff00ff) | ((val&0xff)<<8); break;
+    case 2: gain[1] = (gain[1]&0xffffff00) | (val&0xff); break;
+    case 3: gain[1] = (gain[1]&0xffff00ff) | ((val&0xff)<<8); break;
+    case 4: gain[2] = (gain[2]&0xffffff00) | (val&0xff); break;
+    case 5: gain[2] = (gain[2]&0xffff00ff) | ((val&0xff)<<8); break;
+    case 7: agc_enable = val; break;
+    case 8: uart_phy = val; break; } }
+
+unsigned char addr;             // UART command address
+unsigned char data;             // UART command data
 
 void process_char(char c)
 { switch (c) {
@@ -16,7 +33,7 @@ void process_char(char c)
     case 'x':  putchar(addr); break;
     case 'p':  phy_read(addr); break;
     case 'f':  putchar(spi_read(0x7ff00+addr)); break;
-    case 's':  putchar(scratchpad(addr)); break;
+    case 's':  putchar(global_read(addr)); break;
     default:  data = (data<<4) | (c&0x0f); data &= 0xff; break; } }
 
 #define CMD_PORT_WRITE               1
@@ -39,8 +56,8 @@ void process_eth_packet()
 { int cmd;
   unsigned int tag;
   unsigned char addr, val, channel;
-  unsigned int w;
-  tag = (eth_rx_data(0)<<24) | (eth_rx_data(1)<<16) | (eth_rx_data(2)<<8) | eth_rx_data(3);
+  unsigned int waddr, wval;
+  tag = eth_rx_wdata(0);
   cmd = eth_rx_data(4);
   switch (cmd) {
     case CMD_PORT_WRITE:
@@ -64,49 +81,59 @@ void process_eth_packet()
     case CMD_ADC_READ_REG:
       channel = eth_rx_data(5);
       addr = eth_rx_data(6);
-//      val = adc_read(channel,addr);
+      val = adc_read(channel,addr);
       eth_tx_ack(tag,val);
       break;
     case CMD_GLOBAL_WRITE:
+      addr = eth_rx_data(5);
+      val = eth_rx_data(6);
+      global_set(addr,val);
+      eth_tx_ack(tag,0);
       break;
-    case CMD_GLOBAL_READ:  // gain[] jiffies uart_phy auto_agc
+    case CMD_GLOBAL_READ:
+      addr = eth_rx_data(5);
+      val = global_read(addr);
+      eth_tx_ack(tag,val);
       break;
     case CMD_CLOCK_WRITE_REG:
       addr = eth_rx_data(5);
-      w = (eth_rx_data(6)<<24) | (eth_rx_data(7)<<16) | (eth_rx_data(8)<<8) | eth_rx_data(9);
-      w = (w&0xffffffe0) | (addr&0x0000001f);
-      clock_write(w);
+      wval = eth_rx_wdata(6);
+      wval = (wval&0xffffffe0) | (addr&0x0000001f);
+      clock_write(wval);
       eth_tx_ack(tag,0);
       break;
     case CMD_CLOCK_READ_REG:
       addr = eth_rx_data(5);
-//      w = clock_read(addr);
-      eth_tx_ack_word(tag,w);
+      wval = clock_read(addr);
+      eth_tx_ack_word(tag,wval);
       break;
     case CMD_PHY_WRITE_REG:
       addr = eth_rx_data(5);
-      val = eth_rx_data(6);
-      phy_smi_write(addr,val);
+      wval = eth_rx_wdata(6);
+      phy_smi_write(addr,wval);
       eth_tx_ack(tag,0);
       break;
     case CMD_PHY_READ_REG:
       addr = eth_rx_data(5);
-      val = phy_smi_read(addr);
-      eth_tx_ack(tag,val);
+      wval = phy_smi_read(addr);
+      eth_tx_ack_word(tag,wval);
       break;
     case CMD_FLASH_READ:
-      addr = eth_rx_data(5);
-      val = spi_read(addr);
+      waddr = eth_rx_wdata(5);
+      val = spi_read(waddr);
       eth_tx_ack(tag,val);
       break;
     case CMD_FLASH_WRITE:
-      addr = eth_rx_data(5);
-      val = eth_rx_data(6);
-//      spi_write(addr,val);
-      eth_tx_ack(tag,0);
+      waddr = eth_rx_wdata(5);
+      val = eth_rx_data(9);
+      if ((waddr<0x70000) || (waddr>0x7ffff))
+        eth_tx_ack(tag,1);
+      else {
+        spi_write(waddr,val);
+        eth_tx_ack(tag,0); }
       break;
     case CMD_FLASH_ERASE_CONFIG_AREA:
-//      spi_erase(0x70000);
+      spi_sector_erase(0x70000);
       eth_tx_ack(tag,0);
       break;
     case CMD_MAX2112_WRITE_REG:
@@ -119,7 +146,7 @@ void process_eth_packet()
     case CMD_MAX2112_READ_REG:
       channel = eth_rx_data(5);
       addr = eth_rx_data(6);
-//      val = i2c_read(channel,addr);
+      val = i2c_read(channel,addr);
       eth_tx_ack(tag,val);
       break; }
   eth_rx_ack(); }

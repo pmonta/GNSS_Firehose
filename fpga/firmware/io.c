@@ -1,6 +1,7 @@
 // output ports
 
 #define PORT_CLOCK             0
+#define PORT_LOOPBACK_OUT      1
 #define PORT_LED               2
 #define PORT_OUT_PHY_SMI       4
 #define PORT_OUT_PWM           6
@@ -23,6 +24,8 @@
 
 // input ports
 
+#define PORT_CLOCK_IN          0
+#define PORT_LOOPBACK_IN       1
 #define PORT_IN_PHY_SMI        2
 #define PORT_ADC_SPI_IN        5
 #define PORT_HIST             20
@@ -75,6 +78,14 @@ int eth_rx_data(int addr)
   x = port_read(PORT_ETH_RX_RDATA);
   return x; }
 
+unsigned int eth_rx_wdata(int addr)
+{ int x0,x1,x2,x3;
+  x0 = eth_rx_data(addr);
+  x1 = eth_rx_data(addr+1);
+  x2 = eth_rx_data(addr+2);
+  x3 = eth_rx_data(addr+3);
+  return (x0<<24) | (x1<<16) | (x2<<8) | x3; }
+
 void eth_rx_ack()
 { port_write(PORT_ETH_RX_READ,1);
   delay_200ns();
@@ -101,16 +112,16 @@ void eth_tx_ack(unsigned int tag,unsigned char val)
   delay_100us();
   port_write(PORT_ETH_TX_READY,0); }
 
-void eth_tx_ack_word(unsigned int tag,unsigned int val)
+void eth_tx_ack_word(unsigned int tag,unsigned int wval)
 { //tag ^= 0x55555555;
   eth_tx_data(0,(tag>>24)&0xff);
   eth_tx_data(1,(tag>>16)&0xff);
   eth_tx_data(2,(tag>>8)&0xff);
   eth_tx_data(3,tag&0xff);
-  eth_tx_data(4,(val>>24)&0xff);
-  eth_tx_data(5,(val>>16)&0xff);
-  eth_tx_data(6,(val>>8)&0xff);
-  eth_tx_data(7,val&0xff);
+  eth_tx_data(4,(wval>>24)&0xff);
+  eth_tx_data(5,(wval>>16)&0xff);
+  eth_tx_data(6,(wval>>8)&0xff);
+  eth_tx_data(7,wval&0xff);
   port_write(PORT_ETH_TX_READY,1);
   delay_100us();
   port_write(PORT_ETH_TX_READY,0); }

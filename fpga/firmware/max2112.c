@@ -20,6 +20,16 @@ void i2c_set_scl(int channel,int val)
   port_write(port,x);
   delay_5us(); }
 
+int i2c_get_sda(int channel)
+{ int x;
+  int port = PORT_ADC_SPI_IN + (channel-1);
+  if ((channel<1) || (channel>N_CHANNEL))
+    return 0;
+  x = port_read(port);
+  x = (x>>2)&1;
+  delay_5us();
+  return x; }
+
 void i2c_bit(int channel,int bit)
 { i2c_set_sda(channel,bit);
   i2c_set_scl(channel,1);
@@ -35,13 +45,15 @@ int i2c_get_bit(int channel)
 { int b;
   i2c_set_sda(channel,1);
   i2c_set_scl(channel,1);
-  //fixme: read bit from sda
-  b = 0;
+  b = i2c_get_sda(channel);
   i2c_set_scl(channel,0);
   return b; }
 
 void i2c_ack(int channel)
 { (void)i2c_get_bit(channel); }
+
+void i2c_nack(int channel)
+{ i2c_bit(channel,1); }
 
 void i2c_start(int channel)
 { i2c_set_sda(channel,0);
@@ -65,6 +77,27 @@ void i2c_write(int channel,int addr_reg,int val)
   i2c_bits(channel,val,8);
   i2c_ack(channel);
   i2c_stop(channel); }
+
+int i2c_read(int channel,int addr_reg)
+{ int i,x;
+  i2c_start(channel);
+  i2c_bits(channel,MAX2112_I2C_SLAVE_ADDR,7);
+  i2c_bit(channel,0);
+  i2c_ack(channel);
+  i2c_bits(channel,addr_reg,8);
+  i2c_ack(channel);
+  i2c_set_sda(channel,1);
+  i2c_set_scl(channel,1);
+  i2c_start(channel);
+  i2c_bits(channel,MAX2112_I2C_SLAVE_ADDR,7);
+  i2c_bit(channel,1);
+  i2c_ack(channel);
+  x = 0;
+  for (i=0; i<8; i++)
+    x = (x<<1) | i2c_get_bit(channel);
+  i2c_nack(channel);
+  i2c_stop(channel);
+  return x; }
 
 void max2112_init(int channel,int N,int F)
 { i2c_init(channel);

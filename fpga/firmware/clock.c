@@ -15,6 +15,17 @@ void clock_write_bit(int b)
   clock_out(v3);
   delay_5us(); }
 
+int clock_read_bit()
+{ int b;
+  clock_out(0x04);
+  delay_5us();
+  b = port_read(PORT_CLOCK_IN);
+  b = (b>>1)&1;
+  delay_5us();
+  clock_out(0x00);
+  delay_5us();
+  return b; }
+
 void clock_le()
 { clock_out(0);
   delay_5us();
@@ -30,6 +41,15 @@ void clock_write(unsigned int x)
     clock_write_bit(b);
     x <<= 1; }
   clock_le(); }
+
+unsigned int clock_read(int addr)
+{ int i;
+  unsigned int x;
+  clock_write((addr<<16)|31);
+  x = 0;
+  for (i=0; i<32; i++)
+    x = (x<<1) | clock_read_bit();
+  return x; }
 
 #define N_CLOCK_W 28
 unsigned int clock_w[N_CLOCK_W] = {
