@@ -34,11 +34,15 @@
 #define PORT_ETH_RX_RDATA     50
 #define PORT_ETH_RX_READY     51
 
+#define barrier() asm volatile("" ::: "memory")
+
 int port_read(int p)
-{ return (int)(*(volatile unsigned int*)(0x80000000+4*p)); }
+{ barrier();
+  return (int)(*(volatile unsigned int*)(0x80000000+4*p)); }
 
 void port_write(int p,unsigned int x)
-{ (*(volatile unsigned int*)(0x80000000+4*p)) = x; }
+{ barrier();
+  (*(volatile unsigned int*)(0x80000000+4*p)) = x; }
 
 void clock_out(int x)
 { port_write(PORT_CLOCK,x); }

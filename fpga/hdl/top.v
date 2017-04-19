@@ -250,7 +250,7 @@ module top(
 
   dpram_64 _eth_tx_dpram(
     clk_cpu, eth_tx_waddr, eth_tx_wdata, eth_tx_we,
-    phy_rx_clk, cmd_addr, cmd_data
+    phy_tx_clk, cmd_addr, cmd_data
   );
 
   packet_streamer _packet_streamer(
