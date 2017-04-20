@@ -23,8 +23,6 @@ int hist_measure(int channel)
 void agc_service()
 { int channel;
   int g,h;
-  if (!agc_enable)
-    return;
   for (channel=1; channel<=3; channel++) {
     g = gain[channel-1];
     h = hist_measure(channel);

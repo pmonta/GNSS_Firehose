@@ -7,8 +7,8 @@
 #define N_ADC     4
 
 unsigned int jiffies;           // system time
-int uart_phy;                   // who has control of Ethernet PHY SMI bus
 int link_up;                    // Ethernet link status
+int phy_poll_enable;            // poll the Ethernet PHY SMI bus
 int agc_enable;                 // gain control: automatic or manual
 int gain[N_CHANNEL];            // channel gains (10-bit PWM)
 
@@ -42,13 +42,13 @@ void hw_init()
   adc_init(2);
   adc_init(3);
   adc_init(4);
-  max2112_init(1,45,0x4a000);  // RF channel 1, N=45 (L1), F=0x4a000
-  max2112_init(2,35,0x16000);  // RF channel 2, N=35 (L2), F=0x16000
-  max2112_init(3,34,0x0e000);  // RF channel 3, N=34 (L5), F=0x0e000
+  max2112_init(1,45,0x4a000);  // RF channel 1, N=45 (L1), F=0x4a000  1584.754875 MHz
+  max2112_init(2,35,0x16000);  // RF channel 2, N=35 (L2), F=0x16000  1227.727125 MHz
+  max2112_init(3,34,0x0e000);  // RF channel 3, N=34 (L5), F=0x0e000  1191.641625 MHz
   set_agc(1,240);              // initial AGC value: 240
   set_agc(2,240);
   set_agc(3,240);
-  uart_phy = 0;                // control of PHY SMI bus is initially local, not UART
+  phy_poll_enable = 1;         // control of PHY SMI bus is initially local, not UART
   agc_enable = 1;              // enable AGC by default
   spi_init_mac();              // initialize MAC address from flash
 //  port_write(PORT_DC_BASE+0,6);   //fixme: read these from flash
@@ -65,8 +65,10 @@ void poll()
   if (j==jiffies)          // has jiffies counter changed?
     return;
   jiffies = j;             // do once per jiffy:
-  agc_service();           // service the AGC loops
-  phy_service(); }         // poll Ethernet PHY for link status
+  if (agc_enable)
+    agc_service();         // service the AGC loops
+  if (phy_poll_enable)
+    phy_service(); }       // poll Ethernet PHY for link status
 
 //
 // main loop
