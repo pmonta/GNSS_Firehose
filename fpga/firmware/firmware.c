@@ -48,23 +48,16 @@ void hw_init()
   set_agc(1,240);              // initial AGC value: 240
   set_agc(2,240);
   set_agc(3,240);
-  phy_poll_enable = 1;         // control of PHY SMI bus is initially local, not UART
+  phy_poll_enable = 1;         // enable PHY polling by default
   agc_enable = 1;              // enable AGC by default
-  spi_init_mac();              // initialize MAC address from flash
-//  port_write(PORT_DC_BASE+0,6);   //fixme: read these from flash
-//  port_write(PORT_DC_BASE+1,3);
-//  port_write(PORT_DC_BASE+2,5);
-//  port_write(PORT_DC_BASE+3,3);
-//  port_write(PORT_DC_BASE+4,8);
-//  port_write(PORT_DC_BASE+5,5);
-}
+  spi_read_config(); }         // read and apply configuration and calibration parameters from flash
 
 void poll()
 { unsigned int j;
   j = get_jiffies();
   if (j==jiffies)          // has jiffies counter changed?
     return;
-  jiffies = j;             // do once per jiffy:
+  jiffies = j;             // do once per jiffy (once per approx. 30 ms):
   if (agc_enable)
     agc_service();         // service the AGC loops
   if (phy_poll_enable)

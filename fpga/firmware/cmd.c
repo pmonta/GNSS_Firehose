@@ -126,15 +126,19 @@ void process_eth_packet()
     case CMD_FLASH_WRITE:
       waddr = eth_rx_wdata(5);
       val = eth_rx_data(9);
-      if ((waddr<0x70000) || (waddr>0x7ffff))
+      if ((eth_rx_data(10)!=0xbe) || (eth_rx_data(11)!=0xef))
         eth_tx_ack(tag,1);
       else {
         spi_write(waddr,val);
         eth_tx_ack(tag,0); }
       break;
     case CMD_FLASH_ERASE_CONFIG_AREA:
-      spi_sector_erase(0x70000);
-      eth_tx_ack(tag,0);
+      waddr = eth_rx_wdata(5);
+      if ((eth_rx_data(9)!=0xbe) || (eth_rx_data(10)!=0xef))
+        eth_tx_ack(tag,1);
+      else {
+        spi_sector_erase(waddr);
+        eth_tx_ack(tag,0); }
       break;
     case CMD_MAX2112_WRITE_REG:
       channel = eth_rx_data(5);

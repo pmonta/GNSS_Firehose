@@ -59,7 +59,7 @@ void spi_write(int addr,unsigned char val)
   (void)spi_byte(addr&0xff);
   (void)spi_byte(val);
   spi_end();
-  delay_100us(); }
+  delay_20us(); }
 
 void spi_sector_erase(int addr)
 { spi_write_enable();
@@ -71,8 +71,31 @@ void spi_sector_erase(int addr)
   spi_end();
   delay_1500ms(); }
 
-void spi_init_mac()
-{ int i,x;
-  for (i=0; i<6; i++) {
-    x = spi_read(0x7ff00+i);
-    port_write(PORT_MAC_ADDR+i,x); } }
+#define PKT_MAC_ADDR       1
+#define PKT_DC_OFFSET      2
+
+void spi_read_config()
+{ int addr;
+  unsigned char type, val, len;
+  int i;
+  addr = 0x7ff00;
+  while ((addr<0x7ffff) && (type=spi_read(addr))!=0xff) {   // iterate over (type,length,packet) fields in flash
+    addr++;
+    len = spi_read(addr);
+    addr++;
+    switch (type) {
+      case PKT_MAC_ADDR:                         // initialize MAC address from flash
+        for (i=0; i<6; i++)
+          val = spi_read(addr+i);
+          port_write(PORT_MAC_ADDR+i,val);
+        addr += len;
+        break;
+      case PKT_DC_OFFSET:                        // DC offsets of RF-channel ADCs
+        for (i=0; i<6; i++)
+          val = spi_read(addr+i);
+          port_write(PORT_DC_BASE+i,val);
+        addr += len;
+        break;
+      default:                                   // unknown type
+        addr += len;
+        break; } } }

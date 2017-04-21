@@ -11,6 +11,9 @@ void delay_200ns()
 void delay_5us()
 { delay(13); }
 
+void delay_20us()
+{ delay(52); }
+
 void delay_100us()
 { delay(260); }
 

@@ -175,6 +175,9 @@ module top(
   wire [7:0] mode;
 
   reg [7:0] ch1_i_1, ch1_q_1;
+  reg [7:0] ch2_i_1, ch2_q_1;
+  reg [7:0] ch3_i_1, ch3_q_1;
+  reg [7:0] ch4_i_1, ch4_q_1;
 
   reg [1:0] ch1_si_1, ch1_sq_1;
   reg [1:0] ch2_si_1, ch2_sq_1;
@@ -183,6 +186,12 @@ module top(
   always @(posedge source_clk) begin
     ch1_i_1 <= ch1_i;
     ch1_q_1 <= ch1_q;
+    ch2_i_1 <= ch2_i;
+    ch2_q_1 <= ch2_q;
+    ch3_i_1 <= ch3_i;
+    ch3_q_1 <= ch3_q;
+    ch4_i_1 <= ch4_i;
+    ch4_q_1 <= ch4_q;
     ch1_si_1 <= ch1_si;
     ch1_sq_1 <= ch1_sq;
     ch2_si_1 <= ch2_si;
@@ -225,6 +234,48 @@ module top(
             2'd0: begin source_en = 1; source_data = {ch1_q_1,ch1_q}; end
             2'd1: begin source_en = 0; source_data = 0; end
             2'd2: begin source_en = 1; source_data = {ch1_q_1,ch1_q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd3:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch2_i_1,ch2_i}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch2_i_1,ch2_i}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd4:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch2_q_1,ch2_q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch2_q_1,ch2_q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd5:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch3_i_1,ch3_i}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch3_i_1,ch3_i}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd6:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch3_q_1,ch3_q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch3_q_1,ch3_q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd7:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch4_i_1,ch4_i}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch4_i_1,ch4_i}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd8:
+          case (phase)
+            2'd0: begin source_en = 1; source_data = {ch4_q_1,ch4_q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch4_q_1,ch4_q}; p_end = 1; end
             2'd3: begin source_en = 0; source_data = 0; end
           endcase
       default:
