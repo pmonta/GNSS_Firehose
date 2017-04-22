@@ -85,15 +85,15 @@ void spi_read_config()
     addr++;
     switch (type) {
       case PKT_MAC_ADDR:                         // initialize MAC address from flash
-        for (i=0; i<6; i++)
+        for (i=0; i<6; i++) {
           val = spi_read(addr+i);
-          port_write(PORT_MAC_ADDR+i,val);
+          port_write(PORT_MAC_ADDR+i,val); }
         addr += len;
         break;
       case PKT_DC_OFFSET:                        // DC offsets of RF-channel ADCs
-        for (i=0; i<6; i++)
+        for (i=0; i<6; i++) {
           val = spi_read(addr+i);
-          port_write(PORT_DC_BASE+i,val);
+          port_write(PORT_DC_BASE+i,val); }
         addr += len;
         break;
       default:                                   // unknown type
