@@ -65,7 +65,7 @@ void adc_init(int channel)
   adc_write(channel,0,0x03);
   adc_write(channel,1,0x1a);    // 000 BIT_ORDER_B=1 BIT_ORDER_A=1 MUX_CH=0 MUX=1 0
   adc_write(channel,3,0x07);
-  adc_write(channel,4,0x1b);    // 00 CT_DCLK_A=011 CT_DATA_A=011
-  adc_write(channel,5,0x1b);    // 00 CT_DCLK_A=011 CT_DATA_A=011
+  adc_write(channel,4,0x09);    // 00 CT_DCLK_A=001 CT_DATA_A=001
+  adc_write(channel,5,0x09);    // 00 CT_DCLK_A=001 CT_DATA_A=001
   adc_write(channel,6,0x28);    // TEST_PATTERN=0 TEST_DATA=0 FORMAT=10(Gray) TERM_100=1 SYNC_MODE=0 DIV=00
   adc_write(channel,8,0x88); }
