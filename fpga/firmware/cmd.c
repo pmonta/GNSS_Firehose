@@ -51,6 +51,9 @@ void process_char(char c)
 #define CMD_FLASH_ERASE_CONFIG_AREA 13
 #define CMD_MAX2112_WRITE_REG       14
 #define CMD_MAX2112_READ_REG        15
+#define CMD_VERSION                 16
+
+#define VERSION 1
 
 void process_eth_packet()
 { int cmd;
@@ -151,6 +154,10 @@ void process_eth_packet()
       channel = eth_rx_data(5);
       addr = eth_rx_data(6);
       val = i2c_read(channel,addr);
+      eth_tx_ack(tag,val);
+      break;
+    case CMD_VERSION:
+      val = VERSION;
       eth_tx_ack(tag,val);
       break; }
   eth_rx_ack(); }
