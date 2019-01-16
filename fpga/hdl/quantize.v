@@ -1,4 +1,4 @@
-// Simple 2-bit quantizer
+// Simple 2-bit and 4-bit quantizer
 // to be replaced with an AGC scheme later
 //
 // GNSS Firehose
@@ -9,7 +9,8 @@ module quantize(
   input [7:0] x,
   input [7:0] offset,
   input [9:0] random,
-  output reg [1:0] y
+  output reg [1:0] y,
+  output reg [3:0] y4
 );
 
   wire [17:0] t = {x,random};
@@ -22,5 +23,13 @@ module quantize(
       18'b0xxxxxxxxxxxxxxxxx: y <= 2'b11;
       default:               y <= 2'b00;
     endcase
+
+  always @(posedge clk)
+    if ((t2[17]==0) && (t2[16:15]!=2'b00))
+      y4 <= 4'b1111;
+    else if ((t2[17]==1) && (t2[16:15]!=2'b11))
+      y4 <= 4'b0000;
+    else
+      y4 <= t2[15:12] + 4'd8;
 
 endmodule

@@ -53,7 +53,7 @@ void process_char(char c)
 #define CMD_MAX2112_READ_REG        15
 #define CMD_VERSION                 16
 
-#define VERSION 1
+#define VERSION 2
 
 void process_eth_packet()
 { int cmd;

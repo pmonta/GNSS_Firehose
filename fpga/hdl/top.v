@@ -136,6 +136,10 @@ module top(
   wire [1:0] ch2_si, ch2_sq;
   wire [1:0] ch3_si, ch3_sq;
 
+  wire [3:0] ch1_s4i, ch1_s4q;
+  wire [3:0] ch2_s4i, ch2_s4q;
+  wire [3:0] ch3_s4i, ch3_s4q;
+
   wire [7:0] ch1_i_dc, ch1_q_dc;
   wire [7:0] ch2_i_dc, ch2_q_dc;
   wire [7:0] ch3_i_dc, ch3_q_dc;
@@ -146,12 +150,12 @@ module top(
 
   rng_n2048_r64_t5_k32_sbfbaac _random(.clk(source_clk), .ce(1'b1), .rng(rng));
 
-  quantize _quantize_ch1_i(source_clk, ch1_i, ch1_i_dc, rng[9:0], ch1_si);
-  quantize _quantize_ch1_q(source_clk, ch1_q, ch1_q_dc, rng[19:10], ch1_sq);
-  quantize _quantize_ch2_i(source_clk, ch2_i, ch2_i_dc, rng[29:20], ch2_si);
-  quantize _quantize_ch2_q(source_clk, ch2_q, ch2_q_dc, rng[39:30], ch2_sq);
-  quantize _quantize_ch3_i(source_clk, ch3_i, ch3_i_dc, rng[49:40], ch3_si);
-  quantize _quantize_ch3_q(source_clk, ch3_q, ch3_q_dc, rng[59:50], ch3_sq);
+  quantize _quantize_ch1_i(source_clk, ch1_i, ch1_i_dc, rng[9:0], ch1_si, ch1_s4i);
+  quantize _quantize_ch1_q(source_clk, ch1_q, ch1_q_dc, rng[19:10], ch1_sq, ch1_s4q);
+  quantize _quantize_ch2_i(source_clk, ch2_i, ch2_i_dc, rng[29:20], ch2_si, ch2_s4i);
+  quantize _quantize_ch2_q(source_clk, ch2_q, ch2_q_dc, rng[39:30], ch2_sq, ch2_s4q);
+  quantize _quantize_ch3_i(source_clk, ch3_i, ch3_i_dc, rng[49:40], ch3_si, ch3_s4i);
+  quantize _quantize_ch3_q(source_clk, ch3_q, ch3_q_dc, rng[59:50], ch3_sq, ch3_s4q);
 
   wire [7:0] ch1_hist_0, ch1_hist_1;
   wire [7:0] ch2_hist_0, ch2_hist_1;
@@ -183,6 +187,10 @@ module top(
   reg [1:0] ch2_si_1, ch2_sq_1;
   reg [1:0] ch3_si_1, ch3_sq_1;
 
+  reg [3:0] ch1_s4i_1, ch1_s4q_1;
+  reg [3:0] ch2_s4i_1, ch2_s4q_1;
+  reg [3:0] ch3_s4i_1, ch3_s4q_1;
+
   always @(posedge source_clk) begin
     ch1_i_1 <= ch1_i;
     ch1_q_1 <= ch1_q;
@@ -198,6 +206,12 @@ module top(
     ch2_sq_1 <= ch2_sq;
     ch3_si_1 <= ch3_si;
     ch3_sq_1 <= ch3_sq;
+    ch1_s4i_1 <= ch1_s4i;
+    ch1_s4q_1 <= ch1_s4q;
+    ch2_s4i_1 <= ch2_s4i;
+    ch2_s4q_1 <= ch2_s4q;
+    ch3_s4i_1 <= ch3_s4i;
+    ch3_s4q_1 <= ch3_s4q;
   end
      
   reg [1:0] phase;
@@ -276,6 +290,27 @@ module top(
             2'd0: begin source_en = 1; source_data = {ch4_q_1,ch4_q}; end
             2'd1: begin source_en = 0; source_data = 0; end
             2'd2: begin source_en = 1; source_data = {ch4_q_1,ch4_q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd9:
+	  case (phase)
+            2'd0: begin source_en = 1; source_data = {ch1_s4i_1,ch1_s4q_1,ch1_s4i,ch1_s4q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch1_s4i_1,ch1_s4q_1,ch1_s4i,ch1_s4q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd10:
+	  case (phase)
+            2'd0: begin source_en = 1; source_data = {ch2_s4i_1,ch2_s4q_1,ch2_s4i,ch2_s4q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch2_s4i_1,ch2_s4q_1,ch2_s4i,ch2_s4q}; p_end = 1; end
+            2'd3: begin source_en = 0; source_data = 0; end
+          endcase
+      8'd11:
+	  case (phase)
+            2'd0: begin source_en = 1; source_data = {ch3_s4i_1,ch3_s4q_1,ch3_s4i,ch3_s4q}; end
+            2'd1: begin source_en = 0; source_data = 0; end
+            2'd2: begin source_en = 1; source_data = {ch3_s4i_1,ch3_s4q_1,ch3_s4i,ch3_s4q}; p_end = 1; end
             2'd3: begin source_en = 0; source_data = 0; end
           endcase
       default:
