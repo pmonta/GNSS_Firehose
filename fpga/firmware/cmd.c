@@ -58,67 +58,67 @@ void process_char(char c)
 void process_eth_packet()
 { int cmd;
   unsigned int tag;
-  unsigned char addr, val, channel;
+  unsigned char raddr, val, channel;
   unsigned int waddr, wval;
   tag = eth_rx_wdata(0);
   cmd = eth_rx_data(4);
   switch (cmd) {
     case CMD_PORT_WRITE:
-      addr = eth_rx_data(5);
+      raddr = eth_rx_data(5);
       val = eth_rx_data(6);
-      port_write(addr,val);
+      port_write(raddr,val);
       eth_tx_ack(tag,0);
       break;
     case CMD_PORT_READ:
-      addr = eth_rx_data(5);
-      val = port_read(addr);
+      raddr = eth_rx_data(5);
+      val = port_read(raddr);
       eth_tx_ack(tag,val);
       break;
     case CMD_ADC_WRITE_REG:
       channel = eth_rx_data(5);
-      addr = eth_rx_data(6);
+      raddr = eth_rx_data(6);
       val = eth_rx_data(7);
-      adc_write(channel,addr,val);
+      adc_write(channel,raddr,val);
       eth_tx_ack(tag,0);
       break;
     case CMD_ADC_READ_REG:
       channel = eth_rx_data(5);
-      addr = eth_rx_data(6);
-      val = adc_read(channel,addr);
+      raddr = eth_rx_data(6);
+      val = adc_read(channel,raddr);
       eth_tx_ack(tag,val);
       break;
     case CMD_GLOBAL_WRITE:
-      addr = eth_rx_data(5);
+      raddr = eth_rx_data(5);
       val = eth_rx_data(6);
-      global_set(addr,val);
+      global_set(raddr,val);
       eth_tx_ack(tag,0);
       break;
     case CMD_GLOBAL_READ:
-      addr = eth_rx_data(5);
-      val = global_read(addr);
+      raddr = eth_rx_data(5);
+      val = global_read(raddr);
       eth_tx_ack(tag,val);
       break;
     case CMD_CLOCK_WRITE_REG:
-      addr = eth_rx_data(5);
+      raddr = eth_rx_data(5);
       wval = eth_rx_wdata(6);
-      wval = (wval&0xffffffe0) | (addr&0x0000001f);
+      wval = (wval&0xffffffe0) | (raddr&0x0000001f);
       clock_write(wval);
       eth_tx_ack(tag,0);
       break;
     case CMD_CLOCK_READ_REG:
-      addr = eth_rx_data(5);
-      wval = clock_read(addr);
+      raddr = eth_rx_data(5);
+      wval = clock_read(raddr);
       eth_tx_ack_word(tag,wval);
       break;
     case CMD_PHY_WRITE_REG:
-      addr = eth_rx_data(5);
+      raddr = eth_rx_data(5);
       wval = eth_rx_wdata(6);
-      phy_smi_write(addr,wval);
+      phy_smi_write(raddr,wval);
       eth_tx_ack(tag,0);
       break;
     case CMD_PHY_READ_REG:
-      addr = eth_rx_data(5);
-      wval = phy_smi_read(addr);
+      raddr = eth_rx_data(5);
+      wval = phy_smi_read(raddr);
       eth_tx_ack_word(tag,wval);
       break;
     case CMD_FLASH_READ:
@@ -145,15 +145,15 @@ void process_eth_packet()
       break;
     case CMD_MAX2112_WRITE_REG:
       channel = eth_rx_data(5);
-      addr = eth_rx_data(6);
+      raddr = eth_rx_data(6);
       val = eth_rx_data(7);
-      i2c_write(channel,addr,val);
+      i2c_write(channel,raddr,val);
       eth_tx_ack(tag,0);
       break;
     case CMD_MAX2112_READ_REG:
       channel = eth_rx_data(5);
-      addr = eth_rx_data(6);
-      val = i2c_read(channel,addr);
+      raddr = eth_rx_data(6);
+      val = i2c_read(channel,raddr);
       eth_tx_ack(tag,val);
       break;
     case CMD_VERSION:
