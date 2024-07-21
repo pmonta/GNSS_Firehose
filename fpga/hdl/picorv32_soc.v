@@ -27,7 +27,14 @@ module picorv32_soc(
     .mem_addr(mem_addr),
     .mem_wdata(mem_wdata),
     .mem_wstrb(mem_wstrb),
-    .mem_rdata(mem_rdata)
+    .mem_rdata(mem_rdata),
+    // PCPI not used
+    .pcpi_wr(1'b0),
+    .pcpi_rd(32'b0),
+    .pcpi_wait(1'b0),
+    .pcpi_ready(1'b0),
+    // Interrupts not used
+    .irq(32'b0)
   );
 
   assign port_id = mem_addr[9:2];

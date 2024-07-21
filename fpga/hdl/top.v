@@ -105,8 +105,8 @@ module top(
   reg [15:0] source_data;
   reg source_en;
 
-  assign source_clk = clk_adc;
-  assign source_reset = clk_cpu_reset;
+  wire source_clk = clk_adc;
+  wire source_reset = clk_cpu_reset;
 
   wire [7:0] ch1_i, ch1_q;
   wire [7:0] ch2_i, ch2_q;
@@ -330,6 +330,7 @@ module top(
   wire [5:0] eth_tx_waddr;
   wire [7:0] eth_tx_wdata;
   wire eth_tx_we;
+  wire eth_tx_ready;
 
   wire [5:0] cmd_addr;
   wire [7:0] cmd_data;
