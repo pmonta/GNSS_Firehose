@@ -16,7 +16,7 @@ module picorv32_soc(
   wire [31:0] mem_wdata;
   wire [3:0] mem_wstrb;
   wire [31:0] mem_rdata;
-  
+
   picorv32 #(.ENABLE_REGS_DUALPORT(0)) _picorv32(
     .clk(clk),
     .resetn(~reset),
@@ -27,7 +27,14 @@ module picorv32_soc(
     .mem_addr(mem_addr),
     .mem_wdata(mem_wdata),
     .mem_wstrb(mem_wstrb),
-    .mem_rdata(mem_rdata)
+    .mem_rdata(mem_rdata),
+    // PCPI not used
+    .pcpi_wr(1'b0),
+    .pcpi_rd(32'b0),
+    .pcpi_wait(1'b0),
+    .pcpi_ready(1'b0),
+    // Interrupts not used
+    .irq(32'b0)
   );
 
   assign port_id = mem_addr[9:2];
@@ -85,7 +92,7 @@ module bram_2k_8(
       addr1 <= addr;
       if (we)
         mem[addr] <= din;
-    end      
+    end
 
   assign dout = mem[addr1];
 

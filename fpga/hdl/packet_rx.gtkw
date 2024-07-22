@@ -1,0 +1,36 @@
+[*]
+[*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
+[*] Mon Jul 22 00:12:37 2024
+[*]
+[dumpfile] "/home/larry/git/GNSS_Firehose/fpga/hdl/packet_rx.vcd"
+[dumpfile_mtime] "Mon Jul 22 00:12:19 2024"
+[dumpfile_size] 6201
+[savefile] "/home/larry/git/GNSS_Firehose/fpga/hdl/packet_rx.gtkw"
+[timestart] 2173
+[size] 1206 607
+[pos] 2060 131
+*-6.066369 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] packet_rx_tb.
+[sst_width] 258
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 154
+@24
+packet_rx_tb.round[8:0]
+@22
+packet_rx_tb.m[6:0]
+@28
+packet_rx_tb.ctl[1:0]
+@22
+packet_rx_tb.data[7:0]
+@28
+packet_rx_tb.eth_rx_read
+packet_rx_tb.eth_rx_we
+packet_rx_tb.eth_rx_ready
+packet_rx_tb.match
+@200
+-DUT
+@22
+packet_rx_tb._packet_rx.state[3:0]
+[pattern_trace] 1
+[pattern_trace] 0

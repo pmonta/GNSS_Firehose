@@ -13,8 +13,14 @@ module rng_n2048_r64_t5_k32_sbfbaac_SR #(
 );
 
   wire [4:0] A = K-1;
-
+`ifdef SIMULATE
+  // XXX not confirmed correct
+  reg [31:0] srl_q=INIT;
+  always @(posedge clk) if (ce) srl_q <= {srl_q[30:0], din};
+  assign dout = srl_q[A];
+`else
   SRLC32E #(.INIT(INIT)) _srl32(.CLK(clk), .CE(ce), .A(A), .D(din), .Q(dout));
+`endif
 
 endmodule
 

@@ -105,8 +105,9 @@ module top(
   reg [15:0] source_data;
   reg source_en;
 
-  assign source_clk = clk_adc;
-  assign source_reset = clk_cpu_reset;
+  wire source_clk = clk_adc;
+  reg source_reset=0;
+  always @(posedge source_clk) source_reset <= clk_cpu_reset;
 
   wire [7:0] ch1_i, ch1_q;
   wire [7:0] ch2_i, ch2_q;
@@ -176,7 +177,7 @@ module top(
   dc_sum _dc_sum5(source_clk, ch3_i, ch3_i_sum);
   dc_sum _dc_sum6(source_clk, ch3_q, ch3_q_sum);
 
-  wire [7:0] mode;
+  reg [7:0] mode=0;
 
   reg [7:0] ch1_i_1, ch1_q_1;
   reg [7:0] ch2_i_1, ch2_q_1;
@@ -213,7 +214,7 @@ module top(
     ch3_s4i_1 <= ch3_s4i;
     ch3_s4q_1 <= ch3_s4q;
   end
-     
+
   reg [1:0] phase;
   reg [7:0] phase_c;
 
@@ -322,14 +323,18 @@ module top(
 
 // Ethernet MAC
 
-  (* keep="true" *) wire streamer_enable;
+  (* keep="true" *) reg streamer_enable_x=0;
   (* keep="true" *) wire [47:0] mac_addr;
+
+  wire streamer_enable;
+  always @(posedge phy_tx_clk) streamer_enable_x <= streamer_enable;  // CDC
 
 // 64-byte dual-port RAM holding CPU's tx packet
 
   wire [5:0] eth_tx_waddr;
   wire [7:0] eth_tx_wdata;
   wire eth_tx_we;
+  wire eth_tx_ready;
 
   wire [5:0] cmd_addr;
   wire [7:0] cmd_data;
@@ -344,7 +349,7 @@ module top(
     source_data, source_en, source_packet_end,
     phy_tx_clk, phy_tx_mux_data, phy_tx_mux_ctl,
     packet_count,
-    streamer_enable,
+    streamer_enable_x,
     mac_addr,
     eth_tx_ready, cmd_addr, cmd_data
   );
@@ -357,6 +362,8 @@ module top(
 
   wire eth_rx_ready;
   wire eth_rx_read;
+  reg eth_rx_read_x=0;
+  always @(posedge phy_rx_clk) eth_rx_read_x <= eth_rx_read;  // CDC
   wire [5:0] eth_rx_raddr;
   wire [7:0] eth_rx_rdata;
 
@@ -370,9 +377,8 @@ module top(
   packet_rx _packet_rx(
     phy_rx_clk, phy_rx_demux_data, phy_rx_demux_ctl,
     mac_addr,
-    clk_cpu, clk_cpu_reset,
     eth_rx_waddr, eth_rx_wdata, eth_rx_we,
-    eth_rx_ready, eth_rx_read
+    eth_rx_ready, eth_rx_read_x
   );
 
 // clock activity counters
@@ -384,6 +390,9 @@ module top(
   clock_counter _clk1(clk_adc, activity_clk_adc);
   clock_counter _clk2(phy_tx_clk, activity_phy_tx_clk);
   clock_counter _clk3(phy_rx_clk, activity_phy_rx_clk);
+
+  reg uart_rx_r=0;
+  always @(posedge clk_cpu) uart_rx_r <= uart_rx;  // probable IOB
 
 // I/O ports for peripherals
 
@@ -446,7 +455,7 @@ module top(
   assign dcm_rst = out_port_30[0];
   assign {spi_cclk,spi_mosi,spi_cso_b} = out_port_31[2:0];
   assign mac_addr = {out_port_40,out_port_41,out_port_42,out_port_43,out_port_44,out_port_45};
-  assign mode = out_port_47;
+  always @(posedge clk_adc) mode <= out_port_47;
 
   wire [7:0] in_port_0;  // clock chip readback and lock status
   wire [7:0] in_port_1;  // loopback testing
@@ -511,7 +520,7 @@ module top(
 // housekeeping CPU
 
   cpu _cpu(clk_cpu, clk_cpu_reset,
-    uart_tx, uart_rx,
+    uart_tx, uart_rx_r,
     eth_rx_rdata, eth_rx_ready, eth_rx_read, eth_rx_raddr,
     eth_tx_waddr, eth_tx_wdata, eth_tx_we, eth_tx_ready,
     out_port_0, out_port_1, out_port_2, out_port_4, out_port_6, out_port_7,
@@ -544,7 +553,7 @@ module clock_counter(
   input clk,
   output [7:0] c
 );
-  
+
   reg [27:0] p;
 
   always @(posedge clk)
@@ -564,7 +573,7 @@ module gray_to_binary(
 
   wire [7:0] xr = {x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7]};
 
-  always @(xr) begin
+  always @(*) begin
     z[7] = xr[7];
     z[6] = xr[6]^z[7];
     z[5] = xr[5]^z[6];

@@ -73,7 +73,7 @@ module chip(
 
   output led0,
   output led1,
-	    
+
 // flash chip
 
   output spi_cclk,
@@ -81,7 +81,7 @@ module chip(
   output spi_mosi,
   output spi_cso_b
 );
-  
+
 // clocks
 
   wire clk_adc;
@@ -186,7 +186,7 @@ module chip(
 
   mux_tx _mux_tx(phy_tx_mux_clk, phy_tx_data, phy_tx_mux_data, phy_tx_ctl, phy_tx_mux_ctl);
   mux_tx_clk _mux_tx_clk(phy_tx_mux_clk, phy_tx_clk);
-   
+
 // DDR receivers for ADC data pins
 
   wire [15:0] ch1_data, ch2_data, ch3_data, ch4_data;
@@ -220,7 +220,7 @@ module chip(
     ch2_sda_t, ch2_scl_t, ch2_gc1,
     ch2_sda_i, ch2_scl_i,
     ch2_cs, ch2_sclk,
-    ch2_sdin_i, ch2_sdin_o, ch2_sdin_t, 
+    ch2_sdin_i, ch2_sdin_o, ch2_sdin_t,
     ch2_clk,
     ch2_data,
     ch3_sda_t, ch3_scl_t, ch3_gc1,
@@ -230,7 +230,7 @@ module chip(
     ch3_clk,
     ch3_data,
     ch4_cs, ch4_sclk,
-    ch4_sdin_i, ch4_sdin_o, ch4_sdin_t, 
+    ch4_sdin_i, ch4_sdin_o, ch4_sdin_t,
     ch4_clk,
     ch4_data,
     phy_tx_mux_clk,

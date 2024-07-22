@@ -130,10 +130,10 @@ unsigned int get_jiffies()
 { return port_read(PORT_JIFFIES); }
 
 void putchar(char c)
-{ while (!uart_tx_ready()) ;
+{ while (!uart_tx_ready()) {};
   uart_tx_data(c); }
 
 void puts(char* s)
 { char c;
-  while (c=*s++)
+  while ((c=*s++))
     putchar(c); }

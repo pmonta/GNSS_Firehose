@@ -3,14 +3,23 @@
 # GNSS Firehose
 # Copyright (c) 2012 Peter Monta <pmonta@gmail.com>
 
+# Try to follow UG625.
+# UG612 covers how to put similar info into a separate .sdc tcl file.
 net "clk_adc" tnm_net = "clkADC";
 timespec "ts_clkADC" = period "clkADC" 14.5ns;
 
-net "phy_rx_clk" tnm_net = "clkPHY";
-timespec "ts_clkPHY" = period "clkPHY" 8ns;
+net "phy_rx_clk" tnm_net = "clkPHYrx";
+timespec "ts_clkPHYrx" = period "clkPHYrx" 8ns;
 
 net "clk_3888" tnm_net = "clkTCXO";
 timespec "ts_clkTCXO" = period "clkTCXO" 25.72ns;
+
+net "clk125" tnm_net = "clkPHYtx";
+timespec "ts_clkPHYtx" = period "clkPHYtx" 8ns;
+
+timegrp "ADC_part" = "clkADC";
+timegrp "ETH_part" = "clkPHYtx" "clk125_dcm";
+timegrp "CPU_part" = "clkTCXO" EXCEPT "clk125_dcm";
 
 net clk_adc_p loc=p51 | iostandard=lvds_33 | diff_term="true" ;
 net clk_adc_n loc=p50 | iostandard=lvds_33 | diff_term="true" ;
@@ -124,6 +133,7 @@ net spi_cso_b loc=p38 | iostandard=lvcmos33 | slew="slow" ;
 # net tp19 loc=p66 | iostandard=lvcmos33 ;
 # net tp20 loc=p61 | iostandard=lvcmos33 ;
 
+# TIG == Timing IGnore
 net "*streamer_enable*" tig;
 net "*packet_count*" tig;
 net "*activity_clk_adc*" tig;

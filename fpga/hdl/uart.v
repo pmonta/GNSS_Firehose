@@ -18,7 +18,7 @@ module uart_tx(
 
   reg [9:0] bits;
   reg [3:0] sb;
-  reg [3:0] bit;
+  reg [3:0] bit1;
   reg state;
 
   always @(posedge clk)
@@ -32,7 +32,7 @@ module uart_tx(
           if (write) begin
             ready <= 0;
             bits <= {1'b1,data,1'b0};
-            bit <= 4'd0;
+            bit1 <= 4'd0;
             sb <= 4'd0;
             state <= XMIT;
           end
@@ -41,8 +41,8 @@ module uart_tx(
             sb <= sb + 1;
             if (sb==4'd15) begin
               bits <= {1'b1,bits[9:1]};
-              bit <= bit + 1;
-              if (bit==4'd9) begin
+              bit1 <= bit1 + 1;
+              if (bit1==4'd9) begin
                 ready <= 1;
                 state <= IDLE;
               end
@@ -71,7 +71,7 @@ module uart_rx(
 
   reg [7:0] bits;
   reg [3:0] sb;
-  reg [3:0] bit;
+  reg [3:0] bit1;
   reg [1:0] state;
 
   always @(posedge clk)
@@ -90,7 +90,7 @@ module uart_rx(
         START:
           if (baudclk16) begin
             if (sb==4'd7) begin
-              bit <= 4'd0;
+              bit1 <= 4'd0;
               sb <= 4'd0;
               state <= RX;
             end else
@@ -101,8 +101,8 @@ module uart_rx(
             sb <= sb + 1;
             if (sb==4'd15) begin
               bits <= {rx,bits[7:1]};
-              bit <= bit + 1;
-              if (bit==4'd7)
+              bit1 <= bit1 + 1;
+              if (bit1==4'd7)
                 state <= STOP;
             end
           end

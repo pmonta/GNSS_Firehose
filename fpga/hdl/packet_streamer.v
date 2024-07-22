@@ -57,7 +57,7 @@ module packet_streamer(
       if (source_en) begin
         if (source_packet_end) begin
 	  waddr <= {~waddr[10],10'd0};
-	  packet_length_w <= {waddr[9:0]+1,1'b0};
+	  packet_length_w <= {waddr[9:0]+1'b1,1'b0};
         end else
           waddr <= waddr+1;
         if (waddr[9:0]==10'd8)
