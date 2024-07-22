@@ -73,7 +73,7 @@ module packet_rx(
       PAYLOAD:                     // place first 64 bytes of payload into packet RAM
         if (ctl!=2'b11)
           state <= IDLE;
-        else if (eth_rx_addr==6'd63) begin 
+        else if (eth_rx_addr==6'd63) begin
           eth_rx_we <= 0;
           eth_rx_ready <= 1;
           state <= WAIT;
