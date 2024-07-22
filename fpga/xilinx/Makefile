@@ -5,13 +5,15 @@
 
 DEVICE=xc6slx9-2tqg144
 
-all:
+all: chip.bit
+
+chip.ncd:
 	xst -ifn chip.xst
 	ngdbuild -p ${DEVICE} -bm chip.bmm -uc chip.ucf chip.ngc chip.ngd
 	map -w -timing -detail -ol high -p ${DEVICE} -o chip_map.ncd chip.ngd chip.pcf
 	par -w -ol high chip_map.ncd chip.ncd chip.pcf
 
-firmware:
+chip.bit: ../firmware/firmware.elf chip.ncd
 	bitgen -g Compress -g ConfigRate:26 -bd ../firmware/firmware.elf -w chip.ncd chip.bit chip.pcf
 
 prog:
