@@ -371,7 +371,6 @@ module top(
   packet_rx _packet_rx(
     phy_rx_clk, phy_rx_demux_data, phy_rx_demux_ctl,
     mac_addr,
-    clk_cpu, clk_cpu_reset,
     eth_rx_waddr, eth_rx_wdata, eth_rx_we,
     eth_rx_ready, eth_rx_read
   );

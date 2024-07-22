@@ -8,8 +8,6 @@ module packet_rx(
   input [7:0] data,
   input [1:0] ctl,
   input [47:0] mac_addr,
-  input clk_cpu,
-  input clk_cpu_reset,
   output reg [5:0] eth_rx_addr,
   output [7:0] eth_rx_wdata,
   output reg eth_rx_we,
@@ -31,8 +29,10 @@ module packet_rx(
     WAIT = 4'd10,
     IGNORE = 4'd11;
 
-  reg [3:0] state;
-  reg [3:0] c;
+  reg [3:0] state=0;
+  reg [3:0] c=0;
+  initial eth_rx_we=0;
+  initial eth_rx_ready=0;
 
   assign eth_rx_wdata = data;
 
